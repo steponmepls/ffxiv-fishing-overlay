@@ -12,9 +12,10 @@ const events = {
   ]
 };
 
-addOverlayListener("LogLine", (log) => {
-  if (log.length > 4 && log.line[0] == "00") { // Only if chat log line
-    const newLine = log.line[4];
+addOverlayListener("LogLine", (e) => {
+  const newLine = e.line;
+  if (newLine.length > 4 && newLine[0] == "00") { // Only if chat log line
+    const chatLog = newLine[4];
     if (events.start.test(newLine)) {
       console.debug(`Start the timer now! - Logline: ${newLine}`);
       start = Date.now();
@@ -46,4 +47,6 @@ function clearTimer() {
     newTimer = null;
     start = 0
   }
-}
+;}
+
+startOverlayEvents()
