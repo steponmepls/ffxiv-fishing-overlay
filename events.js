@@ -16,14 +16,14 @@ addOverlayListener("LogLine", (e) => {
   const newLine = e.line;
   if (newLine.length > 4 && newLine[0] == "00") { // Only if chat log line
     const chatLog = newLine[4];
-    if (events.start.test(newLine)) {
-      console.debug(`Start the timer now! - Logline: ${newLine}`);
+    if (events.start.test(chatLog)) {
+      console.debug(`Start the timer now! - Logline: ${chatLog}`);
       start = Date.now();
       newTimer = window.setInterval(updateTimer, 100);
     } else {
       for (const rule of events.stop) {
-        if (rule.test(newLine) && newTimer) {
-          console.debug(`Stop the timer now! - Logline: ${newLine}`);
+        if (rule.test(chatLog) && newTimer) {
+          console.debug(`Stop the timer now! - Logline: ${chatLog}`);
           clearTimer();
           break // Exit loop
         }
