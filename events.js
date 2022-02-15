@@ -1,9 +1,12 @@
 let start = 0, newTimer, currentZone = 0, currentSpot;
 
 const overlay = document.getElementById("container");
+const title = document.getElementById("fishing-spot");
 const timer = document.getElementById("timer");
+const list = document.getElementById("list");
+
 const events = {
-  start: /^You cast your line in (.+)\.$/,
+  start: /^You cast your line (?:in|at(?: the)?) (.+)\.$/,
   stop: [
     /^Something bites/,
     /^The fish gets away/,
@@ -14,7 +17,7 @@ const events = {
   ],
   success: /^You land (?:an?|\d) .(.+) measuring ([0-9.]+) (\w+)!$/,
   exit: [
-    /^You (reel in|put away) your/,
+    /^You put away your/,
     /^The fish sense something amiss/
   ]
 };
@@ -52,13 +55,8 @@ addOverlayListener("LogLine", (e) => {
       };
       for (const rule of events.exit) {
         if (rule.test(chatLog)) {
-          overlay.classList.remove("show");
+          overlay.removeAttribute("class");
           timer.innerText = 0.0.toFixed(1);
-          // Method source https://stackoverflow.com/a/3955238/16817358
-          const fishEntries = document.querySelectorAll("#list > .fish");
-          while (fishEntries.firstChild) {
-            fishEntries.removeChild(fishEntries.lastChild);
-          }
           break
         }
       }
@@ -82,16 +80,20 @@ function clearTimer() {
 
 function populateEntries(spotName) {
   const spots = Object.entries(fishingLog).find(zone => zone[0] == parseInt(currentZone));
+  const regex = new RegExp(`${spotName}`, "i");
   for (const spot of spots[1]) { // Directly iterate through nested array of spots
-    if (spot.name == spotName) {
-      const fishEntries = document.getElementByid("list");
+    if (regex.test(spot.name)) {
+      title.innerText = spotName[0].toUpperCase() + spotName.substring(1); // Force capitalize first letter ex: west Agelyss River
+      while (list.firstChild) {
+        list.removeChild(list.lastChild);
+      }
       for (fish of spot.fishes) {
         const name = fish.name;
         const icon = fish.icon;
         const newEntry = document.createElement("div");
         newEntry.classList.add("fish");
         newEntry.innerHTML = `<img src="https://xivapi.com${icon}"><div class="label">${name}</div>`;
-        fishEntries.appendChild(newEntry)
+        list.appendChild(newEntry)
       }
       break
     }
