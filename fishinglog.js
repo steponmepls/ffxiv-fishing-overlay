@@ -1,4 +1,4 @@
-{
+const fishingLog = {
   "128": [
     {
       "name": "Limsa Lominsa Upper Decks",
