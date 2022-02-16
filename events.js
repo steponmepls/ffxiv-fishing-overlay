@@ -1,9 +1,10 @@
-let timerStart = 0, newTimer, currentZone;
+let timerStart = 0, timerInterval, currentZone;
 
 const container = document.getElementById("container");
 const spotTitle = document.getElementById("fishing-spot");
 const timer = document.getElementById("timer");
 const spotFishes = document.getElementById("list");
+const marker = document.getElementById("marker");
 
 const events = {
   start: /^You cast your line (?:in|at(?: the)?) (.+)\.$/,
@@ -97,7 +98,16 @@ function startCasting(spot) {
   populateEntries(spot.detail.name);
   timer.innerText = 0.0.toFixed(1); // 0.toFixed(1) will fail!
   container.classList.add("show");
-  newTimer = window.setInterval(updateTimer, 100);
+  timerInterval = window.setInterval(updateTimer, 100);
+  if (marker.getAttribute("style")) {
+    marker.style.width = "0px";
+    marker.removeAttribute("style");
+  }
+  // Kinda ugly but it works for now soooo
+  setTimeout(() => {
+    marker.classList.add("transition");
+    marker.classList.add("casting")
+  }, 10)
 }
 
 function populateEntries(name) {
@@ -107,28 +117,33 @@ function populateEntries(name) {
   for (const spot of spots[1]) {
     if (regex.test(spot.name)) {
       spotTitle.innerText = spot.name;
-      // Clear list before adding new entries
-      while (spotFishes.firstChild) {
-        spotFishes.removeChild(spotFishes.lastChild);
+      // Clean items leftovers
+      for (let i=0; i<10; i++) {
+        const item = document.getElementById("item" + i);
+        item.querySelector(".icon img").src = "";
+        item.querySelector(".label").innerHTML = "";
+        item.classList.remove("show")
       }
-      // Fetch spot fishes and append them
-      for (const fish of spot.fishes) {
+      // Fetch spot fishes and fill entries
+      spot.fishes.forEach((fish, index) => {
         const name = fish.name;
-        const icon = fish.icon;
-        const newItem = document.createElement("div");
-        newItem.classList.add("fish");
-        newItem.innerHTML = `<img src="https://xivapi.com${icon}"><div class="label">${name}</div>`;
-        spotFishes.appendChild(newItem)
-      }
+        const icon = "https://xivapi.com" + fish.icon;
+        const item = document.getElementById("item" + index);
+        item.querySelector(".icon img").src = icon;
+        item.querySelector(".label").innerText = name;
+        item.classList.add("show");
+      })
       break
     }
   }
 }
 
 function clearTimer() {
-  if (newTimer) {
-    window.clearInterval(newTimer);
-    newTimer = null
+  if (timerInterval) {
+    window.clearInterval(timerInterval);
+    timerInterval = null;
+    marker.style.width=getComputedStyle(marker).width;
+    marker.removeAttribute("class")
   }
 }
 
@@ -136,6 +151,18 @@ function updateTimer() {
   const raw = (Date.now() - timerStart) / 1000;
   const formatted = raw.toFixed(1);
   timer.innerText = formatted
+}
+
+function debug() {
+  currentZone = 135;
+  document.dispatchEvent(new CustomEvent("startCasting", {
+    detail: {
+      name: "the salt strand"
+    }
+  }));
+  setInterval(() => {
+    document.dispatchEvent(new CustomEvent("stopCasting"))
+  }, 15000)
 }
 
 startOverlayEvents()
