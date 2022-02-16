@@ -6,6 +6,9 @@
         <script type="text/javascript" src="https://ngld.github.io/OverlayPlugin/assets/shared/common.min.js"></script>
         <script type="text/javascript" src="./fishinglog.js"></script>
         <style>
+            :root {
+                --icon-size: 40px;
+            }
             html {
                 -webkit-box-sizing: border-box;
                 -moz-box-sizing: border-box;
@@ -19,7 +22,6 @@
             #container {
                 display: none;
                 max-width: 300px;
-                min-height: 165px;
                 background: rgba(10,10,10,.5);
                 color: white;
                 font-family: sans-serif;
@@ -37,36 +39,103 @@
             #timer {
                 padding: .5rem;
             }
+            #list {
+                position: relative;
+            }
+            #marker {
+                position: absolute;
+                top: 0;
+                left: var(--icon-size, 40px);
+                width: 0px;
+                max-width: calc(100% - var(--icon-size, 40px));
+                height: 100%;
+                border-right: 1px solid red;
+            }
+            #marker.transition {
+                -webkit-transition: width 60s 0s linear;
+                -moz-transition: width 60s 0s linear;
+                -o-transition: width 60s 0s linear;
+                transition: width 60s 0s linear;
+            }
+            #marker.casting {
+                width: calc(100% - var(--icon-size, 40px));
+            }
             .fish {
-                display: flex;
-                height: 2rem;
-                max-height: 40px;
+                display: none;
+                max-height: var(--icon-size, 40px);
                 margin-top: 1px;
+                align-items: center;
+                position: relative;
+            }
+            .fish.show {
+                display: flex;
             }
             .fish:first-of-type {
-                margin-top: 0;
+                margin-top: none;
+            }
+            .icon {
+                width: var(--icon-size, 40px);
+                flex-shrink: 0;
             }
             .label {
-                width: 100%;
                 display: flex;
-                align-items: center;
+                width: 100%;
                 font-weight: bold;
-                padding: .5rem;
             }
-            img {
-                width: auto;
-                height: 100%;
-                max-height: 40px;
+            .label:not(:empty) {
+                padding: .5rem;
             }
         </style>
     </head>
     <body>
         <div id="container">
             <div id="header">
-                <div id="fishing-spot">Name of the fishing spot</div>
+                <div id="fishing-spot"></div>
                 <div id="timer">0.0</div>
             </div>
-            <div id="list"></div>
+            <div id="list">
+                <div id="marker"></div>
+                <div id="item0" class="fish">
+                    <div class="icon"><img src=""></div>
+                    <div class="label"></div>
+                </div>
+                <div id="item1" class="fish">
+                    <div class="icon"><img src=""></div>
+                    <div class="label"></div>
+                </div>
+                <div id="item2" class="fish">
+                    <div class="icon"><img src=""></div>
+                    <div class="label"></div>
+                </div>
+                <div id="item3" class="fish">
+                    <div class="icon"><img src=""></div>
+                    <div class="label"></div>
+                </div>
+                <div id="item4" class="fish">
+                    <div class="icon"><img src=""></div>
+                    <div class="label"></div>
+                </div>
+                <div id="item5" class="fish">
+                    <div class="icon"><img src=""></div>
+                    <div class="label"></div>
+                </div>
+                <div id="item6" class="fish">
+                    <div class="icon"><img src=""></div>
+                    <div class="label"></div>
+                </div>
+                <div id="item7" class="fish">
+                    <div class="icon"><img src=""></div>
+                    <div class="label"></div>
+                </div>
+                <div id="item8" class="fish">
+                    <div class="icon"><img src=""></div>
+                    <div class="label"></div>
+                </div>
+                <div id="item9" class="fish">
+                    <div class="icon"><img src=""></div>
+                    <div class="label"></div>
+                </div>
+            </div>
         </div>
         <script type="text/javascript" src="./events.js"></script>
     </body>
