@@ -10,10 +10,10 @@ const fishingRecord = {};
 // Init zone ids record
 if (Object.entries(fishingRecord).length < 1) {
   const zones = Object.entries(fishingLog);
-  for (const zone of zones) {
-    fishingRecord[zone[0]] = {};
-    for (const spot of zone[1]) {
-      fishingRecord[zone[0]][spot.id] = {}
+  for (const zone in fishingLog) {
+    fishingRecord[zone] = {};
+    for (const spot in fishingLog[zone]) {
+      fishingRecord[zone][spot] = {}
     }
   }
 }
@@ -83,7 +83,7 @@ addOverlayListener("LogLine", (e) => {
             size: fish[3],
             unit: fish[4],
             amount: total,
-            spotID: currentSpot.id
+            spotID: currentSpot
           }
         });
         document.dispatchEvent(fishCaught)
@@ -120,12 +120,14 @@ function startCasting(spot) {
 
 function populateEntries(name) {
   // Pre-filter fishing log so you only search in relevant area
-  const spots = Object.entries(fishingLog).find(zone => zone[0] == parseInt(currentZone));
+  //const spots = Object.entries(fishingLog).find(zone => zone[0] == parseInt(currentZone));
+  const spots = fishingLog[currentZone];
   const regex = new RegExp(`${name}`, "i");
-  for (const spot of spots[1]) {
-    if (regex.test(spot.name)) {
+  for (const spot in spots) {
+    if (regex.test(spots[spot].name)) {
       currentSpot = spot;
-      spotTitle.innerText = spot.name;
+      
+      spotTitle.innerText = spots[spot].name;
       // Clean items leftovers
       for (let i=0; i<10; i++) {
         const item = document.getElementById("item" + i);
@@ -133,18 +135,28 @@ function populateEntries(name) {
         item.querySelector(".label .name").innerHTML = "";
         // item.querySelector(".label .window").innerHTML = "";
         item.removeAttribute("data-fishid");
-        item.classList.remove("show")
+        item.classList.remove("show");
+        for (const tug of ["medium", "heavy", "light"]) {
+          item.classList.remove(tug)
+        }
       }
       // Fetch spot fishes and fill entries
-      spot.fishes.forEach((fish, index) => {
+      spots[spot].fishes.forEach((fish, index) => {
         const name = fish.name;
         const icon = "https://xivapi.com" + fish.icon;
         const item = document.getElementById("item" + index);
+        const tug = fish.tug;
+        console.log(name, tug);
         item.querySelector(".icon img").src = icon;
         item.querySelector(".label .name").innerText = name;
         // item.querySelector(".label .window").innerHTML = "";
         item.setAttribute("data-fishid", fish.id);
         item.classList.add("show");
+        ["medium", "heavy", "light"].forEach((t, index) => {
+          if (tug == index) {
+            item.classList.add(t);
+          }
+        })
       })
       break
     }
@@ -177,7 +189,7 @@ function updateLog(fish) {
   const spotID = fish.detail.spotID;
 
   const regex = new RegExp(`${fishName}`, "i");
-  for (const item of currentSpot.fishes) {
+  for (const item of fishingLog[currentZone][currentSpot].fishes) {
     if (regex.test(item.name)) {
       fishID = item.id;
       break
@@ -243,7 +255,7 @@ function debugCatch() {
       size: 21,
       unit: "ilms",
       amount: 1,
-      spotID: currentSpot.id
+      spotID: currentSpot
     }
   }))
 }
