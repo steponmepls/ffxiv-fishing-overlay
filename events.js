@@ -1,10 +1,22 @@
-let timerStart = 0, timerInterval, currentZone;
+let isCasting = false, timerStart = 0, timerInterval, currentZone, currentSpot;
 
 const container = document.getElementById("container");
 const spotTitle = document.getElementById("fishing-spot");
 const timer = document.getElementById("timer");
 const spotFishes = document.getElementById("list");
 const marker = document.getElementById("marker");
+
+const fishingRecord = {};
+// Init zone ids record
+if (Object.entries(fishingRecord).length < 1) {
+  const zones = Object.entries(fishingLog);
+  for (const zone of zones) {
+    fishingRecord[zone[0]] = {};
+    for (const spot of zone[1]) {
+      fishingRecord[zone[0]][spot.id] = {}
+    }
+  }
+}
 
 const events = {
   start: /^You cast your line (?:in|at(?: the)?) (.+)\.$/,
@@ -40,7 +52,7 @@ addOverlayListener("LogLine", (e) => {
         }
       });
       document.dispatchEvent(startCast)
-    } else {
+    } else if(isCasting) {
       for (const regex of events.stop) {
         if (regex.test(chatLog)) {
           const stopCast = new CustomEvent("stopCasting");
@@ -58,7 +70,7 @@ addOverlayListener("LogLine", (e) => {
       if (events.success.test(chatLog)) {
         let total;
         const fish = chatLog.match(events.success);
-        const elapsed = timer.innerText;
+        const elapsed = parseFloat(timer.innerText);
         if (/\d/.test(fish[1])) {
           total = parseInt(fish[1])
         } else {
@@ -70,7 +82,8 @@ addOverlayListener("LogLine", (e) => {
             time: elapsed,
             size: fish[3],
             unit: fish[4],
-            amount: total
+            amount: total,
+            spotID: currentSpot.id
           }
         });
         document.dispatchEvent(fishCaught)
@@ -83,17 +96,14 @@ document.addEventListener("startCasting", startCasting);
 document.addEventListener("stopCasting", clearTimer);
 document.addEventListener("stopFishing", () => {
   container.removeAttribute("class");
-  timer.innerText = 0.0.toFixed(1) // 0.toFixed(1) will fail!
+  timer.innerText = 0.0.toFixed(1); // 0.toFixed(1) will fail!
+  currentSpot = null;
+  isCasting = false
 });
-document.addEventListener("fishCaught", (e) => {
-  const fishName = e.detail.name;
-  const fishTime = e.detail.time;
-  const fishSize = e.detail.size;
-  const sizeUnit = e.detail.unit;
-  // console.debug(`Caught ${fishName} (${fishSize}${sizeUnit}) in ${fishTime}s`);
-});
+document.addEventListener("fishCaught", updateLog);
 
 function startCasting(spot) {
+  isCasting = true;
   timerStart = Date.now();
   populateEntries(spot.detail.name);
   timer.innerText = 0.0.toFixed(1); // 0.toFixed(1) will fail!
@@ -116,12 +126,15 @@ function populateEntries(name) {
   const regex = new RegExp(`${name}`, "i");
   for (const spot of spots[1]) {
     if (regex.test(spot.name)) {
+      currentSpot = spot;
       spotTitle.innerText = spot.name;
       // Clean items leftovers
       for (let i=0; i<10; i++) {
         const item = document.getElementById("item" + i);
         item.querySelector(".icon img").src = "";
-        item.querySelector(".label").innerHTML = "";
+        item.querySelector(".label .name").innerHTML = "";
+        // item.querySelector(".label .window").innerHTML = "";
+        item.removeAttribute("data-fishid");
         item.classList.remove("show")
       }
       // Fetch spot fishes and fill entries
@@ -130,7 +143,9 @@ function populateEntries(name) {
         const icon = "https://xivapi.com" + fish.icon;
         const item = document.getElementById("item" + index);
         item.querySelector(".icon img").src = icon;
-        item.querySelector(".label").innerText = name;
+        item.querySelector(".label .name").innerText = name;
+        // item.querySelector(".label .window").innerHTML = "";
+        item.setAttribute("data-fishid", fish.id);
         item.classList.add("show");
       })
       break
@@ -143,7 +158,8 @@ function clearTimer() {
     window.clearInterval(timerInterval);
     timerInterval = null;
     marker.style.width=getComputedStyle(marker).width;
-    marker.removeAttribute("class")
+    marker.removeAttribute("class");
+    isCasting = false
   }
 }
 
@@ -153,6 +169,63 @@ function updateTimer() {
   timer.innerText = formatted
 }
 
+function updateLog(fish) {
+  let fishID;
+
+  const fishName = fish.detail.name;
+  const fishTime = fish.detail.time;
+  // const fishSize = fish.detail.size;
+  // const sizeUnit = fish.detail.unit;
+  // const totalFishes = fish.detail.amount;
+  const spotID = fish.detail.spotID;
+
+  const regex = new RegExp(`${fishName}`, "i");
+  for (const fish of currentSpot.fishes) {
+    if (regex.test(fish.name)) {
+      fishID = fish.id;
+    };
+    break
+  }
+
+  const spotRecord = fishingRecord[currentZone][spotID];
+
+  // Init fishID record inside a specific fishing spot
+  if (!(fishID in spotRecord)) {
+    spotRecord[fishID] = {
+      min: fishTime,
+      max: fishTime
+    }
+    updateRecord(fishID, spotRecord[fishID].min)
+  }
+
+  // Only update values if new  time isn't between min and max
+  if (fishTime > spotRecord[fishID].max) {
+    spotRecord[fishID].max = fishTime;
+    updateRecord(fishID, spotRecord[fishID].min, spotRecord[fishID].max)
+  } else if (fishTime < spotRecord[fishID].min) {
+    spotRecord[fishID].min = fishTime;
+    updateRecord(fishID, spotRecord[fishID].min)
+  }
+
+  console.debug(spotRecord[fishID])
+}
+
+function updateRecord(id, min, max) {
+  const fish = spotFishes.querySelector(`.fish[data-fishid="${id}"]`);
+  const offset = getComputedStyle(document.documentElement,null).getPropertyValue('--icon-size');
+  const totalWidth = fish.offsetWidth - parseInt(offset);
+  const record = fish.querySelector(".label .record");
+  const minMark = (totalWidth * min) / 60;
+  if (!max) {
+    record.setAttribute("data-min", min);
+    record.style.left = minMark + "px"
+  } else {
+    const maxMark = ((totalWidth * max) / 60) - minMark;
+    record.setAttribute("data-max", max);
+    record.style.width = maxMark + "px"
+  }
+}
+
 function debug() {
   currentZone = 135;
   document.dispatchEvent(new CustomEvent("startCasting", {
@@ -160,9 +233,24 @@ function debug() {
       name: "the salt strand"
     }
   }));
-  setInterval(() => {
-    document.dispatchEvent(new CustomEvent("stopCasting"))
-  }, 15000)
+  /* window.setTimeout(() => {
+    document.dispatchEvent(new CustomEvent("stopCasting"));
+  }, 10000) */
+}
+
+function debugCatch() {
+  document.dispatchEvent(new CustomEvent("stopCasting"));
+  const elapsed = timer.innerText;
+  document.dispatchEvent(new CustomEvent("fishCaught", {
+    detail: {
+      name: "sea cucumber",
+      time: parseFloat(elapsed),
+      size: 21,
+      unit: "ilms",
+      amount: 1,
+      spotID: currentSpot.id
+    }
+  }))
 }
 
 startOverlayEvents()
