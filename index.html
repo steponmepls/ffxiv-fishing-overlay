@@ -50,6 +50,7 @@
                 max-width: calc(100% - var(--icon-size, 40px));
                 height: 100%;
                 border-right: 1px solid red;
+                z-index: 1;
             }
             #marker.transition {
                 -webkit-transition: width 60s 0s linear;
@@ -73,6 +74,9 @@
             .fish:first-of-type {
                 margin-top: none;
             }
+            .fish, .icon, .icon img {
+                max-height: var(--icon-size, 40px);
+            }
             .icon {
                 width: var(--icon-size, 40px);
                 flex-shrink: 0;
@@ -80,10 +84,34 @@
             .label {
                 display: flex;
                 width: 100%;
-                font-weight: bold;
+                min-height: var(--icon-size, 40px);
+                position: relative;
+                align-items: center
             }
-            .label:not(:empty) {
+            .label .name {
+                font-weight: bold;
+                z-index: 2;
+            }
+            .label .name:not(:empty) {
                 padding: .5rem;
+            }
+            .record {
+                position: absolute;
+                min-width: 2px;
+                height: 100%;
+                background-color: rgba(10,10,10,.5);
+            }
+            .record:not([data-min]) {
+                display: none;
+            }
+            .light {
+                background-color: limegreen;
+            }
+            .medium {
+                background-color: gold;
+            }
+            .heavy {
+                background-color: brown;
             }
         </style>
     </head>
@@ -97,43 +125,83 @@
                 <div id="marker"></div>
                 <div id="item0" class="fish">
                     <div class="icon"><img src=""></div>
-                    <div class="label"></div>
+                    <div class="label">
+                        <div class="record"></div>
+                        <div class="name"></div>
+                        <div class="window"></div>
+                    </div>
                 </div>
                 <div id="item1" class="fish">
                     <div class="icon"><img src=""></div>
-                    <div class="label"></div>
+                    <div class="label">
+                        <div class="record"></div>
+                        <div class="name"></div>
+                        <div class="window"></div>
+                    </div>
                 </div>
                 <div id="item2" class="fish">
                     <div class="icon"><img src=""></div>
-                    <div class="label"></div>
+                    <div class="label">
+                        <div class="record"></div>
+                        <div class="name"></div>
+                        <div class="window"></div>
+                    </div>
                 </div>
                 <div id="item3" class="fish">
                     <div class="icon"><img src=""></div>
-                    <div class="label"></div>
+                    <div class="label">
+                        <div class="record"></div>
+                        <div class="name"></div>
+                        <div class="window"></div>
+                    </div>
                 </div>
                 <div id="item4" class="fish">
                     <div class="icon"><img src=""></div>
-                    <div class="label"></div>
+                    <div class="label">
+                        <div class="record"></div>
+                        <div class="name"></div>
+                        <div class="window"></div>
+                    </div>
                 </div>
                 <div id="item5" class="fish">
                     <div class="icon"><img src=""></div>
-                    <div class="label"></div>
+                    <div class="label">
+                        <div class="record"></div>
+                        <div class="name"></div>
+                        <div class="window"></div>
+                    </div>
                 </div>
                 <div id="item6" class="fish">
                     <div class="icon"><img src=""></div>
-                    <div class="label"></div>
+                    <div class="label">
+                        <div class="record"></div>
+                        <div class="name"></div>
+                        <div class="window"></div>
+                    </div>
                 </div>
                 <div id="item7" class="fish">
                     <div class="icon"><img src=""></div>
-                    <div class="label"></div>
+                    <div class="label">
+                        <div class="record"></div>
+                        <div class="name"></div>
+                        <div class="window"></div>
+                    </div>
                 </div>
                 <div id="item8" class="fish">
                     <div class="icon"><img src=""></div>
-                    <div class="label"></div>
+                    <div class="label">
+                        <div class="record"></div>
+                        <div class="name"></div>
+                        <div class="window"></div>
+                    </div>
                 </div>
                 <div id="item9" class="fish">
                     <div class="icon"><img src=""></div>
-                    <div class="label"></div>
+                    <div class="label">
+                        <div class="record"></div>
+                        <div class="name"></div>
+                        <div class="window"></div>
+                    </div>
                 </div>
             </div>
         </div>
