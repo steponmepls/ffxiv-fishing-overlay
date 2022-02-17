@@ -1,4 +1,4 @@
-let isCasting = false, timerStart = 0, timerInterval, currentZone, currentSpot;
+let timerStart = 0, timerInterval, currentZone, currentSpot;
 
 const container = document.getElementById("container");
 const spotTitle = document.getElementById("fishing-spot");
@@ -52,7 +52,7 @@ addOverlayListener("LogLine", (e) => {
         }
       });
       document.dispatchEvent(startCast)
-    } else if(isCasting) {
+    } else {
       for (const regex of events.stop) {
         if (regex.test(chatLog)) {
           const stopCast = new CustomEvent("stopCasting");
@@ -97,13 +97,11 @@ document.addEventListener("stopCasting", clearTimer);
 document.addEventListener("stopFishing", () => {
   container.removeAttribute("class");
   timer.innerText = 0.0.toFixed(1); // 0.toFixed(1) will fail!
-  currentSpot = null;
-  isCasting = false
+  currentSpot = null
 });
 document.addEventListener("fishCaught", updateLog);
 
 function startCasting(spot) {
-  isCasting = true;
   timerStart = Date.now();
   populateEntries(spot.detail.name);
   timer.innerText = 0.0.toFixed(1); // 0.toFixed(1) will fail!
@@ -159,7 +157,6 @@ function clearTimer() {
     timerInterval = null;
     marker.style.width=getComputedStyle(marker).width;
     marker.removeAttribute("class");
-    isCasting = false
   }
 }
 
@@ -180,11 +177,11 @@ function updateLog(fish) {
   const spotID = fish.detail.spotID;
 
   const regex = new RegExp(`${fishName}`, "i");
-  for (const fish of currentSpot.fishes) {
-    if (regex.test(fish.name)) {
-      fishID = fish.id;
+  for (const item of currentSpot.fishes) {
+    if (regex.test(item.name)) {
+      fishID = item.id;
+      break
     };
-    break
   }
 
   const spotRecord = fishingRecord[currentZone][spotID];
@@ -206,14 +203,12 @@ function updateLog(fish) {
     spotRecord[fishID].min = fishTime;
     updateRecord(fishID, spotRecord[fishID].min)
   }
-
-  console.debug(spotRecord[fishID])
 }
 
 function updateRecord(id, min, max) {
   const fish = spotFishes.querySelector(`.fish[data-fishid="${id}"]`);
   const offset = getComputedStyle(document.documentElement,null).getPropertyValue('--icon-size');
-  const totalWidth = fish.offsetWidth - parseInt(offset);
+  const totalWidth = container.offsetWidth - parseInt(offset);
   const record = fish.querySelector(".label .record");
   const minMark = (totalWidth * min) / 60;
   if (!max) {
