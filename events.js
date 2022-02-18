@@ -135,10 +135,10 @@ function populateEntries(name) {
         item.querySelector(".label .name").innerHTML = "";
         // item.querySelector(".label .window").innerHTML = "";
         item.removeAttribute("data-fishid");
-        item.classList.remove("show");
         for (const tug of ["medium", "heavy", "light"]) {
           item.classList.remove(tug)
-        }
+        };
+        item.classList.remove("show")
       }
       // Fetch spot fishes and fill entries
       spots[spot].fishes.forEach((fish, index) => {
@@ -150,12 +150,12 @@ function populateEntries(name) {
         item.querySelector(".label .name").innerText = name;
         // item.querySelector(".label .window").innerHTML = "";
         item.setAttribute("data-fishid", fish.id);
-        item.classList.add("show");
         ["medium", "heavy", "light"].forEach((t, index) => {
           if (tug == index) {
             item.classList.add(t);
           }
-        })
+        });
+        item.classList.add("show")
       })
       break
     }
