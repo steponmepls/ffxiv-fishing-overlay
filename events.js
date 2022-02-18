@@ -1,4 +1,4 @@
-let timerStart = 0, timerInterval, currentZone, currentSpot;
+let timerStart = 0, timerInterval, currentZone, currentSpot, chumEffect = false;
 
 const container = document.getElementById("container");
 const spotTitle = document.getElementById("fishing-spot");
@@ -9,7 +9,6 @@ const marker = document.getElementById("marker");
 const fishingRecord = {};
 // Init zone ids record
 if (Object.entries(fishingRecord).length < 1) {
-  const zones = Object.entries(fishingLog);
   for (const zone in fishingLog) {
     fishingRecord[zone] = {};
     for (const spot in fishingLog[zone]) {
@@ -32,7 +31,8 @@ const events = {
   exit: [
     /^You put away your/,
     /^The fish sense something amiss/
-  ]
+  ],
+  chum: /^You gain the effect of .{2}Chum\.$/
 };
 
 addOverlayListener("ChangeZone", (e) => {
@@ -87,6 +87,10 @@ addOverlayListener("LogLine", (e) => {
           }
         });
         document.dispatchEvent(fishCaught)
+      };
+      if (events.chum.test(chatLog)) {
+        const chumActive = new CustomEvent("chumActive");
+        document.dispatchEvent(chumActive)
       }
     }
   }
@@ -100,9 +104,17 @@ document.addEventListener("stopFishing", () => {
   currentSpot = null
 });
 document.addEventListener("fishCaught", updateLog);
+document.addEventListener("chumActive", () => {
+  chumEffect = true
+})
 
 function startCasting(spot) {
   timerStart = Date.now();
+  if (!chumEffect) {
+    document.body.parentElement.classList.remove("chum-active");
+  } else {
+    document.body.parentElement.classList.add("chum-active");
+  }
   populateEntries(spot.detail.name);
   timer.innerText = 0.0.toFixed(1); // 0.toFixed(1) will fail!
   container.classList.add("show");
@@ -178,7 +190,7 @@ function updateTimer() {
 }
 
 function updateLog(fish) {
-  let fishID;
+  let fishID, fishRecord;
 
   const fishName = fish.detail.name;
   const fishTime = fish.detail.time;
@@ -199,24 +211,42 @@ function updateLog(fish) {
 
   // Init if no entries yet
   if (!(fishID in spotRecord)) {
-    spotRecord[fishID] = {
-      min: fishTime,
-      max: fishTime
-    }
-    updateRecord(fishID, spotRecord[fishID])
+    spotRecord[fishID] = {}
+    spotRecord[fishID].chum = {}
+  }
+
+  if (!chumEffect) {
+    fishRecord = spotRecord[fishID]
   } else {
-    if (fishTime < spotRecord[fishID].min) {
-      spotRecord[fishID].min = fishTime;
-      updateRecord(fishID, spotRecord[fishID])
-    } else if (fishTime > spotRecord[fishID].max) {
-      spotRecord[fishID].max = fishTime;
-      updateRecord(fishID, spotRecord[fishID])
+    fishRecord = spotRecord[fishID].chum
+  }
+
+  if (!("min" in fishRecord)) {
+    fishRecord.min = fishTime;
+    fishRecord.max = fishTime;
+    updateRecord(fishID, fishRecord)
+  } else {
+    if (fishTime < fishRecord.min) {
+      fishRecord.min = fishTime;
+      updateRecord(fishID, fishRecord)
+    } else if (fishTime > fishRecord.max) {
+      fishRecord.max = fishTime;
+      updateRecord(fishID, fishRecord)
     }
+  }
+
+  if (chumEffect) {
+    chumEffect = false
   }
 }
 
 function updateRecord(id, record) {
-  const recordMark = spotFishes.querySelector(`.fish[data-fishid="${id}"] .label .record`);
+  let recordMark;
+  if (!chumEffect) {
+    recordMark = spotFishes.querySelector(`.fish[data-fishid="${id}"] .label .record`);
+  } else {
+    recordMark = spotFishes.querySelector(`.fish[data-fishid="${id}"] .label .recordChum`);
+  }
 
   function getPerc(time) {
     const output = (100 * time) / 60;
