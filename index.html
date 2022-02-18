@@ -96,14 +96,16 @@
             .label .name:not(:empty) {
                 padding: .5rem;
             }
-            .record {
+            .record, .recordChum {
                 position: absolute;
+                display: none;
                 min-width: 2px;
                 height: 100%;
                 background-color: rgba(10,10,10,.5);
             }
-            .record:not([data-min]) {
-                display: none;
+            :root:not(.chum-active) .record[data-min], 
+            :root.chum-active .recordChum[data-min] {
+                display: block;
             }
             .light {
                 background-color: rgb(50, 205, 50, .5);
@@ -128,6 +130,7 @@
                     <div class="icon"><img src=""></div>
                     <div class="label">
                         <div class="record"></div>
+                        <div class="recordChum"></div>
                         <div class="name"></div>
                         <div class="window"></div>
                     </div>
@@ -136,6 +139,7 @@
                     <div class="icon"><img src=""></div>
                     <div class="label">
                         <div class="record"></div>
+                        <div class="recordChum"></div>
                         <div class="name"></div>
                         <div class="window"></div>
                     </div>
@@ -144,6 +148,7 @@
                     <div class="icon"><img src=""></div>
                     <div class="label">
                         <div class="record"></div>
+                        <div class="recordChum"></div>
                         <div class="name"></div>
                         <div class="window"></div>
                     </div>
@@ -152,6 +157,7 @@
                     <div class="icon"><img src=""></div>
                     <div class="label">
                         <div class="record"></div>
+                        <div class="recordChum"></div>
                         <div class="name"></div>
                         <div class="window"></div>
                     </div>
@@ -160,6 +166,7 @@
                     <div class="icon"><img src=""></div>
                     <div class="label">
                         <div class="record"></div>
+                        <div class="recordChum"></div>
                         <div class="name"></div>
                         <div class="window"></div>
                     </div>
@@ -168,6 +175,7 @@
                     <div class="icon"><img src=""></div>
                     <div class="label">
                         <div class="record"></div>
+                        <div class="recordChum"></div>
                         <div class="name"></div>
                         <div class="window"></div>
                     </div>
@@ -176,6 +184,7 @@
                     <div class="icon"><img src=""></div>
                     <div class="label">
                         <div class="record"></div>
+                        <div class="recordChum"></div>
                         <div class="name"></div>
                         <div class="window"></div>
                     </div>
@@ -184,6 +193,7 @@
                     <div class="icon"><img src=""></div>
                     <div class="label">
                         <div class="record"></div>
+                        <div class="recordChum"></div>
                         <div class="name"></div>
                         <div class="window"></div>
                     </div>
@@ -192,6 +202,7 @@
                     <div class="icon"><img src=""></div>
                     <div class="label">
                         <div class="record"></div>
+                        <div class="recordChum"></div>
                         <div class="name"></div>
                         <div class="window"></div>
                     </div>
@@ -200,6 +211,7 @@
                     <div class="icon"><img src=""></div>
                     <div class="label">
                         <div class="record"></div>
+                        <div class="recordChum"></div>
                         <div class="name"></div>
                         <div class="window"></div>
                     </div>
