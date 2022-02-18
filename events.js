@@ -1,10 +1,11 @@
-let timerStart = 0, timerInterval, currentZone, currentSpot;
+let timerStart = 0, timerInterval, currentZone, currentSpot, totalWidth;
 
 const container = document.getElementById("container");
 const spotTitle = document.getElementById("fishing-spot");
 const timer = document.getElementById("timer");
 const spotFishes = document.getElementById("list");
 const marker = document.getElementById("marker");
+const offset = getComputedStyle(document.documentElement,null).getPropertyValue('--icon-size');
 
 const fishingRecord = {};
 // Init zone ids record
@@ -146,7 +147,6 @@ function populateEntries(name) {
         const icon = "https://xivapi.com" + fish.icon;
         const item = document.getElementById("item" + index);
         const tug = fish.tug;
-        console.log(name, tug);
         item.querySelector(".icon img").src = icon;
         item.querySelector(".label .name").innerText = name;
         // item.querySelector(".label .window").innerHTML = "";
@@ -198,39 +198,35 @@ function updateLog(fish) {
 
   const spotRecord = fishingRecord[currentZone][spotID];
 
-  // Init fishID record inside a specific fishing spot
+  // Init if no entries yet
   if (!(fishID in spotRecord)) {
     spotRecord[fishID] = {
       min: fishTime,
       max: fishTime
     }
-    updateRecord(fishID, spotRecord[fishID].min)
-  }
-
-  // Only update values if new  time isn't between min and max
-  if (fishTime > spotRecord[fishID].max) {
-    spotRecord[fishID].max = fishTime;
-    updateRecord(fishID, spotRecord[fishID].min, spotRecord[fishID].max)
-  } else if (fishTime < spotRecord[fishID].min) {
-    spotRecord[fishID].min = fishTime;
-    updateRecord(fishID, spotRecord[fishID].min)
+    updateRecord(fishID, spotRecord[fishID])
+  } else {
+    if (fishTime < spotRecord[fishID].min) {
+      spotRecord[fishID].min = fishTime;
+      updateRecord(fishID, spotRecord[fishID])
+    } else if (fishTime > spotRecord[fishID].max) {
+      spotRecord[fishID].max = fishTime;
+      updateRecord(fishID, spotRecord[fishID])
+    }
   }
 }
 
-function updateRecord(id, min, max) {
-  const fish = spotFishes.querySelector(`.fish[data-fishid="${id}"]`);
-  const offset = getComputedStyle(document.documentElement,null).getPropertyValue('--icon-size');
-  const totalWidth = container.offsetWidth - parseInt(offset);
-  const record = fish.querySelector(".label .record");
-  const minMark = (totalWidth * min) / 60;
-  if (!max) {
-    record.setAttribute("data-min", min);
-    record.style.left = minMark + "px"
-  } else {
-    const maxMark = ((totalWidth * max) / 60) - minMark;
-    record.setAttribute("data-max", max);
-    record.style.width = maxMark + "px"
-  }
+function updateRecord(id, record) {
+  const recordMark = spotFishes.querySelector(`.fish[data-fishid="${id}"] .label .record`);
+  totalWidth = container.offsetWidth - parseInt(offset);
+
+  const minMark = (totalWidth * record.min) / 60;
+  const maxMark = ((totalWidth * record.max) / 60) - minMark;
+    
+  recordMark.setAttribute("data-min", record.min);
+  recordMark.style.left = minMark + "px";
+  recordMark.setAttribute("data-max", record.max);
+  recordMark.style.width = maxMark + "px"
 }
 
 function debug() {
