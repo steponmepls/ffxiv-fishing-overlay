@@ -19,7 +19,7 @@ if (Object.entries(fishingRecord).length < 1) {
 }
 
 const events = {
-  start: /^You cast your line (?:in|at(?: the)?) (.+)\.$/,
+  start: /^You cast your line (?:in|at|on)(?: the)? (.+)\.$/,
   stop: [
     /^Something bites/,
     /^The fish gets away/,
@@ -220,7 +220,7 @@ function updateRecord(id, record) {
 
   function getPerc(time) {
     const output = (100 * time) / 60;
-    parseFloat(output.toFixed(1))
+    return parseFloat(output.toFixed(1))
   }
 
   const minMark = getPerc(record.min)
