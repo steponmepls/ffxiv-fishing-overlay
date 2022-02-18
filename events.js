@@ -218,8 +218,13 @@ function updateLog(fish) {
 function updateRecord(id, record) {
   const recordMark = spotFishes.querySelector(`.fish[data-fishid="${id}"] .label .record`);
 
-  const minMark = (100 * record.min) / 60;
-  const maxMark = ((100 * record.max) / 60) - minMark;
+  function getPerc(time) {
+    const output = (100 * time) / 60;
+    parseFloat(output.toFixed(1))
+  }
+
+  const minMark = getPerc(record.min)
+  const maxMark = (getPerc(record.max)) - minMark;
     
   recordMark.setAttribute("data-min", record.min);
   recordMark.style.left = minMark + "%";
