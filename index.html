@@ -14,6 +14,7 @@
                 -webkit-box-sizing: border-box;
                 -moz-box-sizing: border-box;
                 box-sizing: border-box;
+                overflow: hidden;
             }
             *, *:before, *:after {
                 -webkit-box-sizing: inherit;
@@ -22,7 +23,9 @@
             }
             #container {
                 display: none;
-                max-width: 300px;
+                width: 100%;
+                height: auto;
+                max-height: 434px;
                 background: rgba(10,10,10,.5);
                 color: white;
                 font-family: sans-serif;
@@ -35,9 +38,8 @@
             }
             #fishing-spot {
                 width: 100%;
-                padding: .5rem;
             }
-            #timer {
+            #fishing-spot, #timer {
                 padding: .5rem;
             }
             #list {
