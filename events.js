@@ -1,4 +1,4 @@
-let timerStart = 0, timerInterval, currentZone, currentSpot, chumEffect = false;
+let lang, timerStart = 0, timerInterval, currentZone, currentSpot, chumEffect = false, wasChum = false;
 
 const container = document.getElementById("container");
 const spotTitle = document.getElementById("fishing-spot");
@@ -17,23 +17,62 @@ if (Object.entries(fishingRecord).length < 1) {
   }
 }
 
-const events = {
-  start: /^You cast your line (?:in|at|on)(?: the)? (.+)\.$/,
-  stop: [
-    /^Something bites/,
-    /^The fish gets away/,
-    /^You lose your/,
-    /^Nothing bites/,
-    /^You (reel in|put away) your/,
-    /^The fish sense something amiss/
-  ],
-  success: /^You land (an?|\d) .(.+) measuring ([0-9.]+) (\w+)!$/,
-  exit: [
-    /^You put away your/,
-    /^The fish sense something amiss/
-  ],
-  chum: /^You gain the effect of .{2}Chum\.$/
-};
+const regex = {
+  English: {
+    show: [
+      /^You cast your line.+\.$/
+    ],
+    stat: [
+      /^(?:\s+. )?You (gain|lose) the effect of .{2}(.+)\.$/
+    ],
+    stop: [
+      /^Something bites/,
+      /^The fish gets away/,
+      /^Nothing bites/,
+      /^You reel in your line/,
+    ],
+    loot: [
+      /^You land (an?|\d) .(.+) measuring ([0-9.]+) (\w+)!$/
+    ],
+    hide: [
+      /^You put away your/,
+      /^You reel in your line/,
+      /^The fish sense something amiss/
+    ]
+  },
+  French: {
+    show: [],
+    stat: [],
+    stop: [],
+    loot: [],
+    hide: []
+  },
+  German: {
+    show: [],
+    stat: [],
+    stop: [],
+    loot: [],
+    hide: []
+  },
+  Japanese: {
+    show: [],
+    stat: [],
+    stop: [],
+    loot: [],
+    hide: []
+  }
+}
+
+// Fetch game language from ACT settings
+async function getLang() {
+  const output = await callOverlayHandler({ call: 'getLanguage' });
+  lang = output.language;
+  if (!lang) {
+    console.debug(lang)
+    throw new Error("ACT is broken. Wait for an update..");
+  }
+}
+getLang();
 
 addOverlayListener("ChangeZone", (e) => {
   const newZone = e.zoneID;
@@ -43,54 +82,65 @@ addOverlayListener("ChangeZone", (e) => {
 
 addOverlayListener("LogLine", (e) => {
   const newLog = e.line;
-  if (newLog.length > 4 && newLog[0] === "00") {
+  if (newLog.length > 4 && newLog[0] === "00" && newLog[3] === "") {
+    // console.debug(newLog);
     const chatLog = newLog[4];
-    if (events.start.test(chatLog)) {
+    const events = regex[lang];
+
+    if (events.show[0].test(chatLog)) {
       const startCast = new CustomEvent("startCasting", {
         detail: {
-          name: chatLog.match(events.start)[1]
+          line: chatLog.match(events.show[0])[0]
         }
       });
       document.dispatchEvent(startCast)
-    } else {
-      for (const regex of events.stop) {
-        if (regex.test(chatLog)) {
-          const stopCast = new CustomEvent("stopCasting");
-          document.dispatchEvent(stopCast);
-          break
+    }
+    if (events.stat[0].test(chatLog)) {
+      const state = chatLog.match(events.stat[0])[1];
+      const effect = chatLog.match(events.stat[0])[2];
+      const bool = /gain/.test(state);
+      const buffStatus = new CustomEvent("buffStatus", {
+        detail: {
+          name: effect,
+          status: bool
         }
-      };
-      for (const regex of events.exit) {
-        if (regex.test(chatLog)) {
-          const stopFishing = new CustomEvent("stopFishing");
-          document.dispatchEvent(stopFishing);
-          break
+      });
+      document.dispatchEvent(buffStatus)
+    }
+    for (const rule of events.stop) {
+      if (rule.test(chatLog)) {
+        const stopCast = new CustomEvent("stopCasting");
+        document.dispatchEvent(stopCast);
+        break
+      }
+    }
+    if (events.loot[0].test(chatLog)) {
+      let total;
+      const fish = chatLog.match(events.loot[0]);
+      const elapsed = parseFloat(timer.innerText);
+      if (/\d/.test(fish[1])) {
+        total = parseInt(fish[1])
+      } else {
+        total = 1
+      }
+      const fishCaught = new CustomEvent("fishCaught", {
+        detail: {
+          name: fish[2],
+          time: elapsed,
+          size: parseFloat(fish[3]),
+          unit: fish[4],
+          amount: total,
+          chum: wasChum,
+          spotID: currentSpot
         }
-      };
-      if (events.success.test(chatLog)) {
-        let total;
-        const fish = chatLog.match(events.success);
-        const elapsed = parseFloat(timer.innerText);
-        if (/\d/.test(fish[1])) {
-          total = parseInt(fish[1])
-        } else {
-          total = 1
-        }
-        const fishCaught = new CustomEvent("fishCaught", {
-          detail: {
-            name: fish[2],
-            time: elapsed,
-            size: fish[3],
-            unit: fish[4],
-            amount: total,
-            spotID: currentSpot
-          }
-        });
-        document.dispatchEvent(fishCaught)
-      };
-      if (events.chum.test(chatLog)) {
-        const chumActive = new CustomEvent("chumActive");
-        document.dispatchEvent(chumActive)
+      });
+      document.dispatchEvent(fishCaught);
+    }
+    for (const rule of events.hide) {
+      if (rule.test(chatLog)) {
+        const stopFishing = new CustomEvent("stopFishing");
+        document.dispatchEvent(stopFishing);
+        break
       }
     }
   }
@@ -101,21 +151,29 @@ document.addEventListener("stopCasting", clearTimer);
 document.addEventListener("stopFishing", () => {
   container.removeAttribute("class");
   timer.innerText = 0.0.toFixed(1); // 0.toFixed(1) will fail!
-  currentSpot = null
+  currentSpot = null,
+  chumEffect = false,
+  wasChum = false
 });
 document.addEventListener("fishCaught", updateLog);
-document.addEventListener("chumActive", () => {
-  chumEffect = true
+document.addEventListener("buffStatus", (e) => {
+  if (/\bChum\b/.test(e.detail.name)) {
+    if (e.detail.status) {
+      chumEffect = e.detail.status
+    }
+  }
 })
 
-function startCasting(spot) {
+function startCasting(e) {
   timerStart = Date.now();
+  wasChum = false; // Reset for good measure
   if (!chumEffect) {
     document.body.parentElement.classList.remove("chum-active");
   } else {
     document.body.parentElement.classList.add("chum-active");
+    wasChum = true
   }
-  populateEntries(spot.detail.name);
+  populateEntries(e.detail.line);
   timer.innerText = 0.0.toFixed(1); // 0.toFixed(1) will fail!
   container.classList.add("show");
   timerInterval = window.setInterval(updateTimer, 100);
@@ -130,16 +188,17 @@ function startCasting(spot) {
   }, 10)
 }
 
-function populateEntries(name) {
+function populateEntries(line) {
   // Pre-filter fishing log so you only search in relevant area
   //const spots = Object.entries(fishingLog).find(zone => zone[0] == parseInt(currentZone));
   const spots = fishingLog[currentZone];
-  const regex = new RegExp(`${name}`, "i");
   for (const spot in spots) {
-    if (regex.test(spots[spot].name)) {
-      currentSpot = spot;
+    const regex = new RegExp(spots[spot].name, "i");
+    if (regex.test(line)) {
+      currentSpot = parseInt(spot);
       
       spotTitle.innerText = spots[spot].name;
+
       // Clean items leftovers
       for (let i=0; i<10; i++) {
         const item = document.getElementById("item" + i);
@@ -150,8 +209,15 @@ function populateEntries(name) {
         for (const tug of ["medium", "heavy", "light"]) {
           item.classList.remove(tug)
         };
+        const records = item.querySelectorAll("div[class*='record']");
+        for (const record of records) {
+          record.removeAttribute("data-min");
+          record.removeAttribute("data-max");
+          record.removeAttribute("style")
+        }
         item.classList.remove("show")
       }
+
       // Fetch spot fishes and fill entries
       spots[spot].fishes.forEach((fish, index) => {
         const name = fish.name;
@@ -169,6 +235,7 @@ function populateEntries(name) {
         });
         item.classList.add("show")
       })
+
       break
     }
   }
@@ -197,6 +264,7 @@ function updateLog(fish) {
   // const fishSize = fish.detail.size;
   // const sizeUnit = fish.detail.unit;
   // const totalFishes = fish.detail.amount;
+  const chum = fish.detail.chum;
   const spotID = fish.detail.spotID;
 
   const regex = new RegExp(`${fishName}`, "i");
@@ -215,7 +283,7 @@ function updateLog(fish) {
     spotRecord[fishID].chum = {}
   }
 
-  if (!chumEffect) {
+  if (!chum) {
     fishRecord = spotRecord[fishID]
   } else {
     fishRecord = spotRecord[fishID].chum
@@ -224,25 +292,21 @@ function updateLog(fish) {
   if (!("min" in fishRecord)) {
     fishRecord.min = fishTime;
     fishRecord.max = fishTime;
-    updateRecord(fishID, fishRecord)
+    updateRecord(fishID, fishRecord, chum)
   } else {
     if (fishTime < fishRecord.min) {
       fishRecord.min = fishTime;
-      updateRecord(fishID, fishRecord)
+      updateRecord(fishID, fishRecord, chum)
     } else if (fishTime > fishRecord.max) {
       fishRecord.max = fishTime;
-      updateRecord(fishID, fishRecord)
+      updateRecord(fishID, fishRecord, chum)
     }
-  }
-
-  if (chumEffect) {
-    chumEffect = false
   }
 }
 
-function updateRecord(id, record) {
+function updateRecord(id, record, wasChum) {
   let recordMark;
-  if (!chumEffect) {
+  if (!wasChum) {
     recordMark = spotFishes.querySelector(`.fish[data-fishid="${id}"] .label .record`);
   } else {
     recordMark = spotFishes.querySelector(`.fish[data-fishid="${id}"] .label .recordChum`);
