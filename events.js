@@ -1,11 +1,10 @@
-let timerStart = 0, timerInterval, currentZone, currentSpot, totalWidth;
+let timerStart = 0, timerInterval, currentZone, currentSpot;
 
 const container = document.getElementById("container");
 const spotTitle = document.getElementById("fishing-spot");
 const timer = document.getElementById("timer");
 const spotFishes = document.getElementById("list");
 const marker = document.getElementById("marker");
-const offset = getComputedStyle(document.documentElement,null).getPropertyValue('--icon-size');
 
 const fishingRecord = {};
 // Init zone ids record
@@ -218,15 +217,14 @@ function updateLog(fish) {
 
 function updateRecord(id, record) {
   const recordMark = spotFishes.querySelector(`.fish[data-fishid="${id}"] .label .record`);
-  totalWidth = container.offsetWidth - parseInt(offset);
 
-  const minMark = (totalWidth * record.min) / 60;
-  const maxMark = ((totalWidth * record.max) / 60) - minMark;
+  const minMark = (100 * record.min) / 60;
+  const maxMark = ((100 * record.max) / 60) - minMark;
     
   recordMark.setAttribute("data-min", record.min);
-  recordMark.style.left = minMark + "px";
+  recordMark.style.left = minMark + "%";
   recordMark.setAttribute("data-max", record.max);
-  recordMark.style.width = maxMark + "px"
+  recordMark.style.width = maxMark + "%"
 }
 
 function debug() {
