@@ -20,10 +20,11 @@ if (Object.entries(fishingRecord).length < 1) {
 const regex = {
   English: {
     show: [
-      /^You cast your line.+\.$/
+      /^You cast your line.+\.$/,
+      /unknown/i
     ],
     stat: [
-      /^(?:\s+. )?You (gain|lose) the effect of .{2}(.+)\.$/
+      /^.+You (gain|lose) the effect of .{2}(.+)\.$/
     ],
     stop: [
       /^Something bites/,
@@ -168,7 +169,7 @@ function startCasting(e) {
   timerStart = Date.now();
   wasChum = false; // Reset for good measure
   if (!chumEffect) {
-    document.body.parentElement.classList.remove("chum-active");
+    document.body.parentElement.classList.remove("chum-active")
   } else {
     document.body.parentElement.classList.add("chum-active");
     wasChum = true
@@ -179,65 +180,70 @@ function startCasting(e) {
   timerInterval = window.setInterval(updateTimer, 100);
   if (marker.getAttribute("style")) {
     marker.style.width = "0px";
-    marker.removeAttribute("style");
+    marker.removeAttribute("style")
   }
-  // Kinda ugly but it works for now soooo
+  // Kinda ugly. Will look into it later
   setTimeout(() => {
     marker.classList.add("transition");
     marker.classList.add("casting")
   }, 10)
 }
 
-function populateEntries(line) {
-  // Pre-filter fishing log so you only search in relevant area
-  //const spots = Object.entries(fishingLog).find(zone => zone[0] == parseInt(currentZone));
-  const spots = fishingLog[currentZone];
-  for (const spot in spots) {
-    const regex = new RegExp(spots[spot].name, "i");
-    if (regex.test(line)) {
-      currentSpot = parseInt(spot);
-      
-      spotTitle.innerText = spots[spot].name;
-
-      // Clean items leftovers
-      for (let i=0; i<10; i++) {
-        const item = document.getElementById("item" + i);
-        item.querySelector(".icon img").src = "";
-        item.querySelector(".label .name").innerHTML = "";
-        // item.querySelector(".label .window").innerHTML = "";
-        item.removeAttribute("data-fishid");
-        for (const tug of ["medium", "heavy", "light"]) {
-          item.classList.remove(tug)
-        };
-        const records = item.querySelectorAll("div[class*='record']");
-        for (const record of records) {
-          record.removeAttribute("data-min");
-          record.removeAttribute("data-max");
-          record.removeAttribute("style")
-        }
-        item.classList.remove("show")
-      }
-
-      // Fetch spot fishes and fill entries
-      spots[spot].fishes.forEach((fish, index) => {
-        const name = fish.name;
-        const icon = "https://xivapi.com" + fish.icon;
-        const item = document.getElementById("item" + index);
-        const tug = fish.tug;
-        item.querySelector(".icon img").src = icon;
-        item.querySelector(".label .name").innerText = name;
-        // item.querySelector(".label .window").innerHTML = "";
-        item.setAttribute("data-fishid", fish.id);
-        ["medium", "heavy", "light"].forEach((t, index) => {
-          if (tug == index) {
-            item.classList.add(t);
-          }
-        });
-        item.classList.add("show")
-      })
-
-      break
+function resetEntries() {
+  for (let i=0; i<10; i++) {
+    const item = document.getElementById("item" + i);
+    item.querySelector(".icon img").src = "";
+    item.querySelector(".label .name").innerHTML = "";
+    // item.querySelector(".label .window").innerHTML = "";
+    item.removeAttribute("data-fishid");
+    for (const tug of ["medium", "heavy", "light"]) {
+      item.classList.remove(tug)
+    };
+    const records = item.querySelectorAll("div[class*='record']");
+    for (const record of records) {
+      record.removeAttribute("data-min");
+      record.removeAttribute("data-max");
+      record.removeAttribute("style")
     }
+    item.classList.remove("show")
+  }
+}
+
+function populateEntries(line) {
+  if (regex[lang].show[1].test(line)) {
+    currentSpot = undefined;
+    spotTitle.innerText = "???"
+  } else { // Pre-filter fishing log so you only search in relevant area
+    const spots = fishingLog[currentZone];
+    for (const spot in spots) {
+      const regex = new RegExp(spots[spot].name, "i");
+      if (regex.test(line)) {
+        if (spot != currentSpot) { // Clean items leftovers
+          currentSpot = parseInt(spot);
+          resetEntries()
+        }
+        break
+      }
+    }
+    spotTitle.innerText = spots[currentSpot].name;
+
+    // Fetch spot fishes and fill entries
+    spots[currentSpot].fishes.forEach((fish, index) => {
+      const name = fish.name;
+      const icon = "https://xivapi.com" + fish.icon;
+      const item = document.getElementById("item" + index);
+      const tug = fish.tug;
+      item.querySelector(".icon img").src = icon;
+      item.querySelector(".label .name").innerText = name;
+      // item.querySelector(".label .window").innerHTML = "";
+      item.setAttribute("data-fishid", fish.id);
+      ["medium", "heavy", "light"].forEach((t, index) => {
+        if (tug == index) {
+          item.classList.add(t);
+        }
+      });
+      item.classList.add("show")
+    })
   }
 }
 
@@ -330,7 +336,7 @@ function debug() {
   currentZone = 135;
   document.dispatchEvent(new CustomEvent("startCasting", {
     detail: {
-      name: "the salt strand"
+      line: "the salt strand"
     }
   }));
   /* window.setTimeout(() => {
