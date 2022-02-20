@@ -24,12 +24,20 @@
       .flex {
         display: flex;
       }
+      .container {
+        position: relative;
+        width: 100%;
+      }
       #container {
         display: none;
-        max-width: 33vw;
         background: rgba(10,10,10,.5);
         color: white;
         font-family: sans-serif;
+      }
+      @media screen and (min-width: 1280px) {
+        #container {
+          max-width: 33vw;
+        }
       }
       html.fishing #container {
         display: block;
@@ -50,27 +58,26 @@
       #spot {
         flex-basis: 100%;
       }
-      .offset {
-        width: calc(var(--icon-size) * 1px);
-      }
       #marker {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
+        z-index: 1;
       }
       .markline {
+        display: none;
         width: 0px;
         height: 100%;
         border-right: 3px solid black;
-        z-index: 1;
       }
-      html.marker-on .markline {
+      html.marker-active .markline {
+        display: block;
         animation-duration: 60s;
-        animation-delay: 100ms; /* Probably placebo */
         animation-name: slidein;
         animation-timing-function: linear; /* This is very important! If not set it will default to ease and not align with min max records! */
+        animation-fill-mode: forwards; /* Stays at 100% once finished */
       }
       @keyframes slidein {
         from {
@@ -88,7 +95,7 @@
       .fish:not(:first-of-type).heavy {
         margin-top: 1px;
       }
-      .icon {
+      .icon, .offset {
         width: calc(var(--icon-size) * 1px);
         flex-shrink: 0;
       }
@@ -107,7 +114,7 @@
         z-index: 2;
       }
       .label .name:not(:empty) {
-        padding: .5rem;
+        padding-left: .5rem;
       }
       .record, .record-chum {
         position: absolute;
@@ -140,7 +147,9 @@
       <div id="entries">
         <div id="marker" class="flex">
           <div class="offset"></div>
-          <div class="markline"></div>
+          <div class="container">
+            <div class="markline"></div>
+          </div>
         </div>
         <div id="item0" class="fish flex">
           <div class="icon"><img src=""></div>
