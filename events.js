@@ -153,7 +153,7 @@ document.addEventListener("stopCasting", clearTimer);
 document.addEventListener("stopFishing", () => {
   html.classList.remove("fishing");
   marker.removeAttribute("style");
-  html.classList.remove("marker-on");
+  html.classList.remove("marker-active");
   timer.innerText = (0).toFixed(1);
   currentSpot = undefined;
   chumEffect = false;
@@ -170,7 +170,7 @@ document.addEventListener("buffStatus", (e) => {
 
 function clearTimer() {
   html.classList.remove("casting");
-  marker.style.webkitAnimationPlayState = "paused";
+  marker.style.animationPlayState = "paused";
   if (timerInterval) {
     window.clearInterval(timerInterval);
   }
@@ -185,7 +185,7 @@ function updateTimer() {
 function startCasting(e) {
   timerStart = Date.now();
   html.classList.add("fishing");
-  html.classList.remove("marker-on");
+  html.classList.remove("marker-active");
   marker.removeAttribute("style");
   html.classList.add("casting");
   wasChum = false; // Reset for good measure
@@ -199,7 +199,7 @@ function startCasting(e) {
   timer.innerText = (0).toFixed(1);
   timerInterval = window.setInterval(updateTimer, 100);
   setTimeout(() => { // This appears to be the only way to reset before re-runs
-    html.classList.add("marker-on")
+    html.classList.add("marker-active")
   }, 10)
 }
 
@@ -322,8 +322,18 @@ function updateRecord(id, record, wasChum) {
     return parseFloat(output.toFixed(1))
   }
 
-  const minMark = getPerc(record.min)
-  const maxMark = (getPerc(record.max)) - minMark;
+  let minMark = getPerc(record.min)
+  let maxMark = (getPerc(record.max)) - minMark;
+
+  // Sanitize values >= 60s
+  if (minMark >= 100) {
+    minMark = 99;
+    if (maxMark >= 100) {
+      maxMark = 1;
+    }
+  } else if (maxMark >= 100) {
+    maxMark = 100 - minMark
+  }
     
   recordMark.setAttribute("data-min", record.min);
   recordMark.style.left = minMark + "%";
