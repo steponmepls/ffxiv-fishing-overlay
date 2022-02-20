@@ -1,10 +1,11 @@
 let lang, timerStart = 0, timerInterval, currentZone, currentSpot, chumEffect = false, wasChum = false;
 
+const html = document.body.parentElement;
 const container = document.getElementById("container");
-const spotTitle = document.getElementById("fishing-spot");
+const spotTitle = document.getElementById("spot");
 const timer = document.getElementById("timer");
-const spotFishes = document.getElementById("list");
-const marker = document.getElementById("marker");
+const spotFishes = document.getElementById("entries");
+const marker = document.getElementById("marker").querySelector(".markline");
 
 const fishingRecord = {};
 // Init zone ids record
@@ -150,10 +151,12 @@ addOverlayListener("LogLine", (e) => {
 document.addEventListener("startCasting", startCasting);
 document.addEventListener("stopCasting", clearTimer);
 document.addEventListener("stopFishing", () => {
-  container.removeAttribute("class");
-  timer.innerText = 0.0.toFixed(1); // 0.toFixed(1) will fail!
-  currentSpot = null,
-  chumEffect = false,
+  html.classList.remove("fishing");
+  marker.removeAttribute("style");
+  html.classList.remove("marker-on");
+  timer.innerText = (0).toFixed(1);
+  currentSpot = undefined;
+  chumEffect = false;
   wasChum = false
 });
 document.addEventListener("fishCaught", updateLog);
@@ -165,27 +168,38 @@ document.addEventListener("buffStatus", (e) => {
   }
 })
 
+function clearTimer() {
+  html.classList.remove("casting");
+  marker.style.webkitAnimationPlayState = "paused";
+  if (timerInterval) {
+    window.clearInterval(timerInterval);
+  }
+}
+
+function updateTimer() {
+  const raw = (Date.now() - timerStart) / 1000;
+  const formatted = raw.toFixed(1);
+  timer.innerText = formatted
+}
+
 function startCasting(e) {
   timerStart = Date.now();
+  html.classList.add("fishing");
+  html.classList.remove("marker-on");
+  marker.removeAttribute("style");
+  html.classList.add("casting");
   wasChum = false; // Reset for good measure
   if (!chumEffect) {
-    document.body.parentElement.classList.remove("chum-active")
+    html.classList.remove("chum-active")
   } else {
-    document.body.parentElement.classList.add("chum-active");
+    html.classList.add("chum-active");
     wasChum = true
   }
   populateEntries(e.detail.line);
-  timer.innerText = 0.0.toFixed(1); // 0.toFixed(1) will fail!
-  container.classList.add("show");
+  timer.innerText = (0).toFixed(1);
   timerInterval = window.setInterval(updateTimer, 100);
-  if (marker.getAttribute("style")) {
-    marker.style.width = "0px";
-    marker.removeAttribute("style")
-  }
-  // Kinda ugly. Will look into it later
-  setTimeout(() => {
-    marker.classList.add("transition");
-    marker.classList.add("casting")
+  setTimeout(() => { // This appears to be the only way to reset before re-runs
+    html.classList.add("marker-on")
   }, 10)
 }
 
@@ -205,7 +219,7 @@ function resetEntries() {
       record.removeAttribute("data-max");
       record.removeAttribute("style")
     }
-    item.classList.remove("show")
+    //item.classList.remove("show")
   }
 }
 
@@ -229,9 +243,9 @@ function populateEntries(line) {
 
     // Fetch spot fishes and fill entries
     spots[currentSpot].fishes.forEach((fish, index) => {
+      const item = document.getElementById("item" + index);
       const name = fish.name;
       const icon = "https://xivapi.com" + fish.icon;
-      const item = document.getElementById("item" + index);
       const tug = fish.tug;
       item.querySelector(".icon img").src = icon;
       item.querySelector(".label .name").innerText = name;
@@ -242,24 +256,9 @@ function populateEntries(line) {
           item.classList.add(t);
         }
       });
-      item.classList.add("show")
+      // item.classList.add("show")
     })
   }
-}
-
-function clearTimer() {
-  if (timerInterval) {
-    window.clearInterval(timerInterval);
-    timerInterval = null;
-    marker.style.width=getComputedStyle(marker).width;
-    marker.removeAttribute("class");
-  }
-}
-
-function updateTimer() {
-  const raw = (Date.now() - timerStart) / 1000;
-  const formatted = raw.toFixed(1);
-  timer.innerText = formatted
 }
 
 function updateLog(fish) {
@@ -315,7 +314,7 @@ function updateRecord(id, record, wasChum) {
   if (!wasChum) {
     recordMark = spotFishes.querySelector(`.fish[data-fishid="${id}"] .label .record`);
   } else {
-    recordMark = spotFishes.querySelector(`.fish[data-fishid="${id}"] .label .recordChum`);
+    recordMark = spotFishes.querySelector(`.fish[data-fishid="${id}"] .label .record-chum`);
   }
 
   function getPerc(time) {
@@ -334,6 +333,7 @@ function updateRecord(id, record, wasChum) {
 
 function debug() {
   currentZone = 135;
+  lang = "English";
   document.dispatchEvent(new CustomEvent("startCasting", {
     detail: {
       line: "the salt strand"
@@ -341,7 +341,7 @@ function debug() {
   }));
   /* window.setTimeout(() => {
     document.dispatchEvent(new CustomEvent("stopCasting"));
-  }, 10000) */
+  }, 3000) */
 }
 
 function debugCatch() {
