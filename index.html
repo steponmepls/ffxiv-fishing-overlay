@@ -1,224 +1,238 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <title>Test overlay</title>
-        <script type="text/javascript" src="https://ngld.github.io/OverlayPlugin/assets/shared/common.min.js"></script>
-        <script type="text/javascript" src="./fishinglog.js" defer></script>
-        <script type="text/javascript" src="./events.js" defer></script>
-        <style>
-            :root {
-                --icon-size: 40px;
-            }
-            html {
-                -webkit-box-sizing: border-box;
-                -moz-box-sizing: border-box;
-                box-sizing: border-box;
-                overflow: hidden;
-            }
-            *, *:before, *:after {
-                -webkit-box-sizing: inherit;
-                -moz-box-sizing: inherit;
-                box-sizing: inherit;
-            }
-            #container {
-                display: none;
-                width: 100%;
-                height: auto;
-                max-height: 434px;
-                background: rgba(10,10,10,.5);
-                color: white;
-                font-family: sans-serif;
-            }
-            #container.show {
-                display: block;
-            }
-            #header {
-                display: flex;
-            }
-            #fishing-spot {
-                width: 100%;
-            }
-            #fishing-spot, #timer {
-                padding: .5rem;
-            }
-            #list {
-                position: relative;
-            }
-            #marker {
-                position: absolute;
-                top: 0;
-                left: var(--icon-size, 40px);
-                width: 0px;
-                max-width: calc(100% - var(--icon-size, 40px));
-                height: 100%;
-                border-right: 1px solid red;
-                z-index: 1;
-            }
-            #marker.transition {
-                -webkit-transition: width 60s 0s linear;
-                -moz-transition: width 60s 0s linear;
-                -o-transition: width 60s 0s linear;
-                transition: width 60s 0s linear;
-            }
-            #marker.casting {
-                width: calc(100% - var(--icon-size, 40px));
-            }
-            .fish {
-                display: none;
-                max-height: var(--icon-size, 40px);
-                margin-top: 1px;
-                align-items: center;
-                position: relative;
-            }
-            .fish.show {
-                display: flex;
-            }
-            .fish:first-of-type {
-                margin-top: none;
-            }
-            .fish, .icon, .icon img {
-                max-height: var(--icon-size, 40px);
-            }
-            .icon {
-                width: var(--icon-size, 40px);
-                flex-shrink: 0;
-            }
-            .label {
-                display: flex;
-                width: 100%;
-                min-height: var(--icon-size, 40px);
-                position: relative;
-                align-items: center
-            }
-            .label .name {
-                font-weight: bold;
-                z-index: 2;
-            }
-            .label .name:not(:empty) {
-                padding: .5rem;
-            }
-            .record, .recordChum {
-                position: absolute;
-                display: none;
-                min-width: 2px;
-                height: 100%;
-                background-color: rgba(10,10,10,.5);
-            }
-            :root:not(.chum-active) .record[data-min], 
-            :root.chum-active .recordChum[data-min] {
-                display: block;
-            }
-            .light {
-                background-color: rgb(50, 205, 50, .5);
-            }
-            .medium {
-                background-color: rgb(255, 215, 0, .5);
-            }
-            .heavy {
-                background-color: rgb(165, 42, 42, .5);
-            }
-        </style>
-    </head>
-    <body>
-        <div id="container">
-            <div id="header">
-                <div id="fishing-spot"></div>
-                <div id="timer">0.0</div>
-            </div>
-            <div id="list">
-                <div id="marker"></div>
-                <div id="item0" class="fish">
-                    <div class="icon"><img src=""></div>
-                    <div class="label">
-                        <div class="record"></div>
-                        <div class="recordChum"></div>
-                        <div class="name"></div>
-                        <div class="window"></div>
-                    </div>
-                </div>
-                <div id="item1" class="fish">
-                    <div class="icon"><img src=""></div>
-                    <div class="label">
-                        <div class="record"></div>
-                        <div class="recordChum"></div>
-                        <div class="name"></div>
-                        <div class="window"></div>
-                    </div>
-                </div>
-                <div id="item2" class="fish">
-                    <div class="icon"><img src=""></div>
-                    <div class="label">
-                        <div class="record"></div>
-                        <div class="recordChum"></div>
-                        <div class="name"></div>
-                        <div class="window"></div>
-                    </div>
-                </div>
-                <div id="item3" class="fish">
-                    <div class="icon"><img src=""></div>
-                    <div class="label">
-                        <div class="record"></div>
-                        <div class="recordChum"></div>
-                        <div class="name"></div>
-                        <div class="window"></div>
-                    </div>
-                </div>
-                <div id="item4" class="fish">
-                    <div class="icon"><img src=""></div>
-                    <div class="label">
-                        <div class="record"></div>
-                        <div class="recordChum"></div>
-                        <div class="name"></div>
-                        <div class="window"></div>
-                    </div>
-                </div>
-                <div id="item5" class="fish">
-                    <div class="icon"><img src=""></div>
-                    <div class="label">
-                        <div class="record"></div>
-                        <div class="recordChum"></div>
-                        <div class="name"></div>
-                        <div class="window"></div>
-                    </div>
-                </div>
-                <div id="item6" class="fish">
-                    <div class="icon"><img src=""></div>
-                    <div class="label">
-                        <div class="record"></div>
-                        <div class="recordChum"></div>
-                        <div class="name"></div>
-                        <div class="window"></div>
-                    </div>
-                </div>
-                <div id="item7" class="fish">
-                    <div class="icon"><img src=""></div>
-                    <div class="label">
-                        <div class="record"></div>
-                        <div class="recordChum"></div>
-                        <div class="name"></div>
-                        <div class="window"></div>
-                    </div>
-                </div>
-                <div id="item8" class="fish">
-                    <div class="icon"><img src=""></div>
-                    <div class="label">
-                        <div class="record"></div>
-                        <div class="recordChum"></div>
-                        <div class="name"></div>
-                        <div class="window"></div>
-                    </div>
-                </div>
-                <div id="item9" class="fish">
-                    <div class="icon"><img src=""></div>
-                    <div class="label">
-                        <div class="record"></div>
-                        <div class="recordChum"></div>
-                        <div class="name"></div>
-                        <div class="window"></div>
-                    </div>
-                </div>
-            </div>
+  <head>
+    <meta charset="utf-8" />
+    <title>Test overlay</title>
+    <script type="text/javascript" src="https://ngld.github.io/OverlayPlugin/assets/shared/common.min.js"></script>
+    <script type="text/javascript" src="./fishinglog.js" defer></script>
+    <script type="text/javascript" src="./events.js" defer></script>
+    <style>
+      html {
+          -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          overflow: hidden;
+      }
+      *, *:before, *:after {
+          -webkit-box-sizing: inherit;
+          -moz-box-sizing: inherit;
+          box-sizing: inherit;
+      }
+      :root {
+        --icon-size: 24;
+      }
+      .flex {
+        display: flex;
+      }
+      #container {
+        display: none;
+        max-width: 33vw;
+        background: rgba(10,10,10,.5);
+        color: white;
+        font-family: sans-serif;
+      }
+      html.fishing #container {
+        display: block;
+      }
+      #container > :first-child > * {
+        padding: .5rem;
+      }
+      #spot:empty::before {
+        content: 'Unknown';
+        opacity: .7;
+      }
+      #timer:empty::before {
+        content: '0.0';
+      }
+      #entries {
+        position: relative;
+      }
+      #spot {
+        flex-basis: 100%;
+      }
+      .offset {
+        width: calc(var(--icon-size) * 1px);
+      }
+      #marker {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .markline {
+        width: 0px;
+        height: 100%;
+        border-right: 3px solid black;
+        z-index: 1;
+      }
+      html.marker-on .markline {
+        animation-duration: 60s;
+        animation-delay: 100ms; /* Probably placebo */
+        animation-name: slidein;
+        animation-timing-function: linear; /* This is very important! If not set it will default to ease and not align with min max records! */
+      }
+      @keyframes slidein {
+        from {
+          width: 0%;
+        }
+        to {
+          width: 100%;
+        }
+      }
+      .fish {
+        max-height: calc(var(--icon-size) * 1px);
+      }
+      .fish:not(:first-of-type).light, 
+      .fish:not(:first-of-type).medium, 
+      .fish:not(:first-of-type).heavy {
+        margin-top: 1px;
+      }
+      .icon {
+        width: calc(var(--icon-size) * 1px);
+        flex-shrink: 0;
+      }
+      .icon img { /* Get rid of unnecessary spacing at the bottom */
+        display: block;
+        width: auto;
+        height: 100%;
+      }
+      .label {
+        position: relative;
+        width: 100%;
+      }
+      .label .name {
+        font-weight: bold;
+        align-self: center;
+        z-index: 2;
+      }
+      .label .name:not(:empty) {
+        padding: .5rem;
+      }
+      .record, .record-chum {
+        position: absolute;
+        display: none;
+        min-width: 2px;
+        height: 100%;
+        background-color: rgba(10,10,10,.5);
+      }
+      html:not(.chum-active) .record[data-min], 
+      html.chum-active .recordChum[data-min] {
+          display: block;
+      }
+      .light {
+      background-color: rgb(50, 205, 50, .5);
+      }
+      .medium {
+          background-color: rgb(255, 215, 0, .5);
+      }
+      .heavy {
+          background-color: rgb(165, 42, 42, .5);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div class="flex">
+        <div id="spot"></div>
+        <div id="timer"></div>
+      </div>
+      <div id="entries">
+        <div id="marker" class="flex">
+          <div class="offset"></div>
+          <div class="markline"></div>
         </div>
-    </body>
+        <div id="item0" class="fish flex">
+          <div class="icon"><img src=""></div>
+          <div class="label flex">
+            <div class="record"></div>
+            <div class="record-chum"></div>
+            <div class="name"></div>
+            <div class="window"></div>
+          </div>
+        </div>
+        <div id="item1" class="fish flex">
+          <div class="icon"><img src=""></div>
+          <div class="label flex">
+            <div class="record"></div>
+            <div class="record-chum"></div>
+            <div class="name"></div>
+            <div class="window"></div>
+          </div>
+        </div>
+        <div id="item2" class="fish flex">
+          <div class="icon"><img src=""></div>
+          <div class="label flex">
+            <div class="record"></div>
+            <div class="record-chum"></div>
+            <div class="name"></div>
+            <div class="window"></div>
+          </div>
+        </div>
+        <div id="item3" class="fish flex">
+          <div class="icon"><img src=""></div>
+          <div class="label flex">
+            <div class="record"></div>
+            <div class="record-chum"></div>
+            <div class="name"></div>
+            <div class="window"></div>
+          </div>
+        </div>
+        <div id="item4" class="fish flex">
+          <div class="icon"><img src=""></div>
+          <div class="label flex">
+            <div class="record"></div>
+            <div class="record-chum"></div>
+            <div class="name"></div>
+            <div class="window"></div>
+          </div>
+        </div>
+        <div id="item5" class="fish flex">
+          <div class="icon"><img src=""></div>
+          <div class="label flex">
+            <div class="record"></div>
+            <div class="record-chum"></div>
+            <div class="name"></div>
+            <div class="window"></div>
+          </div>
+        </div>
+        <div id="item6" class="fish flex">
+          <div class="icon"><img src=""></div>
+          <div class="label flex">
+            <div class="record"></div>
+            <div class="record-chum"></div>
+            <div class="name"></div>
+            <div class="window"></div>
+          </div>
+        </div>
+        <div id="item7" class="fish flex">
+          <div class="icon"><img src=""></div>
+          <div class="label flex">
+            <div class="record"></div>
+            <div class="record-chum"></div>
+            <div class="name"></div>
+            <div class="window"></div>
+          </div>
+        </div>
+        <div id="item8" class="fish flex">
+          <div class="icon"><img src=""></div>
+          <div class="label flex">
+            <div class="record"></div>
+            <div class="record-chum"></div>
+            <div class="name"></div>
+            <div class="window"></div>
+          </div>
+        </div>
+        <div id="item9" class="fish flex">
+          <div class="icon"><img src=""></div>
+          <div class="label flex">
+            <div class="record"></div>
+            <div class="record-chum"></div>
+            <div class="name"></div>
+            <div class="window"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
