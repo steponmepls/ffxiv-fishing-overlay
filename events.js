@@ -10,8 +10,7 @@ const marker = document.getElementById("marker").querySelector(".markline");
 const fishingLog = {};
 const fishingRecord = {};
 
-fetch("https://steponmepls.github.io/fishing-overlay/fishinglog.json")
-//fetch("./fishinglog.json")
+fetch("./fishinglog.json")
 .then(res => res.json())
 .then(data => {
   for (const key in data) {
@@ -75,7 +74,8 @@ const regex = {
     stop: [],
     loot: [],
     hide: []
-  }
+  },
+  Escaped: /[-\/\\^$*+?.()|[\]{}]/g
 }
 
 // Fetch game language from ACT settings
@@ -168,7 +168,7 @@ document.addEventListener("stopFishing", () => {
   marker.removeAttribute("style");
   html.classList.remove("marker-active");
   timer.innerText = (0).toFixed(1);
-  currentSpot = undefined;
+  // currentSpot = undefined;
   chumEffect = false;
   wasChum = false
 });
@@ -196,24 +196,49 @@ function updateTimer() {
 }
 
 function startCasting(e) {
+  // Reset timers before rerun
   timerStart = Date.now();
+  timer.innerText = (0).toFixed(1);
+  timerInterval = window.setInterval(updateTimer, 100);
+
+  // Reset classes
   html.classList.add("fishing");
   html.classList.remove("marker-active");
   marker.removeAttribute("style");
   html.classList.add("casting");
-  wasChum = false; // Reset for good measure
+
+  // Chum check
+  wasChum = false;
   if (!chumEffect) {
     html.classList.remove("chum-active")
   } else {
     html.classList.add("chum-active");
     wasChum = true
   }
-  populateEntries(e.detail.line);
-  timer.innerText = (0).toFixed(1);
-  timerInterval = window.setInterval(updateTimer, 100);
-  setTimeout(() => { // This appears to be the only way to reset before re-runs
-    html.classList.add("marker-active")
-  }, 10)
+
+  if (regex[lang].show[1].test(e.detail.line)) {
+    console.log("Set spot to undefined!");
+    currentSpot = undefined;
+    spotTitle.innerText = "???"
+  } else {
+    const spots = fishingLog[currentZone];
+    for (const spot in spots) {
+      const sanitized = spots[spot].name.replace(regex.Escaped, '\\$&');
+      const rule = new RegExp(sanitized, "i");
+      if (rule.test(e.detail.line)) {
+        if (spot != currentSpot) {
+          currentSpot = parseInt(spot);
+          spotTitle.innerText = spots[currentSpot].name;
+          resetEntries();
+          populateEntries()
+        }
+        break
+      }
+    }
+    setTimeout(() => {
+      html.classList.add("marker-active")
+    }, 10);
+  }
 }
 
 function resetEntries() {
@@ -227,51 +252,33 @@ function resetEntries() {
       item.classList.remove(tug)
     };
     const records = item.querySelectorAll("div[class*='record']");
+    console.log("Removing records..");
     for (const record of records) {
       record.removeAttribute("data-min");
       record.removeAttribute("data-max");
       record.removeAttribute("style")
     }
-    //item.classList.remove("show")
   }
 }
 
-function populateEntries(line) {
-  if (regex[lang].show[1].test(line)) {
-    currentSpot = undefined;
-    spotTitle.innerText = "???"
-  } else { // Pre-filter fishing log so you only search in relevant area
-    const spots = fishingLog[currentZone];
-    for (const spot in spots) {
-      const regex = new RegExp(spots[spot].name, "i");
-      if (regex.test(line)) {
-        if (spot != currentSpot) { // Clean items leftovers
-          currentSpot = parseInt(spot);
-          resetEntries()
-        }
-        break
-      }
-    }
-    spotTitle.innerText = spots[currentSpot].name;
+function populateEntries() { // Fetch spot fishes and fill entries
+  const spots = fishingLog[currentZone];
 
-    // Fetch spot fishes and fill entries
-    spots[currentSpot].fishes.forEach((fish, index) => {
-      const item = document.getElementById("item" + index);
-      const name = fish.name;
-      const icon = "https://xivapi.com" + fish.icon;
-      const tug = fish.tug;
-      item.querySelector(".icon img").src = icon;
-      item.querySelector(".label .name").innerText = name;
-      // item.querySelector(".label .window").innerHTML = "";
-      item.setAttribute("data-fishid", fish.id);
-      ["medium", "heavy", "light"].forEach((t, index) => {
-        if (tug == index) {
-          item.classList.add(t);
-        }
-      });
-      // item.classList.add("show")
+  spots[currentSpot].fishes.forEach((fish, index) => {
+    const item = document.getElementById("item" + index);
+    const name = fish.name;
+    const icon = "https://xivapi.com" + fish.icon;
+    const tug = fish.tug;
+    item.querySelector(".icon img").src = icon;
+    item.querySelector(".label .name").innerText = name;
+    // item.querySelector(".label .window").innerHTML = "";
+    item.setAttribute("data-fishid", fish.id);
+    ["medium", "heavy", "light"].forEach((t, index) => {
+      if (tug == index) {
+        item.classList.add(t);
+      }
     })
-  }
+  })
 }
 
 function updateLog(fish) {
