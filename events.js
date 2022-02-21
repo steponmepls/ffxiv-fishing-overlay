@@ -8,24 +8,28 @@ const spotFishes = document.getElementById("entries");
 const marker = document.getElementById("marker").querySelector(".markline");
 
 const fishingLog = {};
-fetch("./fishinglog.json")
+const fishingRecord = {};
+
+fetch("https://steponmepls.github.io/fishing-overlay/fishinglog.json")
+//fetch("./fishinglog.json")
 .then(res => res.json())
 .then(data => {
   for (const key in data) {
     fishingLog[key] = data[key]
-  }
-})
-
-const fishingRecord = {};
-// Init zone ids record
-if (Object.entries(fishingRecord).length < 1) {
-  for (const zone in fishingLog) {
-    fishingRecord[zone] = {};
-    for (const spot in fishingLog[zone]) {
-      fishingRecord[zone][spot] = {}
+  };
+  // Init zone ids record
+  if (Object.entries(fishingRecord).length < 1) {
+    for (const zone in fishingLog) {
+      fishingRecord[zone] = {};
+      for (const spot in fishingLog[zone]) {
+        fishingRecord[zone][spot] = {}
+      }
     }
   }
-}
+  if (Object.values(fishingLog).length < 1 || Object.values(fishingRecord).length < 1) {
+    throw new Error("Missing database. Plugin is borked smh..");
+  }
+})
 
 const regex = {
   English: {
