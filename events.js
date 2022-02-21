@@ -7,11 +7,14 @@ const timer = document.getElementById("timer");
 const spotFishes = document.getElementById("entries");
 const marker = document.getElementById("marker").querySelector(".markline");
 
-const fishingLog = await fetch("./fishinglog.json")
-  .then(res => res.json())
-  .then(data => {
-    return data
-  });
+const fishingLog = {};
+fetch("./fishinglog.json")
+.then(res => res.json())
+.then(data => {
+  for (const key in data) {
+    fishingLog[key] = data[key]
+  }
+})
 
 const fishingRecord = {};
 // Init zone ids record
