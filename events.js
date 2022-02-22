@@ -204,6 +204,7 @@ function startCasting(e) {
   // Reset classes
   html.classList.add("fishing");
   html.classList.remove("marker-active");
+  void html.offsetWidth; // This forces reset for keyframe animation - Ex: https://jsfiddle.net/dhngeaps/
   marker.removeAttribute("style");
   html.classList.add("casting");
 
@@ -217,9 +218,8 @@ function startCasting(e) {
   }
 
   if (regex[lang].show[1].test(e.detail.line)) {
-    console.log("Set spot to undefined!");
     currentSpot = undefined;
-    spotTitle.innerText = "???"
+    spotTitle.innerText = ""
   } else {
     const spots = fishingLog[currentZone];
     for (const spot in spots) {
@@ -235,9 +235,7 @@ function startCasting(e) {
         break
       }
     }
-    setTimeout(() => {
-      html.classList.add("marker-active")
-    }, 10);
+    html.classList.add("marker-active")
   }
 }
 
@@ -277,7 +275,21 @@ function populateEntries() { // Fetch spot fishes and fill entries
       if (tug == index) {
         item.classList.add(t);
       }
-    })
+    });
+    // Add record marks
+    const spotRecord = fishingRecord[currentZone][spotID];
+    if (fish.id in spotRecord) {
+      let fishRecord, fishMark;
+      if ("min" in spotRecord[fish.id].chum) {
+        fishRecord = spotRecord[fish.id].chum;
+        fishMark = spotFishes.querySelector(`.fish[data-fishid="${fish.id}"] .label .record-chum`);
+        redrawRecord(fishRecord, fishMark)
+      } else {
+        fishRecord = spotRecord[fish.id];
+        fishMark = spotFishes.querySelector(`.fish[data-fishid="${fish.id}"] .label .record`);
+        redrawRecord(fishRecord, fishMark)
+      }
+    }
   })
 }
 
@@ -291,6 +303,7 @@ function updateLog(fish) {
   // const totalFishes = fish.detail.amount;
   const chum = fish.detail.chum;
   const spotID = fish.detail.spotID;
+  const spotRecord = fishingRecord[currentZone][spotID];
 
   const regex = new RegExp(`${fishName}`, "i");
   for (const item of fishingLog[currentZone][currentSpot].fishes) {
@@ -300,50 +313,45 @@ function updateLog(fish) {
     };
   }
 
-  const spotRecord = fishingRecord[currentZone][spotID];
-
   // Init if no entries yet
   if (!(fishID in spotRecord)) {
     spotRecord[fishID] = {}
     spotRecord[fishID].chum = {}
   }
 
-  if (!chum) {
-    fishRecord = spotRecord[fishID]
+  // Pick either chum or normal mark for a fish
+  let fishRecord, fishMark;
+  if (chum) {
+    fishRecord = spotRecord[fishID].chum;
+    fishMark = spotFishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record-chum`);
   } else {
-    fishRecord = spotRecord[fishID].chum
+    fishRecord = spotRecord[fishID];
+    fishMark = spotFishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record`);
   }
 
   if (!("min" in fishRecord)) {
     fishRecord.min = fishTime;
     fishRecord.max = fishTime;
-    updateRecord(fishID, fishRecord, chum)
+    redrawRecord(fishRecord, fishMark)
   } else {
     if (fishTime < fishRecord.min) {
       fishRecord.min = fishTime;
-      updateRecord(fishID, fishRecord, chum)
+      redrawRecord(fishRecord, fishMark)
     } else if (fishTime > fishRecord.max) {
       fishRecord.max = fishTime;
-      updateRecord(fishID, fishRecord, chum)
+      redrawRecord(fishRecord, fishMark)
     }
   }
 }
 
-function updateRecord(id, record, wasChum) {
-  let recordMark;
-  if (!wasChum) {
-    recordMark = spotFishes.querySelector(`.fish[data-fishid="${id}"] .label .record`);
-  } else {
-    recordMark = spotFishes.querySelector(`.fish[data-fishid="${id}"] .label .record-chum`);
-  }
+function redrawRecord(record, mark) {
+  let minMark = getPerc(record.min)
+  let maxMark = (getPerc(record.max)) - minMark;
 
   function getPerc(time) {
     const output = (100 * time) / 60;
     return parseFloat(output.toFixed(1))
   }
-
-  let minMark = getPerc(record.min)
-  let maxMark = (getPerc(record.max)) - minMark;
 
   // Sanitize values >= 60s
   if (minMark >= 100) {
@@ -355,10 +363,10 @@ function updateRecord(id, record, wasChum) {
     maxMark = 100 - minMark
   }
     
-  recordMark.setAttribute("data-min", record.min);
-  recordMark.style.left = minMark + "%";
-  recordMark.setAttribute("data-max", record.max);
-  recordMark.style.width = maxMark + "%"
+  mark.setAttribute("data-min", record.min);
+  mark.style.left = minMark + "%";
+  mark.setAttribute("data-max", record.max);
+  mark.style.width = maxMark + "%"
 }
 
 function debug() {
