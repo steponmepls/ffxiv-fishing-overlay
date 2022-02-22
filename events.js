@@ -1,4 +1,6 @@
-let lang, timerStart = 0, timerInterval, currentZone, currentSpot, chumEffect = false, wasChum = false;
+let lang, charList = {}, currentCharacter, currentConfig, timerStart = 0, timerInterval, currentZone, currentSpot, chumEffect = false, wasChum = false;
+
+const overlayId = OverlayPluginApi.overlayUuid;
 
 const html = document.body.parentElement;
 const container = document.getElementById("container");
@@ -8,7 +10,7 @@ const spotFishes = document.getElementById("entries");
 const marker = document.getElementById("marker").querySelector(".markline");
 
 const fishingLog = {};
-const fishingRecord = {};
+let fishingRecord = {};
 
 fetch("https://steponmepls.github.io/fishing-overlay/fishinglog.json")
 .then(res => {
@@ -22,18 +24,10 @@ fetch("https://steponmepls.github.io/fishing-overlay/fishinglog.json")
   for (const key in data) {
     fishingLog[key] = data[key]
   };
-  // Init zone ids record
-  if (Object.entries(fishingRecord).length < 1) {
-    for (const zone in fishingLog) {
-      fishingRecord[zone] = {};
-      for (const spot in fishingLog[zone]) {
-        fishingRecord[zone][spot] = {}
-      }
-    }
-  }
-  if (Object.values(fishingLog).length < 1 || Object.values(fishingRecord).length < 1) {
+  if (Object.values(fishingLog).length < 1) {
     throw new Error("Missing database. Plugin is borked smh..");
-  }
+  };
+  loadSettings()
 })
 .catch((error) => {
   throw Error(error)
@@ -93,16 +87,62 @@ const regex = {
   Escaped: /[-\/\\^$*+?.()|[\]{}]/g
 }
 
-// Fetch game language from ACT settings
-async function getLang() {
-  const output = await callOverlayHandler({ call: 'getLanguage' });
-  lang = output.language;
-  if (!lang) {
-    console.debug(lang)
-    throw new Error("ACT is broken. Wait for an update..");
+async function saveSettings(data) {
+  await callOverlayHandler({
+    call: 'saveData',
+    key: overlayId,
+    data: data,
+  });
+}
+
+async function loadSettings() {
+  const settings = await callOverlayHandler({ call: 'loadData', key: overlayId });
+  const charObj = await callOverlayHandler({ call: 'getCombatants' });
+  const character = charObj.combatants[0];
+
+  // Init settings first time launch
+  if (!("characters" in settings.data)) {
+    settings.data.characters = {};
+  }
+
+  const characters = settings.data.characters;
+
+  // Init character if not in settings
+  if (!(character.ID in characters)) {
+    characters[character.ID] = {};
+    characters[character.ID].worldID = character.WorldID;
+    characters[character.ID].worldName = character.WorldName;
+    characters[character.ID].name = character.Name;
+    characters[character.ID].records = {};
+    initRecords(characters[character.ID].records);
+    //saveSettings(settings.data);
+  }
+
+  fishingRecord = characters[character.ID].records;
+  console.log(settings.data)
+
+  function initRecords(record) {
+    for (const zone in fishingLog) {
+      record[zone] = {};
+      for (const spot in fishingLog[zone]) {
+        record[zone][spot] = {}
+      }
+    }
   }
 }
-getLang();
+
+// Fetch game info from ACT settings
+async function getInfo() {
+  const langObj = await callOverlayHandler({ call: 'getLanguage' });
+  lang = langObj.language;
+  const charObj = await callOverlayHandler({ call: 'getCombatants' });
+
+  currentCharacter = charObj.combatants[0].ID
+  if (!lang || !currentCharacter) {
+    throw new Error("ACT is broken. Wait for an update..")
+  }
+}
+getInfo();
 
 addOverlayListener("ChangeZone", (e) => {
   const newZone = e.zoneID;
