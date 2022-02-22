@@ -294,7 +294,7 @@ function populateEntries() { // Fetch spot fishes and fill entries
 }
 
 function updateLog(fish) {
-  let fishID, fishRecord;
+  let fishID;
 
   const fishName = fish.detail.name;
   const fishTime = fish.detail.time;
