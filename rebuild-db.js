@@ -126,9 +126,7 @@ function mergeEntries() {
       }
     }
     console.log("Updating output file..");
-    fs.writeFileSync("./fishinglog.json", JSON.stringify(fishingLog), (err) => {
-      if (err) throw err;
-      console.log("File saved!")
-    });
+    fs.writeFileSync("./fishinglog.json", JSON.stringify(fishingLog));
+    console.log("File saved!")
   }
 }
