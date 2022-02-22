@@ -250,7 +250,6 @@ function resetEntries() {
       item.classList.remove(tug)
     };
     const records = item.querySelectorAll("div[class*='record']");
-    console.log("Removing records..");
     for (const record of records) {
       record.removeAttribute("data-min");
       record.removeAttribute("data-max");
@@ -277,7 +276,7 @@ function populateEntries() { // Fetch spot fishes and fill entries
       }
     });
     // Add record marks
-    const spotRecord = fishingRecord[currentZone][spotID];
+    const spotRecord = fishingRecord[currentZone][currentSpot];
     if (fish.id in spotRecord) {
       let fishRecord, fishMark;
       if ("min" in spotRecord[fish.id].chum) {
