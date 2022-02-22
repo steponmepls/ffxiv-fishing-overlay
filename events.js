@@ -10,8 +10,14 @@ const marker = document.getElementById("marker").querySelector(".markline");
 const fishingLog = {};
 const fishingRecord = {};
 
-fetch("./fishinglog.json")
-.then(res => res.json())
+fetch("https://steponmepls.github.io/fishing-overlay/fishinglog.json")
+.then(res => {
+  if (res.status >= 200 && res.status <= 299) {
+    return res.json();
+  } else {
+    throw Error(res.statusText)
+  }
+})
 .then(data => {
   for (const key in data) {
     fishingLog[key] = data[key]
@@ -29,15 +35,21 @@ fetch("./fishinglog.json")
     throw new Error("Missing database. Plugin is borked smh..");
   }
 })
+.catch((error) => {
+  throw Error(error)
+});
 
 const regex = {
   English: {
     show: [
       /^You cast your line.+\.$/,
-      /unknown/i
+      /^You cast your line.+Undiscovered Fishing Hole\.$/i
     ],
     stat: [
       /^.+You (gain|lose) the effect of .{2}(.+)\.$/
+    ],
+    spot: [
+      /^Data on .+ is added to your fishing log\.$/
     ],
     stop: [
       /^Something bites/,
@@ -57,6 +69,7 @@ const regex = {
   French: {
     show: [],
     stat: [],
+    spot: [],
     stop: [],
     loot: [],
     hide: []
@@ -64,6 +77,7 @@ const regex = {
   German: {
     show: [],
     stat: [],
+    spot: [],
     stop: [],
     loot: [],
     hide: []
@@ -71,6 +85,7 @@ const regex = {
   Japanese: {
     show: [],
     stat: [],
+    spot: [],
     stop: [],
     loot: [],
     hide: []
@@ -105,7 +120,7 @@ addOverlayListener("LogLine", (e) => {
     if (events.show[0].test(chatLog)) {
       const startCast = new CustomEvent("startCasting", {
         detail: {
-          line: chatLog.match(events.show[0])[0]
+          line: chatLog
         }
       });
       document.dispatchEvent(startCast)
@@ -121,6 +136,14 @@ addOverlayListener("LogLine", (e) => {
         }
       });
       document.dispatchEvent(buffStatus)
+    }
+    if (events.spot[0].test(chatLog)) {
+      const newSpot = new CustomEvent("newSpot", {
+        detail: {
+          line: chatLog
+        }
+      })
+      document.dispatchEvent(newSpot)
     }
     for (const rule of events.stop) {
       if (rule.test(chatLog)) {
@@ -180,6 +203,9 @@ document.addEventListener("buffStatus", (e) => {
     }
   }
 })
+document.addEventListener("newSpot", (e) => {
+  findSpot(e.detail.line)
+})
 
 function clearTimer() {
   html.classList.remove("casting");
@@ -219,23 +245,28 @@ function startCasting(e) {
 
   if (regex[lang].show[1].test(e.detail.line)) {
     currentSpot = undefined;
-    spotTitle.innerText = ""
+    spotTitle.innerText = "";
+    resetEntries()
   } else {
-    const spots = fishingLog[currentZone];
-    for (const spot in spots) {
-      const sanitized = spots[spot].name.replace(regex.Escaped, '\\$&');
-      const rule = new RegExp(sanitized, "i");
-      if (rule.test(e.detail.line)) {
-        if (spot != currentSpot) {
-          currentSpot = parseInt(spot);
-          spotTitle.innerText = spots[currentSpot].name;
-          resetEntries();
-          populateEntries()
-        }
-        break
-      }
-    }
+    findSpot(e.detail.line)
     html.classList.add("marker-active")
+  }
+}
+
+function findSpot(line) {
+  const spots = fishingLog[currentZone];
+  for (const spot in spots) {
+    const sanitized = spots[spot].name.replace(regex.Escaped, '\\$&');
+    const rule = new RegExp(sanitized, "i");
+    if (rule.test(line)) {
+      if (spot != currentSpot) {
+        currentSpot = parseInt(spot);
+        spotTitle.innerText = spots[currentSpot].name;
+        resetEntries();
+        populateEntries()
+      }
+      break
+    }
   }
 }
 
