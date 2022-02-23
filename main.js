@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
   document.addEventListener("changedCharacter", updateChar);
 
   // Fetch cached database from GitHub
-  fetch("http://localhost.com:8080/fishingLog.json")
+  fetch("https://steponmepls.github.io/fishing-overlay/fishingLog.json")
     .then(res => {
       if (res.status >= 200 && res.status <= 299) {
         return res.json()
