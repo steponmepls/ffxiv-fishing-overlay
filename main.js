@@ -27,14 +27,14 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     html.classList.remove("casting");
     marker.style.animationPlayState = "paused";
     if (interval)
-      window.clearInterval(timerInterval);
+      window.clearInterval(interval)
   });
   document.addEventListener("stopFishing", () => {
     html.classList.remove("fishing");
     marker.removeAttribute("style");
     html.classList.remove("marker-active");
     timer.innerText = (0).toFixed(1);
-    chumEffect = false;
+    chumEnabled = false;
     wasChum = false
   });
   document.addEventListener("newStatus", (e) => {
@@ -184,18 +184,18 @@ window.addEventListener('DOMContentLoaded', async (e) => {
 
   function updateLog(fish) {
     let fishID;
-  
+
     const fishName = fish.detail.name;
     const fishTime = fish.detail.time;
     // const fishSize = fish.detail.size;
     // const sizeUnit = fish.detail.unit;
     // const totalFishes = fish.detail.amount;
-    const chum = fish.detail.chum;
-    const spotID = fish.detail.spotID;
+    const spotID = fish.detail.spotId;
     const spotRecord = records[zone][spotID];
+    const chum = wasChum;
   
     const regex = new RegExp(`${fishName}`, "i");
-    for (const item of spotRecord.fishes) {
+    for (const item of log[zone][spot].fishes) {
       if (regex.test(item.name)) {
         fishID = item.id;
         break
@@ -270,12 +270,7 @@ async function loadSettings() { // Use it only once when ACT/Overlay restarts
 
     // Init if necessary
     if (!("characters" in settings))
-      settings.characters = {};
-
-    // If records of current character exist
-    if (character && character.id in settings.characters) {
-      records = settings.characters[character.id].records
-    }
+      settings.characters = {}
   }
 }
 
@@ -285,6 +280,8 @@ function initCharacter() {
   characters[character.id] = {};
   characters[character.id].name = character.name;
   characters[character.id].records = {};
+
+  records = characters[character.id].records;
 
   // Pre-fill records by iterating log zones and spots
   for (const zone in log) {
