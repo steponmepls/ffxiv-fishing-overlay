@@ -1,6 +1,6 @@
 "use strict";
 
-let settings, character, zone, spot, log, record;
+let settings, character, zone, spot, log, records;
 const uuid = OverlayPluginApi.overlayUuid;
 
 // Load settings and copy result to be edited in local object
@@ -73,11 +73,17 @@ async function loadSettings() { // Use it only once when ACT/Overlay restarts
   if (!(object && object.data)) {
     throw new Error("Couldn't load ACT settings.");
   } else {
-    settings = object.data;
+    if (!settings)
+      settings = object.data;
 
     // Init if necessary
     if (!("characters" in settings))
-    settings.characters = {};
+      settings.characters = {};
+
+    // If records of current character exist
+    if (character && character.id in settings.characters) {
+      records = settings.characters[character.id].records
+    }
   }
 }
 
