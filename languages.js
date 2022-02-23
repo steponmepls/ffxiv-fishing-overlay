@@ -5,7 +5,7 @@ const languages = {
       /^You cast your line.+undiscovered fishing hole\.$/i
     ],
     stat: [
-      /^.+You (gain|lose) the effect of .{2}(.+)\.$/,
+      /^You (gain|lose) the effect of .{2}(.+)\.$/,
       /gain/
     ],
     spot: [
