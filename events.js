@@ -22,13 +22,11 @@ addOverlayListener("ChangeZone", (e) => { zone = e.zoneID });
 
 // Generate and dispatch events when new log lines are parsed
 addOverlayListener("LogLine", (e) => {
-  const rawLog = e.line;
-
   // Ignore new line if internal ACT line or a message from a player
-  if (rawLog[0] !== "00" && rawLog[3] !== "")
+  if (e.line[0] !== "00" && e.line[3] !== "")
     return
 
-  const log = rawLog[4], // Chat log lines
+  const log = e.line[4], // Chat log lines
     regex = languages[lang]; // Filter events to current language
 
   // When to show the overlay
@@ -93,8 +91,7 @@ addOverlayListener("LogLine", (e) => {
         size: parseFloat(line[3]),
         unit: line[4],
         amount: total,
-        chum: wasChum,
-        spotId: currentSpot
+        spotId: spot
       }
     });
     document.dispatchEvent(event)
