@@ -9,16 +9,41 @@ loadSettings();
 // Keep track of currently playing character name and ID
 document.addEventListener("changedCharacter", (e) => { character = e.detail });
 
+// Fetch cached database from GitHub
+fetch("./dist/fishing-log-min.json")
+.then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
+.then(data => {
+  log = data;
+
+  // Init records if needed
+  if (character && !(character.id in settings.characters))
+    initCharacter()
+});
+
 window.addEventListener('DOMContentLoaded', async (e) => {
   let start = 0, interval, chumEnabled = false, wasChum = false;
 
-  const html = document.body.parentElement;
-  const container = document.getElementById("container");
-  const spotTitle = document.getElementById("spot");
-  const timer = document.getElementById("timer");
-  const spotFishes = document.getElementById("entries");
-  const marker = document.getElementById("marker").querySelector(".markline");
-  const escape = /[-\/\\^$*+?.()|[\]{}]/g;
+  const html = document.body.parentElement,
+        spotTitle = document.getElementById("spot"),
+        timer = document.getElementById("timer"),
+        spotFishes = document.getElementById("entries"),
+        marker = document.getElementById("marker").querySelector(".markline"),
+        escape = /[-\/\\^$*+?.()|[\]{}]/g;
+
+  // Init 1->10 fish entries
+  for (let i=0; i<10; i++) {
+    const fish = document.createElement("div");
+    fish.id = "item" + i;
+    fish.classList.add("fish", "flex");
+    fish.innerHTML = `<div class="icon"><img src=""></div>
+    <div class="label flex">
+      <div class="record"></div>
+      <div class="record-chum"></div>
+      <div class="name"></div>
+      <div class="window"></div>
+    </div>`;
+    spotFishes.appendChild(fish)
+  }
 
   // Overlay events
   document.addEventListener("startCasting", startCasting);
@@ -126,10 +151,10 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     const spots = log[zone];
   
     spots[spot].fishes.forEach((fish, index) => {
-      const item = document.getElementById("item" + index);
-      const name = fish.name;
-      const icon = "https://xivapi.com" + fish.icon;
-      const tug = fish.tug;
+      const item = document.getElementById("item" + index),
+            name = fish.name,
+            icon = "https://xivapi.com" + fish.icon,
+            tug = fish.tug;
       item.querySelector(".icon img").src = icon;
       item.querySelector(".label .name").innerText = name;
       // item.querySelector(".label .window").innerHTML = "";
@@ -185,14 +210,14 @@ window.addEventListener('DOMContentLoaded', async (e) => {
   function updateLog(fish) {
     let fishID;
 
-    const fishName = fish.detail.name;
-    const fishTime = fish.detail.time;
-    // const fishSize = fish.detail.size;
-    // const sizeUnit = fish.detail.unit;
-    // const totalFishes = fish.detail.amount;
-    const spotID = fish.detail.spotId;
-    const spotRecord = records[zone][spotID];
-    const chum = wasChum;
+    const fishName = fish.detail.name,
+          fishTime = fish.detail.time,
+          // fishSize = fish.detail.size,
+          // sizeUnit = fish.detail.unit,
+          // totalFishes = fish.detail.amount,
+          spotID = fish.detail.spotId,
+          spotRecord = records[zone][spotID],
+          chum = wasChum;
   
     const regex = new RegExp(`${fishName}`, "i");
     for (const item of log[zone][spot].fishes) {
@@ -232,17 +257,6 @@ window.addEventListener('DOMContentLoaded', async (e) => {
       }
     }
   }
-});
-
-// Fetch cached database from GitHub
-fetch("https://steponmepls.github.io/fishing-overlay/fishinglog.json")
-.then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
-.then(data => {
-  log = data;
-
-  // Init records if needed
-  if (character && !(character.id in settings.characters))
-    initCharacter()
 });
 
 // ACT functions
