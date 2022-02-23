@@ -126,7 +126,8 @@ function mergeEntries() {
       }
     }
     console.log("Updating output file..");
-    fs.writeFileSync("./fishinglog.json", JSON.stringify(fishingLog));
+    fs.writeFileSync("./fishing-log.json", JSON.stringify(fishingLog, null, 4));
+    fs.writeFileSync("../dist/fishing-log-min.json", JSON.stringify(fishingLog));
     console.log("File saved!")
   }
 }
