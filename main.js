@@ -10,6 +10,8 @@ loadSettings();
 document.addEventListener("changedCharacter", (e) => { character = e.detail });
 
 window.addEventListener('DOMContentLoaded', async (e) => {
+  let time = 0, interval, chumEnabled = false, wasChum = false;
+
   const html = document.body.parentElement;
   const container = document.getElementById("container");
   const spotTitle = document.getElementById("spot");
