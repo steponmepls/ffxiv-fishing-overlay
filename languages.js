@@ -2,7 +2,7 @@ const languages = {
   English: {
     show: [
       /^You cast your line.+\.$/,
-      /^You cast your line.+Undiscovered Fishing Hole\.$/i
+      /^You cast your line.+undiscovered fishing hole\.$/i
     ],
     stat: [
       /^.+You (gain|lose) the effect of .{2}(.+)\.$/,
