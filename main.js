@@ -16,11 +16,18 @@ window.addEventListener('DOMContentLoaded', async (e) => {
   // Load settings and copy result to be edited in local object
   await loadSettings();
 
+  // Fetch current character on plugin restart
+  await callOverlayHandler({ call: "getCombatants" })
+  .then(list => {
+    const current = list.combatants[0];
+    updateChar({id: current.ID, name: current.Name})
+  })
+
   // Update currently playing character
   document.addEventListener("changedCharacter", updateChar);
 
   // Fetch cached database from GitHub
-  fetch("https://steponmepls.github.io/fishing-overlay/fishinglog.json")
+  await fetch("https://steponmepls.github.io/fishing-overlay/fishinglog.json")
     .then(res => {
       if (res.status >= 200 && res.status <= 299) {
         return res.json()
@@ -92,7 +99,7 @@ async function loadSettings() { // Use it only once when ACT/Overlay restarts
 
 function updateChar(char) {
   if (!char)
-    throw new Error("No character found. Is the game running?");
+    return;
 
   if (!("characters" in settings))
     settings.characters = {};
