@@ -1,8 +1,13 @@
 "use strict";
 
 let settings, character, zone, spot, log, record;
-
 const uuid = OverlayPluginApi.overlayUuid;
+
+// Load settings and copy result to be edited in local object
+loadSettings();
+
+// Keep track of currently playing character name and ID
+document.addEventListener("changedCharacter", (e) => { character = e.detail });
 
 window.addEventListener('DOMContentLoaded', async (e) => {
   const html = document.body.parentElement;
@@ -12,42 +17,6 @@ window.addEventListener('DOMContentLoaded', async (e) => {
   const spotFishes = document.getElementById("entries");
   const marker = document.getElementById("marker").querySelector(".markline");
   const escape = /[-\/\\^$*+?.()|[\]{}]/g;
-
-  // Load settings and copy result to be edited in local object
-  await loadSettings();
-
-  // Fetch current character on plugin restart
-  await callOverlayHandler({ call: "getCombatants" })
-  .then(list => {
-    const current = list.combatants[0];
-    updateChar({id: current.ID, name: current.Name})
-  })
-
-  // Update currently playing character
-  document.addEventListener("changedCharacter", updateChar);
-
-  // Fetch cached database from GitHub
-  await fetch("https://steponmepls.github.io/fishing-overlay/fishinglog.json")
-    .then(res => {
-      if (res.status >= 200 && res.status <= 299) {
-        return res.json()
-      } else {
-        throw Error(res.statusText)
-      }
-    })
-    .then(data => log = data);
-  
-  // Init character-specific records
-  if (Object.values(settings).length < 1) {
-    throw new Error("No character detected. Is the game running?")
-  } else if (Object.values(record).length < 1) {
-    for (const zone in log) {
-      record[zone] = {};
-      for (const spot in log[zone]) {
-        record[zone][spot] = {}
-      }
-    }
-  }
 
   // Overlay events
   document.addEventListener("startCasting", startCasting);
@@ -69,10 +38,20 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     }
   })
   document.addEventListener("newSpot", (e) => { findSpot(e.detail.line) });
-})
+});
+
+// Fetch cached database from GitHub
+fetch("https://steponmepls.github.io/fishing-overlay/fishinglog.json")
+.then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
+.then(data => {
+  log = data;
+
+  // Init records if needed
+  if (character && !(character.id in settings.characters))
+    initCharacter()
+});
 
 // Functions
-
 async function saveSettings(object) {
   if (typeof object !== "object") {
     console.error("Couldn't save settings. Argument isn't an object.");
@@ -90,29 +69,28 @@ async function saveSettings(object) {
 async function loadSettings() { // Use it only once when ACT/Overlay restarts
   const object = await callOverlayHandler({ call: "loadData", key: uuid });
   if (!(object && object.data)) {
-    console.error("Couldn't load settings. Switching to fallback mode.");
-    // In-browser localStorage mode to be implemented here..
+    throw new Error("Couldn't load ACT settings.");
   } else {
-    settings = object.data
+    settings = object.data;
+
+    // Init if necessary
+    if (!("characters" in settings))
+    settings.characters = {};
   }
 }
 
-function updateChar(char) {
-  if (!char)
-    return;
-
-  if (!("characters" in settings))
-    settings.characters = {};
-  
+function initCharacter() {
   const characters = settings.characters;
 
-  // Init new character in characters list in settings
-  if (!(char.id in characters)) {
-    characters[char.id] = {};
-    characters[char.id].name = char.name;
-    characters[char.id].records = {};
-  }
+  characters[character.id] = {};
+  characters[character.id].name = character.name;
+  characters[character.id].records = {};
 
-  character = char.id
-  record = characters[char.id].records
+  // Pre-fill records by iterating log zones and spots
+  for (const zone in log) {
+    characters[character.id].records[zone] = {};
+    for (const spot in log[zone]) {
+      characters[character.id].records[zone][spot] = {}
+    }
+  }
 }
