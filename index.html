@@ -2,9 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Test overlay</title>
+    <title>Fisihng Overlay</title>
     <script type="text/javascript" src="https://ngld.github.io/OverlayPlugin/assets/shared/common.min.js"></script>
-    <script type="text/javascript" src="./events.js" defer></script>
+    <script type="text/javascript" src="./languages.js"></script>
+    <script type="text/javascript" src="./events.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
     <style>
       html {
           -webkit-box-sizing: border-box;
@@ -89,9 +91,7 @@
       .fish {
         max-height: calc(var(--icon-size) * 1px);
       }
-      .fish:not(:first-of-type).light, 
-      .fish:not(:first-of-type).medium, 
-      .fish:not(:first-of-type).heavy {
+      .fish[data-fishid]:not(:first-of-type) {
         margin-top: 1px;
       }
       .icon, .offset {
