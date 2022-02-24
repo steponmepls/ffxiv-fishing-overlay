@@ -23,7 +23,6 @@ html {
 }
 #container {
   display: none;
-  background: rgba(10,10,10,.5);
   color: white;
   font-family: sans-serif;
 }
@@ -34,6 +33,10 @@ html {
 }
 html.fishing #container {
   display: block;
+}
+#container > :first-child {
+  background: rgba(10,10,10,.5);
+  border-radius: 3px;
 }
 #container > :first-child > * {
   padding: 0.5rem;
@@ -70,9 +73,19 @@ html.fishing #container {
   animation-fill-mode: forwards;
   animation-duration: 30s;
 }
-html.marker-active .markline {
-  display: block;
+html.casting .markline {
   animation-name: slidein;
+}
+html.fishing .markline {
+  display: block;
+}
+html.marker-paused .markline {
+  animation-name: slidein;
+  animation-play-state: paused;
+}
+html.long-casts {
+  animation-duration: 60s;
+  animation-delay: -30s;
 }
 @keyframes slidein {
   from {
@@ -85,11 +98,13 @@ html.marker-active .markline {
 .fish {
   max-height: calc(var(--icon-size) * 1px);
 }
-.fish[data-fishid]:not(:first-of-type) {
+[data-fishid]:not(:nth-of-type(2)) {
   margin-top: 1px;
 }
-.icon,
-.offset {
+[data-fishid] {
+  border-radius: 3px;
+}
+.icon, .offset {
   width: calc(var(--icon-size) * 1px);
   flex-shrink: 0;
 }
