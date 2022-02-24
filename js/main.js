@@ -50,13 +50,12 @@ window.addEventListener('DOMContentLoaded', async (e) => {
   document.addEventListener("fishCaught", updateLog);
   document.addEventListener("stopCasting", () => {
     html.classList.remove("casting");
-    marker.style.animationPlayState = "paused";
+    html.classList.add("marker-paused");
     if (interval)
       window.clearInterval(interval)
   });
   document.addEventListener("stopFishing", () => {
-    html.classList.remove("fishing");
-    marker.removeAttribute("style");
+    html.classList.remove("fishing", "marker-paused");
     html.classList.remove("marker-active");
     timer.innerText = (0).toFixed(1);
     chumEnabled = false;
@@ -71,39 +70,34 @@ window.addEventListener('DOMContentLoaded', async (e) => {
   })
   document.addEventListener("newSpot", (e) => { findSpot(e.detail.line) });
 
-  // Force-stop marker animation when elapsed time reaches 60s
+  // Redraw records on a 60s bar when needed
   marker.addEventListener("animationend", (e) => {
-  	const elapsed = (e.elapsedTime).toFixed(1);
-    const threshold = marker.getAttribute("data-dur");
-    if (elapsed >= 60) {
-    	e.target.removeAttribute("style");
+    // Force-stop marker animation when elapsed time reaches 60s
+    if (e.elapsedTime >= 60) {
       return
     }
-    if (threshold < 60) {
-      marker.setAttribute("data-dur", 60);
-      // redraw items ..
-      const spotRecord = records[zone][spot];
-      log[zone][spot].fishes.forEach((fish, index) => {
-        const item = document.getElementById("item" + index);
-        if (fish.id in spotRecord) {
-          if ("min" in spotRecord[fish.id]) {
-            const fishRecord = spotRecord[fish.id];
-            const fishMark = spotFishes.querySelector(`.fish[data-fishid="${fish.id}"] .label .record`);
-            redrawRecord(fishRecord, fishMark)
-          }
-        }
-      })
-    };
-    e.target.style.animationDuration = (dur * 2) + "s";
-    e.target.style.animationDelay = (dur * -1) + "s";
-    html.classList.remove("marker-active")
+
+    // Set new duration + delay for animation
+    html.classList.add("long-casts");
+
+    // Redraw records considering new 60s delay
+    redrawRecords();
+
+    // Restart animation
+    html.classList.remove("casting");
   	void html.offsetWidth;
-  	html.classList.add("marker-active")
+  	html.classList.add("casting")
   })
 
   // Overlay functions
   function startCasting(e) {
     const regex = languages[lang];
+
+    // Reset classes and variables
+    html.classList.remove("marker-paused");
+    // This forces reset for keyframe animation when using "use strict"
+    // Example: https://jsfiddle.net/dhngeaps/
+    void html.offsetWidth;
 
     // Add class toggles
     html.classList.add("fishing", "casting");
@@ -122,20 +116,18 @@ window.addEventListener('DOMContentLoaded', async (e) => {
       const raw = (Date.now() - start) / 1000;
       timer.innerText = raw.toFixed(1)
     }, 100);
+
+    const threshold = marker.getAttribute("data-dur");
+    if (html.classList.contains("long-casts") && threshold < 60)
+      redrawRecords();
   
-    // Reset classes and variables
-    html.classList.remove("marker-active");
-    // This forces reset for keyframe animation when using "use strict"
-    // Example: https://jsfiddle.net/dhngeaps/
-    void html.offsetWidth;
-  
+    // Get current spot and update list if needed
     if (regex.show[1].test(e.detail.line)) {
       currentSpot = undefined;
       spotTitle.innerText = "";
       resetEntries()
     } else {
-      findSpot(e.detail.line);
-      html.classList.add("marker-active")
+      findSpot(e.detail.line)
     }
   }
 
@@ -204,24 +196,40 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         let fishRecord, fishMark;
         if ("min" in spotRecord[fish.id].chum) {
           fishRecord = spotRecord[fish.id].chum;
-          fishMark = spotFishes.querySelector(`.fish[data-fishid="${fish.id}"] .label .record-chum`);
+          fishMark = item.querySelector(".label .record-chum");
           redrawRecord(fishRecord, fishMark)
         }
         if ("min" in spotRecord[fish.id]) {
           fishRecord = spotRecord[fish.id];
-          fishMark = spotFishes.querySelector(`.fish[data-fishid="${fish.id}"] .label .record`);
+          fishMark = item.querySelector(".label .record");
           redrawRecord(fishRecord, fishMark)
         }
       }
     })
   }
 
-  function redrawRecord(record, node) {
-    let threshold = marker.getAttribute("data-dur");
-    if (record.max > threshold && threshold < 60) {
-      marker.setAttribute("data-dur", 60);
-      threshold = 60
-    }
+  function redrawRecords() {
+    const spotRecord = records[zone][spot];
+    log[zone][spot].fishes.forEach((fish, index) => {
+      const item = document.getElementById("item" + index);
+      if (fish.id in spotRecord) {
+        let fishRecord, fishMark;
+        if ("min" in spotRecord[fish.id].chum) {
+          fishRecord = spotRecord[fish.id].chum;
+          fishMark = item.querySelector(".label .record-chum");
+          redrawRecord(fishRecord, fishMark)
+        }
+        if ("min" in spotRecord[fish.id]) {
+          fishRecord = spotRecord[fish.id];
+          fishMark = item.querySelector(".label .record");
+          redrawRecord(fishRecord, fishMark)
+        }
+      }
+    })
+  }
+
+  function redrawRecord(record, node, oneshot) {
+    const threshold = marker.getAttribute("data-dur");
 
     let minMark = getPerc(record.min)
     let maxMark = (getPerc(record.max)) - minMark;
@@ -241,6 +249,8 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     node.setAttribute("data-max", record.max);
     node.style.width = maxMark + "%";
 
+    if (threshold < 60 && oneshot) marker.setAttribute("data-dur", 30);
+
     function getPerc(time) {
       const output = (100 * time) / threshold;
       return parseFloat(output.toFixed(1))
@@ -258,6 +268,9 @@ window.addEventListener('DOMContentLoaded', async (e) => {
           spotID = fish.detail.spotId,
           spotRecord = records[zone][spotID],
           chum = wasChum;
+
+    const threshold = marker.getAttribute("data-dur");
+    if (fishTime > 30 && threshold < 60) marker.setAttribute("data-dur", 60);
   
     const regex = new RegExp(`${fishName}`, "i");
     for (const item of log[zone][spot].fishes) {
