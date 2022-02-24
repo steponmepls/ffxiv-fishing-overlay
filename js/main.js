@@ -10,7 +10,7 @@ loadSettings();
 document.addEventListener("changedCharacter", (e) => { character = e.detail });
 
 // Fetch cached database from GitHub
-fetch("./dist/fishing-log-min.json")
+fetch("https://steponmepls.github.io/fishing-overlay/dist/fishing-log-min.json")
 .then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
 .then(data => {
   log = data;
@@ -30,7 +30,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         marker = document.getElementById("marker").querySelector(".markline"),
         escape = /[-\/\\^$*+?.()|[\]{}]/g;
 
-  // Init 1->10 fish entries
+  // Init 1->10 fish nodes
   for (let i=0; i<10; i++) {
     const fish = document.createElement("div");
     fish.id = "item" + i;
@@ -71,9 +71,49 @@ window.addEventListener('DOMContentLoaded', async (e) => {
   })
   document.addEventListener("newSpot", (e) => { findSpot(e.detail.line) });
 
+  // Force-stop marker animation when elapsed time reaches 60s
+  marker.addEventListener("animationend", (e) => {
+  	const elapsed = (e.elapsedTime).toFixed(1);
+    const threshold = marker.getAttribute("data-dur");
+    if (elapsed >= 60) {
+    	e.target.removeAttribute("style");
+      return
+    }
+    if (threshold < 60) {
+      marker.setAttribute("data-dur", 60);
+      // redraw items ..
+      const spotRecord = records[zone][spot];
+      log[zone][spot].fishes.forEach((fish, index) => {
+        const item = document.getElementById("item" + index);
+        if (fish.id in spotRecord) {
+          if ("min" in spotRecord[fish.id]) {
+            const fishRecord = spotRecord[fish.id];
+            const fishMark = spotFishes.querySelector(`.fish[data-fishid="${fish.id}"] .label .record`);
+            redrawRecord(fishRecord, fishMark)
+          }
+        }
+      })
+    };
+    e.target.style.animationDuration = (dur * 2) + "s";
+    e.target.style.animationDelay = (dur * -1) + "s";
+    html.classList.remove("marker-active")
+  	void html.offsetWidth;
+  	html.classList.add("marker-active")
+  })
+
   // Overlay functions
   function startCasting(e) {
     const regex = languages[lang];
+
+    // Add class toggles
+    html.classList.add("fishing", "casting");
+    if (!chumEnabled) {
+      html.classList.remove("chum-active");
+      wasChum = false
+    } else {
+      html.classList.add("chum-active");
+      wasChum = true
+    }
 
     // Reset timers before rerun
     start = Date.now();
@@ -84,34 +124,23 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     }, 100);
   
     // Reset classes and variables
-    html.classList.add("fishing");
     html.classList.remove("marker-active");
     // This forces reset for keyframe animation when using "use strict"
     // Example: https://jsfiddle.net/dhngeaps/
     void html.offsetWidth;
-    marker.removeAttribute("style");
-    wasChum = false;
-
-    // Add class toggles
-    html.classList.add("casting");
-    if (!chumEnabled) {
-      html.classList.remove("chum-active")
-    } else {
-      html.classList.add("chum-active");
-      wasChum = true
-    }
   
     if (regex.show[1].test(e.detail.line)) {
       currentSpot = undefined;
       spotTitle.innerText = "";
       resetEntries()
     } else {
-      findSpot(e.detail.line)
+      findSpot(e.detail.line);
       html.classList.add("marker-active")
     }
   }
 
   function resetEntries() {
+    marker.setAttribute("data-dur", 30);
     for (let i=0; i<10; i++) {
       const item = document.getElementById("item" + i);
       item.querySelector(".icon img").src = "";
@@ -147,10 +176,16 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     }
   }
 
-  function populateEntries() {
-    const spots = log[zone];
-  
-    spots[spot].fishes.forEach((fish, index) => {
+  function populateEntries() {  
+    const spotRecord = records[zone][spot];
+
+    // Find highest max values in the current spot records, both for normal and chum, and check if > 30s
+    const max = Math.max(...Object.values(spotRecord).map(item => {
+      return [item.max, Object.values(item).filter(key => typeof key === "object").map(chum => chum.max)].flat()
+    }).flat());
+    if (max > 30) marker.setAttribute("data-dur", 60);
+
+    log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index),
             name = fish.name,
             icon = "https://xivapi.com" + fish.icon,
@@ -165,7 +200,6 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         }
       });
       // Add record marks
-      const spotRecord = records[zone][spot];
       if (fish.id in spotRecord) {
         let fishRecord, fishMark;
         if ("min" in spotRecord[fish.id].chum) {
@@ -182,15 +216,16 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     })
   }
 
-  function redrawRecord(record, mark) {
+  function redrawRecord(record, node) {
+    let threshold = marker.getAttribute("data-dur");
+    if (record.max > threshold && threshold < 60) {
+      marker.setAttribute("data-dur", 60);
+      threshold = 60
+    }
+
     let minMark = getPerc(record.min)
     let maxMark = (getPerc(record.max)) - minMark;
-  
-    function getPerc(time) {
-      const output = (100 * time) / 60;
-      return parseFloat(output.toFixed(1))
-    }
-  
+    
     // Sanitize values >= 60s
     if (minMark >= 100) {
       minMark = 99;
@@ -201,10 +236,15 @@ window.addEventListener('DOMContentLoaded', async (e) => {
       maxMark = 100 - minMark
     }
       
-    mark.setAttribute("data-min", record.min);
-    mark.style.left = minMark + "%";
-    mark.setAttribute("data-max", record.max);
-    mark.style.width = maxMark + "%"
+    node.setAttribute("data-min", record.min);
+    node.style.left = minMark + "%";
+    node.setAttribute("data-max", record.max);
+    node.style.width = maxMark + "%";
+
+    function getPerc(time) {
+      const output = (100 * time) / threshold;
+      return parseFloat(output.toFixed(1))
+    }
   }
 
   function updateLog(fish) {
