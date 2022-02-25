@@ -71,21 +71,22 @@ html.fishing #container {
   animation-timing-function: linear;
   /* Stays at 100% once finished */
   animation-fill-mode: forwards;
+}
+.markline[data-dur="30"] {
   animation-duration: 30s;
 }
-html.casting .markline {
-  animation-name: slidein;
+.markline[data-dur="60"] {
+  animation-duration: 60s;
+  animation-delay: -30s;
 }
 html.fishing .markline {
   display: block;
 }
-html.marker-paused .markline {
+html.marker-animated .markline {
   animation-name: slidein;
-  animation-play-state: paused;
 }
-html.long-casts {
-  animation-duration: 60s;
-  animation-delay: -30s;
+html.marker-paused .markline {
+  animation-play-state: paused;
 }
 @keyframes slidein {
   from {
