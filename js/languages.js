@@ -1,17 +1,18 @@
 const languages = {
   English: {
-    show: [
+    start: [
       /^You cast your line.+\.$/,
       /^You cast your line.+undiscovered fishing hole\.$/i
     ],
-    stat: [
-      /^You (gain|lose) the effect of .{2}(.+)\.$/,
-      /gain/
+    buff: [
+      /^You gain the effect of .{2}(.+)\.$/,
+      /^You lose the effect of .{2}(.+)\.$/,
+      /\bchum\b/
     ],
     spot: [
       /^Data on .+ is added to your fishing log\.$/
     ],
-    stop: [
+    pause: [
       /^Something bites/,
       /^The fish gets away/,
       /^Nothing bites/,
@@ -20,7 +21,7 @@ const languages = {
     loot: [
       /^You land (an?|\d) .(.+) measuring ([0-9.]+) (\w+)!$/
     ],
-    hide: [
+    exit: [
       /^You put away your/,
       /^You reel in your line/,
       /^The fish sense something amiss/
