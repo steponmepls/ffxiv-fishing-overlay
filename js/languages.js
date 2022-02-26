@@ -7,7 +7,7 @@ const languages = {
     buff: [
       /^You gain the effect of .{2}(.+)\.$/,
       /^You lose the effect of .{2}(.+)\.$/,
-      /\bchum\b/
+      /\bchum\b/i
     ],
     spot: [
       /^Data on .+ is added to your fishing log\.$/

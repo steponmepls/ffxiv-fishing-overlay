@@ -134,8 +134,8 @@ html.marker-paused .markline {
   height: 100%;
   background-color: rgba(10,10,10,.5);
 }
-html.chum-active .recordChum[data-min],
-html:not(.chum-active) .record[data-min] {
+html.chum-records .record-chum[data-min],
+html:not(.chum-records) .record[data-min] {
   display: block;
 }
 .light {
