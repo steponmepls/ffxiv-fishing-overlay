@@ -13,36 +13,25 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
 } else {
   uuid = window.OverlayPluginApi.overlayUuid;
 
-  callOverlayHandler({ call: "loadData", key: uuid })
-  .then(obj => { if (!(obj && obj.data)) Object.assign(settings, obj.data) });
-
   // ACT events
   document.addEventListener("changedCharacter", (e) => {
+    if (e.detail === null) return
     character = e.detail !== null ? e.detail : {id: 0, name: "Testing"};
-    if (!(character.id in settings)) {
-      initCharacter()
-    } else {
-      records = settings[character.id].records
-    }
+
+    // Load character settings
+    callOverlayHandler({ call: "loadData", key: uuid })
+    .then(obj => { if (obj && obj.data) {
+      Object.assign(settings, obj.data);
+      if (!(character.id in settings)) {
+        initCharacter()
+      } else {
+        records = settings[character.id].records
+      }
+    }});
   });
 
   // DEBUG: Force-dispatch event to generate testing character
-  if (!character) document.dispatchEvent(new CustomEvent("changedCharacter"));
-
-  // ACT functions
-  async function saveSettings(object) {
-    if (typeof object !== "object" || object === null) {
-      console.error("Couldn't save settings. Argument isn't an object.");
-      console.debug(object);
-      return
-    }
-
-    await callOverlayHandler({
-      call: "saveData",
-      key: uuid,
-      data: object
-    })
-  }
+  if (!character) document.dispatchEvent(new CustomEvent("changedCharacter"))
 };
 
 // Fetch cached database from GitHub
@@ -114,7 +103,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     marker.removeAttribute("animated");
     html.classList.remove("marker-animated");
   	void html.offsetWidth;
-  	html.classList.add("marker-animated")
+  	html.classList.add("long-cast", "marker-animated")
   });
   // Redraw timeline whenever data-dur value changes
   const durationChange = new MutationObserver((list) => {
@@ -151,6 +140,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
 
     // Add class toggles
     html.classList.add("fishing", "casting");
+    html.classList.remove("long-cast");
     if (!html.classList.contains("chum-active") && 
     html.classList.contains("chum-records")) {
       html.classList.remove("chum-active", "chum-records");
@@ -226,12 +216,15 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     if (!("min" in fishRecord)) {
       fishRecord.min = fishTime;
       fishRecord.max = fishTime;
+      if (character.id != 0) saveSettings(settings)
       redrawRecord(fishRecord, fishMark)
     } else if (fishTime < fishRecord.min) {
       fishRecord.min = fishTime;
+      if (character.id != 0) saveSettings(settings)
       redrawRecord(fishRecord, fishMark)
     } else if (fishTime > fishRecord.max) {
       fishRecord.max = fishTime;
+      if (character.id != 0) saveSettings(settings)
       redrawRecord(fishRecord, fishMark)
     }
   }
@@ -356,6 +349,20 @@ function initRecord() {
       records[zone][spot] = {}
     }
   }
+}
+
+async function saveSettings(object) {
+  if (typeof object !== "object" || object === null) {
+    console.error("Couldn't save settings. Argument isn't an object.");
+    console.debug(object);
+    return
+  }
+
+  await callOverlayHandler({
+    call: "saveData",
+    key: uuid,
+    data: object
+  })
 }
 
 // DEBUG
