@@ -91,11 +91,11 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     timer.innerText = (0).toFixed(1);
     wasChum = false
   });
-  document.addEventListener("newStatus", (e) => {
+  document.addEventListener("statusChange", (e) => {
     const regex = languages[lang];
     if (regex.buff[2].test(e.detail.name)) {
       if (e.detail.status === true) {
-        html.classList.add("chum-active");
+        html.classList.add("chum-active", "chum-records");
         wasChum = true
       } else {
         html.classList.remove("chum-active")
@@ -151,8 +151,9 @@ window.addEventListener("DOMContentLoaded", async (e) => {
 
     // Add class toggles
     html.classList.add("fishing", "casting");
-    if (!html.classList.contains("chum-active") && wasChum) {
-      html.classList.remove("chum-active");
+    if (!html.classList.contains("chum-active") && 
+    html.classList.contains("chum-records")) {
+      html.classList.remove("chum-active", "chum-records");
       wasChum = false
     };
 
@@ -248,10 +249,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
           populateEntries()
         } else {
           // Find highest max record and redraw timeline when needed
-          const spotRecords = records[zone][spot],
-                max = Math.max(...Object.values(spotRecords).map(item => {
-                  return [item.max, Object.values(item).filter(key => typeof key === "object").map(chum => chum.max)].flat()
-                }).flat());
+          const max = Math.max(...Object.values(records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat());
           const newDur = max > 30 ? 60 : 30;
           marker.setAttribute("data-dur", newDur)
         }
@@ -261,7 +259,6 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   }
 
   function resetEntries() {
-    console.log(2);
     marker.setAttribute("data-dur", 30);
     for (let i=0; i<10; i++) {
       const item = document.getElementById("item" + i);
