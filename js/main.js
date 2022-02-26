@@ -1,27 +1,49 @@
 "use strict";
 
-let settings, character, zone, spot, log, records;
-const uuid = OverlayPluginApi.overlayUuid;
+let uuid, character, records, zone, spot;
+const settings = {}, log = {};
 
-// Load settings and copy result to be edited in local object
-loadSettings();
+// Fallback in case ACT isn't running
+lang = !lang ? "English" : lang;
 
-// Keep track of currently playing character name and ID
-document.addEventListener("changedCharacter", (e) => { character = e.detail });
+if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
+  console.warn("ACT is unavailable or OverlayPlugin is broken.")
+  character =  {id: 0, name: "Testing"};
+  if (!(character.id in settings)) initCharacter()
+} else {
+  uuid = window.OverlayPluginApi.overlayUuid;
+
+  // ACT events
+  document.addEventListener("changedCharacter", (e) => {
+    if (e.detail === null) return
+    character = e.detail !== null ? e.detail : {id: 0, name: "Testing"};
+
+    // Load character settings
+    callOverlayHandler({ call: "loadData", key: uuid })
+    .then(obj => { if (obj && obj.data) {
+      Object.assign(settings, obj.data);
+      if (!(character.id in settings)) {
+        initCharacter()
+      } else {
+        records = settings[character.id].records
+      }
+    }});
+  });
+
+  // DEBUG: Force-dispatch event to generate testing character
+  if (!character) document.dispatchEvent(new CustomEvent("changedCharacter"))
+};
 
 // Fetch cached database from GitHub
 fetch("./dist/fishing-log-min.json")
 .then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
-.then(data => {
-  log = data;
-
-  // Init records if needed
-  if (character && !(character.id in settings.characters))
-    initCharacter()
+.then(data => { 
+  Object.assign(log, data);
+  if (Object.values(records) < 1) initRecord()
 });
 
-window.addEventListener('DOMContentLoaded', async (e) => {
-  let start = 0, interval, chumEnabled = false, wasChum = false;
+window.addEventListener("DOMContentLoaded", async (e) => {
+  let start = 0, interval, wasChum = false;
 
   const html = document.body.parentElement,
         spotTitle = document.getElementById("spot"),
@@ -30,7 +52,7 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         marker = document.getElementById("marker").querySelector(".markline"),
         escape = /[-\/\\^$*+?.()|[\]{}]/g;
 
-  // Init 1->10 fish entries
+  // Init 1->10 fish nodes
   for (let i=0; i<10; i++) {
     const fish = document.createElement("div");
     fish.id = "item" + i;
@@ -43,37 +65,87 @@ window.addEventListener('DOMContentLoaded', async (e) => {
       <div class="window"></div>
     </div>`;
     spotFishes.appendChild(fish)
-  }
+  };
 
   // Overlay events
   document.addEventListener("startCasting", startCasting);
   document.addEventListener("fishCaught", updateLog);
   document.addEventListener("stopCasting", () => {
     html.classList.remove("casting");
-    marker.style.animationPlayState = "paused";
-    if (interval)
-      window.clearInterval(interval)
+    html.classList.add("marker-paused");
+    if (interval) window.clearInterval(interval)
   });
   document.addEventListener("stopFishing", () => {
-    html.classList.remove("fishing");
-    marker.removeAttribute("style");
-    html.classList.remove("marker-active");
+    html.classList.remove("fishing", "marker-active", "marker-paused");
     timer.innerText = (0).toFixed(1);
-    chumEnabled = false;
     wasChum = false
   });
-  document.addEventListener("newStatus", (e) => {
-    if (/\bChum\b/.test(e.detail.name)) {
-      if (e.detail.status) {
-        chumEnabled = e.detail.status
+  document.addEventListener("statusChange", (e) => {
+    const regex = languages[lang];
+    if (regex.buff[2].test(e.detail.name)) {
+      if (e.detail.status === true) {
+        html.classList.add("chum-active", "chum-records");
+        wasChum = true
+      } else {
+        html.classList.remove("chum-active")
       }
     }
-  })
+  });
   document.addEventListener("newSpot", (e) => { findSpot(e.detail.line) });
+  marker.addEventListener("animationend", (e) => {
+    // Force-stop marker animation when elapsed time reaches 60s
+    if (e.elapsedTime >= 60) return
+
+    // Redraw records considering new 60s delay
+    marker.setAttribute("data-dur", 60);
+
+    // Restart animation
+    marker.removeAttribute("animated");
+    html.classList.remove("marker-animated");
+  	void html.offsetWidth;
+  	html.classList.add("long-cast", "marker-animated")
+  });
+  // Redraw timeline whenever data-dur value changes
+  const durationChange = new MutationObserver((list) => {
+    // Prevents from running if value hasn't changed
+    if (list[0].oldValue == list[0].target.getAttribute("data-dur"))
+      return
+
+    const spotRecords = records[zone][spot];
+    log[zone][spot].fishes.forEach((fish, index) => {
+      const item = document.getElementById("item" + index);
+      if (fish.id in spotRecords) {
+        let fishRecord, fishMark;
+        if ("min" in spotRecords[fish.id].chum) {
+          fishRecord = spotRecords[fish.id].chum;
+          fishMark = item.querySelector(".label .record-chum");
+          redrawRecord(fishRecord, fishMark)
+        }
+        if ("min" in spotRecords[fish.id]) {
+          fishRecord = spotRecords[fish.id];
+          fishMark = item.querySelector(".label .record");
+          redrawRecord(fishRecord, fishMark)
+        }
+      }
+    })
+  });
+  durationChange.observe(marker, {
+    attributeFilter: ["data-dur"],
+    attributeOldValue: true
+  });
 
   // Overlay functions
   function startCasting(e) {
     const regex = languages[lang];
+
+    // Add class toggles
+    html.classList.add("fishing", "casting");
+    html.classList.remove("long-cast");
+    if (!html.classList.contains("chum-active") && 
+    html.classList.contains("chum-records")) {
+      html.classList.remove("chum-active", "chum-records");
+      wasChum = false
+    };
 
     // Reset timers before rerun
     start = Date.now();
@@ -82,36 +154,105 @@ window.addEventListener('DOMContentLoaded', async (e) => {
       const raw = (Date.now() - start) / 1000;
       timer.innerText = raw.toFixed(1)
     }, 100);
-  
+
     // Reset classes and variables
-    html.classList.add("fishing");
-    html.classList.remove("marker-active");
+    html.classList.remove("marker-animated", "marker-paused");
     // This forces reset for keyframe animation when using "use strict"
     // Example: https://jsfiddle.net/dhngeaps/
     void html.offsetWidth;
-    marker.removeAttribute("style");
-    wasChum = false;
-
-    // Add class toggles
-    html.classList.add("casting");
-    if (!chumEnabled) {
-      html.classList.remove("chum-active")
-    } else {
-      html.classList.add("chum-active");
-      wasChum = true
-    }
+    html.classList.add("marker-animated");
   
-    if (regex.show[1].test(e.detail.line)) {
-      currentSpot = undefined;
+    // Get current spot and update list if needed
+    if (regex.start[1].test(e.detail.line)) { // if undiscovered spot
+      spot = undefined;
       spotTitle.innerText = "";
       resetEntries()
     } else {
       findSpot(e.detail.line)
-      html.classList.add("marker-active")
+    }
+  }
+
+  function updateLog(fish) {
+    let fishID;
+
+    const fishName = fish.detail.name,
+          fishTime = fish.detail.time,
+          // fishSize = fish.detail.size,
+          // sizeUnit = fish.detail.unit,
+          // totalFishes = fish.detail.amount,
+          spotID = fish.detail.spotId,
+          spotRecord = records[zone][spotID];
+
+    const threshold = marker.getAttribute("data-dur");
+    if (fishTime > 30 && threshold < 60) marker.setAttribute("data-dur", 60);
+  
+    const regex = new RegExp(`${fishName}`, "i");
+    for (const item of log[zone][spot].fishes) {
+      if (regex.test(item.name)) {
+        fishID = item.id;
+        break
+      };
+    }
+  
+    // Init if no entries yet
+    if (!(fishID in spotRecord)) {
+      spotRecord[fishID] = {}
+      spotRecord[fishID].chum = {}
+    }
+  
+    // Pick either chum or normal mark for a fish
+    let fishRecord, fishMark;
+    if (wasChum) {
+      fishRecord = spotRecord[fishID].chum;
+      fishMark = spotFishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record-chum`)
+    } else {
+      fishRecord = spotRecord[fishID];
+      fishMark = spotFishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record`)
+    };
+
+    // Reset chum bool
+    wasChum = false
+  
+    if (!("min" in fishRecord)) {
+      fishRecord.min = fishTime;
+      fishRecord.max = fishTime;
+      if (character.id != 0) saveSettings(settings)
+      redrawRecord(fishRecord, fishMark)
+    } else if (fishTime < fishRecord.min) {
+      fishRecord.min = fishTime;
+      if (character.id != 0) saveSettings(settings)
+      redrawRecord(fishRecord, fishMark)
+    } else if (fishTime > fishRecord.max) {
+      fishRecord.max = fishTime;
+      if (character.id != 0) saveSettings(settings)
+      redrawRecord(fishRecord, fishMark)
+    }
+  }
+
+  function findSpot(line) {
+    const spots = log[zone];
+    for (const id in spots) {
+      const sanitized = spots[id].name.replace(escape, '\\$&');
+      const rule = new RegExp(sanitized, "i");
+      if (rule.test(line)) {
+        if (id != spot) {
+          spot = parseInt(id);
+          spotTitle.innerText = spots[spot].name;
+          resetEntries();
+          populateEntries()
+        } else {
+          // Find highest max record and redraw timeline when needed
+          const max = Math.max(...Object.values(records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat());
+          const newDur = max > 30 ? 60 : 30;
+          marker.setAttribute("data-dur", newDur)
+        }
+        break
+      }
     }
   }
 
   function resetEntries() {
+    marker.setAttribute("data-dur", 30);
     for (let i=0; i<10; i++) {
       const item = document.getElementById("item" + i);
       item.querySelector(".icon img").src = "";
@@ -130,27 +271,10 @@ window.addEventListener('DOMContentLoaded', async (e) => {
     }
   }
 
-  function findSpot(line) {
-    const spots = log[zone];
-    for (const s in spots) {
-      const sanitized = spots[s].name.replace(escape, '\\$&');
-      const rule = new RegExp(sanitized, "i");
-      if (rule.test(line)) {
-        if (s != spot) {
-          spot = parseInt(s);
-          spotTitle.innerText = spots[spot].name;
-          resetEntries();
-          populateEntries()
-        }
-        break
-      }
-    }
-  }
+  function populateEntries() {  
+    const spotRecord = records[zone][spot];
 
-  function populateEntries() {
-    const spots = log[zone];
-  
-    spots[spot].fishes.forEach((fish, index) => {
+    log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index),
             name = fish.name,
             icon = "https://xivapi.com" + fish.icon,
@@ -165,32 +289,28 @@ window.addEventListener('DOMContentLoaded', async (e) => {
         }
       });
       // Add record marks
-      const spotRecord = records[zone][spot];
       if (fish.id in spotRecord) {
         let fishRecord, fishMark;
         if ("min" in spotRecord[fish.id].chum) {
           fishRecord = spotRecord[fish.id].chum;
-          fishMark = spotFishes.querySelector(`.fish[data-fishid="${fish.id}"] .label .record-chum`);
+          fishMark = item.querySelector(".label .record-chum");
           redrawRecord(fishRecord, fishMark)
         }
         if ("min" in spotRecord[fish.id]) {
           fishRecord = spotRecord[fish.id];
-          fishMark = spotFishes.querySelector(`.fish[data-fishid="${fish.id}"] .label .record`);
+          fishMark = item.querySelector(".label .record");
           redrawRecord(fishRecord, fishMark)
         }
       }
     })
   }
 
-  function redrawRecord(record, mark) {
+  function redrawRecord(record, node) {
+    const threshold = marker.getAttribute("data-dur");
+
     let minMark = getPerc(record.min)
     let maxMark = (getPerc(record.max)) - minMark;
-  
-    function getPerc(time) {
-      const output = (100 * time) / 60;
-      return parseFloat(output.toFixed(1))
-    }
-  
+    
     // Sanitize values >= 60s
     if (minMark >= 100) {
       minMark = 99;
@@ -201,67 +321,38 @@ window.addEventListener('DOMContentLoaded', async (e) => {
       maxMark = 100 - minMark
     }
       
-    mark.setAttribute("data-min", record.min);
-    mark.style.left = minMark + "%";
-    mark.setAttribute("data-max", record.max);
-    mark.style.width = maxMark + "%"
-  }
+    node.setAttribute("data-min", record.min);
+    node.style.left = minMark + "%";
+    node.setAttribute("data-max", record.max);
+    node.style.width = maxMark + "%";
 
-  function updateLog(fish) {
-    let fishID;
-
-    const fishName = fish.detail.name,
-          fishTime = fish.detail.time,
-          // fishSize = fish.detail.size,
-          // sizeUnit = fish.detail.unit,
-          // totalFishes = fish.detail.amount,
-          spotID = fish.detail.spotId,
-          spotRecord = records[zone][spotID],
-          chum = wasChum;
-  
-    const regex = new RegExp(`${fishName}`, "i");
-    for (const item of log[zone][spot].fishes) {
-      if (regex.test(item.name)) {
-        fishID = item.id;
-        break
-      };
-    }
-  
-    // Init if no entries yet
-    if (!(fishID in spotRecord)) {
-      spotRecord[fishID] = {}
-      spotRecord[fishID].chum = {}
-    }
-  
-    // Pick either chum or normal mark for a fish
-    let fishRecord, fishMark;
-    if (chum) {
-      fishRecord = spotRecord[fishID].chum;
-      fishMark = spotFishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record-chum`);
-    } else {
-      fishRecord = spotRecord[fishID];
-      fishMark = spotFishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record`);
-    }
-  
-    if (!("min" in fishRecord)) {
-      fishRecord.min = fishTime;
-      fishRecord.max = fishTime;
-      redrawRecord(fishRecord, fishMark)
-    } else {
-      if (fishTime < fishRecord.min) {
-        fishRecord.min = fishTime;
-        redrawRecord(fishRecord, fishMark)
-      } else if (fishTime > fishRecord.max) {
-        fishRecord.max = fishTime;
-        redrawRecord(fishRecord, fishMark)
-      }
+    function getPerc(time) {
+      const output = (100 * time) / threshold;
+      return parseFloat(output.toFixed(1))
     }
   }
 });
 
-// ACT functions
+// Core functions
+function initCharacter() {
+  settings[character.id] = {};
+  settings[character.id].name = character.name;
+  settings[character.id].records = {};
+  records = settings[character.id].records;
+  if (Object.values(log).length > 0) initRecord()
+}
+
+function initRecord() {
+  for (const zone in log) {
+    records[zone] = {};
+    for (const spot in log[zone]) {
+      records[zone][spot] = {}
+    }
+  }
+}
+
 async function saveSettings(object) {
-  if (typeof object !== "object") {
+  if (typeof object !== "object" || object === null) {
     console.error("Couldn't save settings. Argument isn't an object.");
     console.debug(object);
     return
@@ -274,39 +365,7 @@ async function saveSettings(object) {
   })
 }
 
-async function loadSettings() { // Use it only once when ACT/Overlay restarts
-  const object = await callOverlayHandler({ call: "loadData", key: uuid });
-  if (!(object && object.data)) {
-    throw new Error("Couldn't load ACT settings.");
-  } else {
-    if (!settings)
-      settings = object.data;
-
-    // Init if necessary
-    if (!("characters" in settings))
-      settings.characters = {}
-  }
-}
-
-function initCharacter() {
-  const characters = settings.characters;
-
-  characters[character.id] = {};
-  characters[character.id].name = character.name;
-  characters[character.id].records = {};
-
-  records = characters[character.id].records;
-
-  // Pre-fill records by iterating log zones and spots
-  for (const zone in log) {
-    characters[character.id].records[zone] = {};
-    for (const spot in log[zone]) {
-      characters[character.id].records[zone][spot] = {}
-    }
-  }
-}
-
-// Debug functions
+// DEBUG
 function debug() {
   zone = 135;
   lang = "English";
@@ -330,7 +389,7 @@ function debugCatch() {
       size: 21,
       unit: "ilms",
       amount: 1,
-      spotID: currentSpot
+      spotId: spot
     }
   }))
 }

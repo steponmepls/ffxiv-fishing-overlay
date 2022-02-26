@@ -27,32 +27,30 @@ addOverlayListener("LogLine", (e) => {
     return
 
   const log = e.line[4], // Chat log lines
-    regex = languages[lang]; // Filter events to current language
+        regex = languages[lang]; // Filter events to current language
 
   // When to show the overlay
-  if (regex.show[0].test(log)) {
+  if (regex.start[0].test(log)) {
     const event = new CustomEvent("startCasting", { detail: { line: log }});
     document.dispatchEvent(event)
   };
 
-  // Used fishing action (buff)
-  if (regex.stat[0].test(log)) {
-    let bool;
+  // You gain/lose effects
+  for (const [index, rule] of regex.buff.entries()) {
+    if (rule.test(log)) {
+      const bool = index < 1 ? true : false,
+            name = log.match(rule)[1];
 
-    const state = log.match(regex.stat[0])[1], // gain|lose
-          name = log.match(regex.stat[0])[2]; // name of buff|debuff
+      const event = new CustomEvent("statusChange", {
+        detail: {
+          name: name,
+          status: bool
+        }
+      });
+      document.dispatchEvent(event);
 
-    // Match buff regex rule with state and return a boolean
-    // A bit redundant but I would rather store state as a bool
-    bool = regex.stat[1].test(state);
-
-    const event = new CustomEvent("newStatus", {
-      detail: {
-        name: name,
-        status: bool
-      }
-    });
-    document.dispatchEvent(event)
+      break
+    }
   };
 
   // Discovered a new fishing spot
@@ -62,7 +60,7 @@ addOverlayListener("LogLine", (e) => {
   };
 
   // When to pause the timer
-  for (const rule of regex.stop) {
+  for (const rule of regex.pause) {
     if (rule.test(log)) {
       const event = new CustomEvent("stopCasting");
       document.dispatchEvent(event);
@@ -98,7 +96,7 @@ addOverlayListener("LogLine", (e) => {
   };
 
   // When to hide the overlay
-  for (const rule of regex.hide) {
+  for (const rule of regex.exit) {
     if (rule.test(log)) {
       const event = new CustomEvent("stopFishing");
       document.dispatchEvent(event);
