@@ -16,7 +16,7 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
   // ACT events
   document.addEventListener("changedCharacter", (e) => {
     if (e.detail === null) return
-    character = e.detail !== null ? e.detail : {id: 0, name: "Testing"};
+    character = e.detail;
 
     // Load character settings
     callOverlayHandler({ call: "loadData", key: uuid })
@@ -28,10 +28,7 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
         records = settings[character.id].records
       }
     }});
-  });
-
-  // DEBUG: Force-dispatch event to generate testing character
-  if (!character) document.dispatchEvent(new CustomEvent("changedCharacter"))
+  })
 };
 
 // Fetch cached database from GitHub
