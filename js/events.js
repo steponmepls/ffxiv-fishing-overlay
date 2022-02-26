@@ -39,7 +39,7 @@ addOverlayListener("LogLine", (e) => {
   for (const [index, rule] of regex.buff.entries()) {
     if (rule.test(log)) {
       const bool = index < 1 ? true : false,
-            name = log.match(rule);
+            name = log.match(rule)[1];
 
       const event = new CustomEvent("statusChange", {
         detail: {
