@@ -14,9 +14,12 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
   uuid = window.OverlayPluginApi.overlayUuid;
 
   // ACT events
-  document.addEventListener("changedCharacter", (e) => {
+  document.addEventListener("changedCharacter", async (e) => {
     if (e.detail === null) return
     character = e.detail;
+
+    // Fetch database
+    await fetchDatabase();
 
     // Load character settings
     callOverlayHandler({ call: "loadData", key: uuid })
@@ -27,17 +30,9 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
       } else {
         records = settings[character.id].records
       }
-    }});
+    }})
   })
 };
-
-// Fetch cached database from GitHub
-fetch("./dist/fishing-log-min.json")
-.then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
-.then(data => { 
-  Object.assign(log, data);
-  if (Object.values(records) < 1) initRecord()
-});
 
 window.addEventListener("DOMContentLoaded", async (e) => {
   let start = 0, interval, wasChum = false;
@@ -331,12 +326,23 @@ window.addEventListener("DOMContentLoaded", async (e) => {
 });
 
 // Core functions
-function initCharacter() {
+async function fetchDatabase() {
+  fetch("./dist/fishing-log-min.json")
+  .then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
+  .then(data => { 
+    Object.assign(log, data)
+  });
+}
+
+async function initCharacter() {
   settings[character.id] = {};
   settings[character.id].name = character.name;
   settings[character.id].records = {};
   records = settings[character.id].records;
-  if (Object.values(log).length > 0) initRecord()
+  if (Object.values(log).length > 0) {
+    await fetchDatabase();
+    initRecord()
+  }
 }
 
 function initRecord() {
