@@ -1,6 +1,6 @@
 "use strict";
 
-let uuid, character, records, zone, spot;
+let uuid, character, records, spot;
 const settings = {}, log = {};
 
 // Fallback in case ACT isn't running

@@ -1,6 +1,6 @@
 "use strict";
 
-let lang;
+let lang, zone;
 
 // Get language from ACT and use "English" as fallback
 callOverlayHandler({ call: 'getLanguage' })
