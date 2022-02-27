@@ -3,7 +3,7 @@
 let uuid, character, records, spot;
 const settings = {}, log = {};
 
-fetch("./dist/fishing-log-min.json")
+fetch("https://steponmepls.github.io/fishing-overlay/dist/fishing-log-min.json")
 .then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
 .then(data => {
   Object.assign(log, data);
@@ -24,17 +24,7 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
   document.addEventListener("changedCharacter", async (e) => {
     if (e.detail === null) return
     character = e.detail;
-
-    // Load character settings
-    callOverlayHandler({ call: "loadData", key: uuid })
-    .then(obj => { if (obj && obj.data) {
-      Object.assign(settings, obj.data);
-      if (!(character.id in settings)) {
-        initCharacter()
-      } else {
-        records = settings[character.id].records
-      }
-    }})
+    loadSettings()
   })
 };
 
@@ -62,6 +52,31 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     </div>`;
     spotFishes.appendChild(fish)
   };
+
+  // Import / Export settings
+  const importButton = document.getElementById("import-settings");
+  importButton.onclick = () => { importInput.click() };
+  const importInput = importButton.querySelector("input");
+  importButton.addEventListener('change', (e) => {
+    let files = e.target.files;
+    if (files.length == 0) return;
+
+    const file = files[0];
+    let reader = new FileReader();
+  
+    reader.onload = (e) => {
+        const file = JSON.parse(e.target.result);
+        console.log(file);
+        saveSettings(file);
+        loadSettings()
+    };
+  
+    reader.onerror = (e) => console.error(e.target.error.name);
+  
+    reader.readAsText(file);
+});
+  const exportButton = document.getElementById("export-settings");
+  exportButton.addEventListener("click", exportSettings);
 
   // Overlay events
   document.addEventListener("startCasting", startCasting);
@@ -136,12 +151,6 @@ window.addEventListener("DOMContentLoaded", async (e) => {
 
     // Add class toggles
     html.classList.add("fishing", "casting");
-    html.classList.remove("long-cast");
-    if (!html.classList.contains("chum-active") && 
-    html.classList.contains("chum-records")) {
-      html.classList.remove("chum-active", "chum-records");
-      wasChum = false
-    };
 
     // Reset timers before rerun
     start = Date.now();
@@ -152,7 +161,11 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     }, 100);
 
     // Reset classes and variables
-    html.classList.remove("marker-animated", "marker-paused");
+    html.classList.remove("marker-animated", "marker-paused", "long-casts");
+    if (!html.classList.contains("chum-active") && html.classList.contains("chum-records")) {
+      html.classList.remove("chum-active", "chum-records");
+      wasChum = false
+    };
     // This forces reset for keyframe animation when using "use strict"
     // Example: https://jsfiddle.net/dhngeaps/
     void html.offsetWidth;
@@ -162,6 +175,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     if (regex.start[1].test(e.detail.line)) { // if undiscovered spot
       spot = undefined;
       spotTitle.innerText = "";
+      spotTitle.title = "";
       resetEntries()
     } else {
       findSpot(e.detail.line)
@@ -234,6 +248,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
         if (id != spot) {
           spot = parseInt(id);
           spotTitle.innerText = spots[spot].name;
+          spotTitle.title = `${zone} / ${spot}`;
           resetEntries();
           populateEntries()
         } else {
@@ -354,11 +369,34 @@ async function saveSettings(object) {
     return
   }
 
-  await callOverlayHandler({
-    call: "saveData",
-    key: uuid,
-    data: object
-  })
+  callOverlayHandler({ call: "saveData", key: uuid, data: object })
+}
+
+async function loadSettings() {
+  callOverlayHandler({ call: "loadData", key: uuid })
+  .then(obj => { if (obj && obj.data) {
+    Object.assign(settings, obj.data);
+    if (!(character.id in settings)) {
+      initCharacter()
+    } else {
+      records = settings[character.id].records
+    }
+  }})
+}
+
+async function exportSettings() {
+  if (!settings || Object.values(settings).legnth < 1) {
+    console.error("Failed to export settings");
+    console.debug(settings);
+    return
+  };
+  const data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings));
+  const link = document.createElement("a");
+  link.href = "data:" + data;
+  link.download = "settings.json";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link)
 }
 
 // DEBUG
