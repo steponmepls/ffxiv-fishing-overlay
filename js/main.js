@@ -3,13 +3,20 @@
 let uuid, character, records, spot;
 const settings = {}, log = {};
 
+fetch("./dist/fishing-log-min.json")
+.then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
+.then(data => {
+  Object.assign(log, data);
+  if (records && Object.values(records).length < 1) initRecord();
+} );
+
 // Fallback in case ACT isn't running
 lang = !lang ? "English" : lang;
 
 if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
-  console.warn("ACT is unavailable or OverlayPlugin is broken.")
   character =  {id: 0, name: "Testing"};
-  if (!(character.id in settings)) initCharacter()
+  if (!(character.id in settings)) initCharacter();
+  console.warn("ACT is unavailable or OverlayPlugin is broken.")
 } else {
   uuid = window.OverlayPluginApi.overlayUuid;
 
@@ -17,9 +24,6 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
   document.addEventListener("changedCharacter", async (e) => {
     if (e.detail === null) return
     character = e.detail;
-
-    // Fetch database
-    await fetchDatabase();
 
     // Load character settings
     callOverlayHandler({ call: "loadData", key: uuid })
@@ -35,7 +39,7 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
 };
 
 window.addEventListener("DOMContentLoaded", async (e) => {
-  let start = 0, interval, wasChum = false;
+  let interval, start = 0, wasChum = false;
 
   const html = document.body.parentElement,
         spotTitle = document.getElementById("spot"),
@@ -326,21 +330,12 @@ window.addEventListener("DOMContentLoaded", async (e) => {
 });
 
 // Core functions
-async function fetchDatabase() {
-  fetch("./dist/fishing-log-min.json")
-  .then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
-  .then(data => { 
-    Object.assign(log, data)
-  });
-}
-
 async function initCharacter() {
   settings[character.id] = {};
   settings[character.id].name = character.name;
   settings[character.id].records = {};
   records = settings[character.id].records;
-  if (Object.values(log).length < 1) await fetchDatabase();
-  initRecord()
+  if (Object.values(log) > 0) initRecord()
 }
 
 function initRecord() {
@@ -367,7 +362,7 @@ async function saveSettings(object) {
 }
 
 // DEBUG
-function debug() {
+function debug(delay) {
   zone = 135;
   lang = "English";
   document.dispatchEvent(new CustomEvent("startCasting", {
@@ -375,9 +370,12 @@ function debug() {
       line: "the salt strand"
     }
   }));
-  /* window.setTimeout(() => {
+
+  if (!delay) return
+
+  window.setTimeout(() => {
     document.dispatchEvent(new CustomEvent("stopCasting"));
-  }, 3000) */
+  }, delay)
 }
 
 function debugCatch() {
