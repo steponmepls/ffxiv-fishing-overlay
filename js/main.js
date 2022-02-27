@@ -54,27 +54,10 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   };
 
   // Import / Export settings
-  const importButton = document.getElementById("import-settings");
-  importButton.onclick = () => { importInput.click() };
-  const importInput = importButton.querySelector("input");
-  importButton.addEventListener('change', (e) => {
-    let files = e.target.files;
-    if (files.length == 0) return;
-
-    const file = files[0];
-    let reader = new FileReader();
-  
-    reader.onload = (e) => {
-        const file = JSON.parse(e.target.result);
-        console.log(file);
-        saveSettings(file);
-        loadSettings()
-    };
-  
-    reader.onerror = (e) => console.error(e.target.error.name);
-  
-    reader.readAsText(file);
-});
+  const importButton = document.getElementById("import-settings"),
+        importField = importButton.querySelector("input");
+  importButton.onclick = () => { importField.click() };
+  importField.addEventListener("change", importSettings);
   const exportButton = document.getElementById("export-settings");
   exportButton.addEventListener("click", exportSettings);
 
@@ -144,6 +127,10 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     attributeFilter: ["data-dur"],
     attributeOldValue: true
   });
+  document.addEventListener("reloadEntries", () => {
+    resetEntries();
+    populateEntries()
+  })
 
   // Overlay functions
   function startCasting(e) {
@@ -384,19 +371,45 @@ async function loadSettings() {
   }})
 }
 
+async function importSettings(e) {
+  let files = e.target.files;
+  if (files.length == 0) return;
+
+  const file = files[0];
+  let reader = new FileReader();
+
+  reader.onload = async (e) => {
+    const file = JSON.parse(e.target.result);
+    Object.assign(settings, file);
+    await saveSettings(file);
+    if (!(character.id in settings)) {
+      initCharacter()
+    } else {
+      records = settings[character.id].records
+    }
+    document.dispatchEvent(new CustomEvent("reloadEntries"))
+  };
+
+  reader.onerror = (e) => console.error(e.target.error.name);
+
+  reader.readAsText(file);
+}
+
 async function exportSettings() {
   if (!settings || Object.values(settings).legnth < 1) {
     console.error("Failed to export settings");
     console.debug(settings);
     return
   };
-  const data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings));
-  const link = document.createElement("a");
-  link.href = "data:" + data;
-  link.download = "settings.json";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link)
+  const data = JSON.stringify(settings);
+  const field = document.createElement("input");
+  field.type = "text";
+  field.setAttribute("value", data);
+  document.body.appendChild(field);
+  field.select();
+  // Deprected method but no way around it since clipboard API won't work in ACT
+  document.execCommand("copy");
+  document.body.removeChild(field);
 }
 
 // DEBUG
