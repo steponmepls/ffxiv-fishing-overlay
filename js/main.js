@@ -3,7 +3,7 @@
 let uuid, character, records, spot;
 const settings = {}, log = {};
 
-fetch("https://steponmepls.github.io/fishing-overlay/dist/fishing-log-min.json")
+fetch("./dist/fishing-log-min.json")
 .then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
 .then(data => {
   Object.assign(log, data);
