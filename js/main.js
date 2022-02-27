@@ -148,7 +148,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     }, 100);
 
     // Reset classes and variables
-    html.classList.remove("marker-animated", "marker-paused", "long-casts");
+    html.classList.remove("marker-animated", "marker-paused", "long-cast");
     if (!html.classList.contains("chum-active") && html.classList.contains("chum-records")) {
       html.classList.remove("chum-active", "chum-records");
       wasChum = false
