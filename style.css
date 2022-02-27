@@ -41,29 +41,6 @@ html.fishing #container {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
 }
-#footer {
-  height: 16px;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  font-size: x-small;
-  text-transform: uppercase;
-  padding: .15rem;
-  display: flex;
-  justify-content: right;
-}
-#footer .settings {
-  display: none;
-  padding: 0 .15rem;
-  cursor: pointer;
-}
-#footer:hover .settings {
-  display: block;
-}
-#footer input {
-  display: none;
-  width: 0px;
-  height: 0px;
-}
 #header > * {
   padding: 0.5rem;
 }
@@ -171,4 +148,27 @@ html:not(.chum-records) .record[data-min] {
 }
 .heavy .label {
   background-color: rgb(165, 42, 42, .5);
+}
+#footer {
+  height: 16px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  font-size: x-small;
+  text-transform: uppercase;
+  padding: .15rem;
+  display: flex;
+  justify-content: right;
+}
+#footer .settings {
+  opacity: 0;
+  padding: 0 .15rem;
+  cursor: pointer;
+}
+#footer .settings:hover {
+  opacity: 1;
+}
+#footer input {
+  display: none;
+  width: 0px;
+  height: 0px;
 }
