@@ -178,9 +178,9 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     const threshold = marker.getAttribute("data-dur");
     if (fishTime > 30 && threshold < 60) marker.setAttribute("data-dur", 60);
   
-    const regex = new RegExp(`${fishName}`, "i");
     for (const item of log[zone][spot].fishes) {
-      if (regex.test(item.name)) {
+      const regex = new RegExp(`${item.name}`, "i");
+      if (regex.test(fishName)) {
         fishID = item.id;
         break
       };
