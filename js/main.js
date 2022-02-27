@@ -339,10 +339,8 @@ async function initCharacter() {
   settings[character.id].name = character.name;
   settings[character.id].records = {};
   records = settings[character.id].records;
-  if (Object.values(log).length > 0) {
-    await fetchDatabase();
-    initRecord()
-  }
+  if (Object.values(log).length < 1) await fetchDatabase();
+  initRecord()
 }
 
 function initRecord() {
