@@ -1,13 +1,13 @@
 "use strict";
 
-let uuid, character, records, spot;
+let uuid, character, spot;
 const settings = {}, log = {};
 
 fetch("./dist/fishing-log-min.json")
 .then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
 .then(data => {
   Object.assign(log, data);
-  if (records && Object.values(records).length < 1) initRecord();
+  if (Object.values(settings[character.id].records).length < 1) initRecord();
 } );
 
 // Fallback in case ACT isn't running
@@ -102,21 +102,20 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   // Redraw timeline whenever data-dur value changes
   const durationChange = new MutationObserver((list) => {
     // Prevents from running if value hasn't changed
-    if (list[0].oldValue == list[0].target.getAttribute("data-dur"))
-      return
+    if (list[0].oldValue == list[0].target.getAttribute("data-dur")) return
 
-    const spotRecords = records[zone][spot];
+    const spotRecord = settings[character.id].records[zone][spot];
     log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index);
-      if (fish.id in spotRecords) {
+      if (fish.id in spotRecord) {
         let fishRecord, fishMark;
-        if ("min" in spotRecords[fish.id].chum) {
-          fishRecord = spotRecords[fish.id].chum;
+        if ("min" in spotRecord[fish.id].chum) {
+          fishRecord = spotRecord[fish.id].chum;
           fishMark = item.querySelector(".label .record-chum");
           redrawRecord(fishRecord, fishMark)
         }
-        if ("min" in spotRecords[fish.id]) {
-          fishRecord = spotRecords[fish.id];
+        if ("min" in spotRecord[fish.id]) {
+          fishRecord = spotRecord[fish.id];
           fishMark = item.querySelector(".label .record");
           redrawRecord(fishRecord, fishMark)
         }
@@ -178,7 +177,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
           // sizeUnit = fish.detail.unit,
           // totalFishes = fish.detail.amount,
           spotID = fish.detail.spotId,
-          spotRecord = records[zone][spotID];
+          spotRecord = settings[character.id].records[zone][spotID];
 
     const threshold = marker.getAttribute("data-dur");
     if (fishTime > 30 && threshold < 60) marker.setAttribute("data-dur", 60);
@@ -240,7 +239,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
           populateEntries()
         } else {
           // Find highest max record and redraw timeline when needed
-          const max = Math.max(...Object.values(records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat());
+          const max = Math.max(...Object.values(settings[character.id].records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat());
           const newDur = max > 30 ? 60 : 30;
           marker.setAttribute("data-dur", newDur)
         }
@@ -270,7 +269,11 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   }
 
   function populateEntries() {  
-    const spotRecord = records[zone][spot];
+    const spotRecord = settings[character.id].records[zone][spot];
+
+    // Find highest max record and redraw timeline when needed
+    const max = Math.max(...Object.values(settings[character.id].records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat());
+    const newDur = max > 30 ? 60 : 30;
 
     log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index),
@@ -292,19 +295,21 @@ window.addEventListener("DOMContentLoaded", async (e) => {
         if ("min" in spotRecord[fish.id].chum) {
           fishRecord = spotRecord[fish.id].chum;
           fishMark = item.querySelector(".label .record-chum");
-          redrawRecord(fishRecord, fishMark)
+          redrawRecord(fishRecord, fishMark, newDur)
         }
         if ("min" in spotRecord[fish.id]) {
           fishRecord = spotRecord[fish.id];
           fishMark = item.querySelector(".label .record");
-          redrawRecord(fishRecord, fishMark)
+          redrawRecord(fishRecord, fishMark, newDur)
         }
       }
-    })
+    });
+
+    marker.setAttribute("data-dur", newDur)
   }
 
-  function redrawRecord(record, node) {
-    const threshold = marker.getAttribute("data-dur");
+  function redrawRecord(record, node, dur) {
+    const threshold = (dur) ? dur : marker.getAttribute("data-dur");
 
     let minMark = getPerc(record.min)
     let maxMark = (getPerc(record.max)) - minMark;
@@ -336,15 +341,14 @@ async function initCharacter() {
   settings[character.id] = {};
   settings[character.id].name = character.name;
   settings[character.id].records = {};
-  records = settings[character.id].records;
   if (Object.values(log) > 0) initRecord()
 }
 
 function initRecord() {
   for (const zone in log) {
-    records[zone] = {};
+    settings[character.id].records[zone] = {};
     for (const spot in log[zone]) {
-      records[zone][spot] = {}
+      settings[character.id].records[zone][spot] = {}
     }
   }
 }
@@ -363,11 +367,7 @@ async function loadSettings() {
   callOverlayHandler({ call: "loadData", key: uuid })
   .then(obj => { if (obj && obj.data) {
     Object.assign(settings, obj.data);
-    if (!(character.id in settings)) {
-      initCharacter()
-    } else {
-      records = settings[character.id].records
-    }
+    if (!(character.id in settings)) initCharacter()
   }})
 }
 
@@ -382,11 +382,7 @@ async function importSettings(e) {
     const file = JSON.parse(e.target.result);
     Object.assign(settings, file);
     await saveSettings(file);
-    if (!(character.id in settings)) {
-      initCharacter()
-    } else {
-      records = settings[character.id].records
-    }
+    if (!(character.id in settings)) initCharacter();
     document.dispatchEvent(new CustomEvent("reloadEntries"))
   };
 
