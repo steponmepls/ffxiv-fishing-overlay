@@ -119,11 +119,15 @@ html.marker-paused .markline {
 .label {
   position: relative;
   width: 100%;
+  overflow: hidden;
 }
 .label .name {
   font-weight: bold;
   align-self: center;
   z-index: 2;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .label .name:not(:empty) {
   padding-left: 0.5rem;
