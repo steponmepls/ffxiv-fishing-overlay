@@ -49,7 +49,10 @@ function fetchSpot(s) {
       // const zoneName = spot.TerritoryType.PlaceName.Name
       const spotID = spot.ID;
       if (!(spotID in fishingLog[zoneID])) { fishingLog[zoneID][spotID] = {} }
-      const spotName = spot.PlaceName.Name;
+      const spotNameEN = spot.PlaceName.Name_en;
+      const spotNameDE = spot.PlaceName.Name_de;
+      const spotNameFR = spot.PlaceName.Name_fr;
+      const spotNameJA = spot.PlaceName.Name_ja;
       const fishes = [];
       for (let i=0; i<9; i++) {
       	const key = "Item" + i;
@@ -58,7 +61,7 @@ function fetchSpot(s) {
         	const fishID = item.ID;
           const fishIcon = item.Icon;
           const fishIconHD = item.IconHD;
-          const fishName = item.Name_en;
+          const fishNameEN = item.Name_en;
           const fishNameDE = item.Name_de;
           const fishNameFR = item.Name_fr;
           const fishNameJA = item.Name_ja;
@@ -66,7 +69,7 @@ function fetchSpot(s) {
           	id: fishID,
             icon: fishIcon,
             iconHD: fishIconHD,
-            name: fishName,
+            name_en: fishNameEN,
             name_de: fishNameDE,
             name_fr: fishNameFR,
             name_ja: fishNameJA
@@ -75,7 +78,10 @@ function fetchSpot(s) {
         	break
         }
       }
-      fishingLog[zoneID][spotID].name = spotName;
+      fishingLog[zoneID][spotID].name_en = spotNameEN;
+      fishingLog[zoneID][spotID].name_de = spotNameDE;
+      fishingLog[zoneID][spotID].name_fr = spotNameFR;
+      fishingLog[zoneID][spotID].name_ja = spotNameJA;
       fishingLog[zoneID][spotID].fishes = fishes
     }
   })
