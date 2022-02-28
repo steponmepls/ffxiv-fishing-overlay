@@ -1,8 +1,9 @@
 const languages = {
   English: {
     start: [
-      /^You cast your line.+\.$/,
-      /^You cast your line.+undiscovered fishing hole\.$/i
+      /^You (?:re)?cast your line.+\.$/,
+      /^You cast your line.+undiscovered fishing hole\.$/i,
+      /^You recast your line with the fish still hooked\.$/
     ],
     buff: [
       /^You gain the effect of .{2}(.+)\.$/,
