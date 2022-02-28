@@ -122,6 +122,8 @@ html.marker-paused .markline {
   overflow: hidden;
 }
 .label .name {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: .8em;
   font-weight: bold;
   align-self: center;
   z-index: 2;
