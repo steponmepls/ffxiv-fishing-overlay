@@ -12,6 +12,7 @@ fetch("./dist/fishing-log-min.json")
 
 // Fallback in case ACT isn't running
 lang = !lang ? "English" : lang;
+nameLang = !nameLang ? "en" : nameLang;
 
 if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
   character =  {id: 0, name: "Testing"};
@@ -414,7 +415,6 @@ async function exportSettings() {
 // DEBUG
 function debug(delay) {
   zone = 135;
-  lang = "English";
   document.dispatchEvent(new CustomEvent("startCasting", {
     detail: {
       line: "the salt strand"
