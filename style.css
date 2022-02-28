@@ -44,6 +44,14 @@ html.fishing #container {
 #header > * {
   padding: 0.5rem;
 }
+#spot {
+  font-size: .8em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  align-self: center;
+  flex-basis: 100%;
+}
 #spot:empty::before {
   content: 'Unknown';
   opacity: 0.7;
@@ -53,9 +61,6 @@ html.fishing #container {
 }
 #entries {
   position: relative;
-}
-#spot {
-  flex-basis: 100%;
 }
 #marker {
   position: absolute;
