@@ -183,9 +183,9 @@ window.addEventListener("DOMContentLoaded", async (e) => {
 
     const threshold = marker.getAttribute("data-dur");
     if (fishTime > 30 && threshold < 60) marker.setAttribute("data-dur", 60);
-  
+
     for (const item of log[zone][spot].fishes) {
-      const regex = new RegExp(`${item.name}`, "i");
+      const regex = new RegExp(`${item["name_" + nameLang]}`, "i");
       if (regex.test(fishName)) {
         fishID = item.id;
         break
@@ -230,12 +230,12 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   function findSpot(line) {
     const spots = log[zone];
     for (const id in spots) {
-      const sanitized = spots[id].name.replace(escape, '\\$&');
+      const sanitized = spots[id]["name_" + nameLang].replace(escape, '\\$&');
       const rule = new RegExp(sanitized, "i");
       if (rule.test(line)) {
         if (id != spot) {
           spot = parseInt(id);
-          spotTitle.innerText = spots[spot].name;
+          spotTitle.innerText = spots[spot]["name_" + nameLang];
           spotTitle.title = `${zone} / ${spot}`;
           resetEntries();
           populateEntries()
@@ -276,7 +276,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
 
     log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index),
-            name = fish.name,
+            name = fish["name_" + nameLang],
             icon = "https://xivapi.com" + fish.icon,
             tug = fish.tug;
       item.querySelector(".icon img").src = icon;
