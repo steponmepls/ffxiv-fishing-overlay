@@ -163,6 +163,8 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       spotTitle.innerText = "";
       spotTitle.title = "";
       resetEntries()
+    } else if (regex.start[2].test(e.detail.line)) {
+      return
     } else {
       findSpot(e.detail.line)
     }
@@ -237,12 +239,10 @@ window.addEventListener("DOMContentLoaded", async (e) => {
           spotTitle.title = `${zone} / ${spot}`;
           resetEntries();
           populateEntries()
-        } else {
-          // Find highest max record and redraw timeline when needed
-          const max = Math.max(...Object.values(settings[character.id].records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat());
-          const newDur = max > 30 ? 60 : 30;
-          marker.setAttribute("data-dur", newDur)
-        }
+        } else { // Reset
+          if (marker.getAttribute("data-dur") > 30 && getMax() <= 30)
+            marker.setAttribute("data-dur", 30)
+        };
         break
       }
     }
@@ -272,8 +272,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     const spotRecord = settings[character.id].records[zone][spot];
 
     // Find highest max record and redraw timeline when needed
-    const max = Math.max(...Object.values(settings[character.id].records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat());
-    const newDur = max > 30 ? 60 : 30;
+    const newDur = getMax() > 30 ? 60 : 30;
 
     log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index),
@@ -333,6 +332,10 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       const output = (100 * time) / threshold;
       return parseFloat(output.toFixed(1))
     }
+  }
+
+  function getMax() {
+    return Math.max(...Object.values(settings[character.id].records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat())
   }
 });
 
