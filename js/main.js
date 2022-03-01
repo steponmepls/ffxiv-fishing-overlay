@@ -7,7 +7,7 @@ fetch("./dist/fishing-log-min.json")
 .then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
 .then(data => {
   Object.assign(log, data);
-  if (Object.values(settings[character.id].records).length < 1) initRecord();
+  if (character && Object.values(settings[character.id].records).length < 1) initRecord();
 } );
 
 // Fallback in case ACT isn't running
