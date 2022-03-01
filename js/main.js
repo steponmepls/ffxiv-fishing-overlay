@@ -104,10 +104,10 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   document.addEventListener("newSpot", (e) => { findSpot(e.detail.line) });
   marker.addEventListener("animationend", (e) => {
     // Force-stop marker animation when elapsed time reaches 60s
-    if (e.elapsedTime >= 60) return
+    if (e.elapsedTime >= 45) return
 
     // Redraw records considering new 60s delay
-    marker.setAttribute("data-dur", 60);
+    marker.setAttribute("data-dur", 45);
 
     // Restart animation
     marker.removeAttribute("animated");
@@ -131,17 +131,19 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     const records = settings[character.id].records;
     if (!(zone in records) || !(spot in records[zone])) return;
 
+    const spotRecords = records[zone][spot];
+
     log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index);
-      if (fish.id in records[zone][spot]) {
+      if (fish.id in spotRecords) {
         let fishRecord, fishMark;
-        if ("min" in records[zone][spot][fish.id].chum) {
-          fishRecord = records[zone][spot][fish.id].chum;
+        if ("chum" in spotRecords[fish.id] && "min" in spotRecords[fish.id].chum) {
+          fishRecord = spotRecords[fish.id].chum;
           fishMark = item.querySelector(".label .record-chum");
           redrawRecord(fishRecord, fishMark)
         }
-        if ("min" in records[zone][spot][fish.id]) {
-          fishRecord = records[zone][spot][fish.id];
+        if ("min" in spotRecords[fish.id]) {
+          fishRecord = spotRecords[fish.id];
           fishMark = item.querySelector(".label .record");
           redrawRecord(fishRecord, fishMark)
         }
@@ -208,7 +210,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
           records = settings[character.id].records;
 
     const threshold = marker.getAttribute("data-dur");
-    if (fishTime > 30 && threshold < 60) marker.setAttribute("data-dur", 60);
+    if (fishTime > 30 && threshold < 45) marker.setAttribute("data-dur", 45);
 
     for (const item of log[zone][spot].fishes) {
       const regex = new RegExp(`${item["name_" + nameLang]}`, "i");
@@ -221,18 +223,20 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     // Init if no entries yet
     if (!(zone in records)) records[zone] = {};
     if (!(spot in records[zone])) records[zone][spot] = {};
-    if (!(fishID in records[zone][spot])) {
+    const spotRecords = records[zone][spot];
+
+    if (!(fishID in spotRecords)) {
       records[zone][spot][fishID] = {}
-      records[zone][spot][fishID].chum = {}
     }
   
     // Pick either chum or normal mark for a fish
     let fishRecord, fishMark;
     if (wasChum) {
-      fishRecord = records[zone][spot][fishID].chum;
+      if (!("chum" in spotRecords[fishID])) spotRecords[fishID].chum = {};
+      fishRecord = spotRecords[fishID].chum;
       fishMark = spotFishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record-chum`)
     } else {
-      fishRecord = records[zone][spot][fishID];
+      fishRecord = spotRecords[fishID];
       fishMark = spotFishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record`)
     };
 
@@ -315,18 +319,19 @@ window.addEventListener("DOMContentLoaded", async (e) => {
 
       
       if (!(zone in records) || !(spot in records[zone])) return;
-      newDur = getMax() > 30 ? 60 : 30;
+      newDur = getMax() > 30 ? 45 : 30;
 
       // Add record marks
       if (fish.id in records[zone][spot]) {
         let fishRecord, fishMark;
-        if ("min" in records[zone][spot][fish.id].chum) {
-          fishRecord = records[zone][spot][fish.id].chum;
+        const spotRecords = records[zone][spot];
+        if ("chum" in spotRecords[fish.id] && "min" in spotRecords[fish.id].chum) {
+          fishRecord = spotRecords[fish.id].chum;
           fishMark = item.querySelector(".label .record-chum");
           redrawRecord(fishRecord, fishMark, newDur)
         }
-        if ("min" in records[zone][spot][fish.id]) {
-          fishRecord = records[zone][spot][fish.id];
+        if ("min" in spotRecords[fish.id]) {
+          fishRecord = spotRecords[fish.id];
           fishMark = item.querySelector(".label .record");
           redrawRecord(fishRecord, fishMark, newDur)
         }

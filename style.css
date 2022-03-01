@@ -83,10 +83,10 @@ html.fishing #container {
 .markline[data-dur="30"] {
   animation-duration: 30s;
 }
-.markline[data-dur="60"] {
-  animation-duration: 60s;
+.markline[data-dur="45"] {
+  animation-duration: 45s;
 }
-html.long-cast .markline[data-dur="60"] {
+html.long-cast .markline[data-dur="45"] {
   animation-delay: -30s;
 }
 html.fishing .markline {
