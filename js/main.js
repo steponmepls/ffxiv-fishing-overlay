@@ -58,7 +58,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       if (!id || typeof id !== "number") return;
 
       copyToClipboard("https://www.garlandtools.org/db/#item/" + id);
-      sendMessage("Copied fish link to clipboard")
+      sendMessage("Copied link to clipboard")
     };
   };
 
@@ -68,7 +68,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     if (!id || typeof id !== "number") return;
 
     copyToClipboard("https://www.garlandtools.org/db/#fishing/" + id);
-    sendMessage("Copied fishing spot link to clipboard");
+    sendMessage("Copied link to clipboard");
     console.debug(title)
   };
 
