@@ -37,7 +37,8 @@ window.addEventListener("DOMContentLoaded", async (e) => {
         timer = document.getElementById("timer"),
         spotFishes = document.getElementById("entries"),
         marker = document.getElementById("marker").querySelector(".markline"),
-        escape = /[-\/\\^$*+?.()|[\]{}]/g;
+        msgOutput = document.getElementById("output-msg"),
+        escaped = /[-\/\\^$*+?.()|[\]{}]/g;
 
   // Init 1->10 fish nodes
   for (let i=0; i<10; i++) {
@@ -100,6 +101,13 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   	void html.offsetWidth;
   	html.classList.add("long-cast", "marker-animated")
   });
+  document.addEventListener("newMessage", (e) => {
+    const msg = e.detail.msg,
+          type = e.detail.type;
+
+    msgOutput.innerText = msg;
+    setTimeout(() => { msgOutput.innerText = "" }, 3000)
+  });
   // Redraw timeline whenever data-dur value changes
   const durationChange = new MutationObserver((list) => {
     // Prevents from running if value hasn't changed
@@ -130,7 +138,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   document.addEventListener("reloadEntries", () => {
     resetEntries();
     populateEntries()
-  })
+  });
 
   // Overlay functions
   function startCasting(e) {
@@ -231,7 +239,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   function findSpot(line) {
     const spots = log[zone];
     for (const id in spots) {
-      const sanitized = spots[id]["name_" + nameLang].replace(escape, '\\$&');
+      const sanitized = spots[id]["name_" + nameLang].replace(escaped, '\\$&');
       const rule = new RegExp(sanitized, "i");
       if (rule.test(line)) {
         if (id != spot) {
@@ -411,6 +419,15 @@ async function exportSettings() {
   document.execCommand("copy");
   document.body.removeChild(field);
 }
+
+function sendMessage(message, priority) {
+  document.dispatchEvent(new CustomEvent("newMessage", {
+    detail: {
+      msg: message,
+      type: priority
+    }
+  }))
+};
 
 // DEBUG
 function debug(delay) {

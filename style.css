@@ -183,3 +183,11 @@ html:not(.chum-records) .record[data-min] {
   width: 0px;
   height: 0px;
 }
+#output-msg {
+  width: 100%;
+  padding-left: .25rem;
+}
+#output-msg::before {
+  content: '>';
+  opacity: .7;
+}
