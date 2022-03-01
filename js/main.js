@@ -52,7 +52,24 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       <div class="name"></div>
       <div class="window"></div>
     </div>`;
-    spotFishes.appendChild(fish)
+    spotFishes.appendChild(fish);
+    fish.querySelector(".label .name").onclick = (e) => {
+      const id = parseInt(e.target.parentElement.parentElement.getAttribute("data-fishid"));
+      if (!id || typeof id !== "number") return;
+
+      copyToClipboard("https://www.garlandtools.org/db/#item/" + id);
+      sendMessage("Copied fish link to clipboard")
+    };
+  };
+
+  spotTitle.onclick = (e) => {
+    const title = e.target.getAttribute("title"),
+          id = parseInt(title.split(" / ")[1]);
+    if (!id || typeof id !== "number") return;
+
+    copyToClipboard("https://www.garlandtools.org/db/#fishing/" + id);
+    sendMessage("Copied fishing spot link to clipboard");
+    console.debug(title)
   };
 
   // Import / Export settings
@@ -411,9 +428,13 @@ async function exportSettings() {
     return
   };
   const data = JSON.stringify(settings);
+  copyToClipboard(data)
+}
+
+async function copyToClipboard(string) {
   const field = document.createElement("input");
   field.type = "text";
-  field.setAttribute("value", data);
+  field.setAttribute("value", string);
   document.body.appendChild(field);
   field.select();
   // Deprected method but no way around it since clipboard API won't work in ACT
