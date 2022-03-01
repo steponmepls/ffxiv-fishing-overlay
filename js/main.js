@@ -30,7 +30,7 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
 };
 
 window.addEventListener("DOMContentLoaded", async (e) => {
-  let interval, start = 0, wasChum = false;
+  let interval, start = 0, wasChum = false, msgTimeout;
 
   const html = document.body.parentElement,
         spotTitle = document.getElementById("spot"),
@@ -106,7 +106,8 @@ window.addEventListener("DOMContentLoaded", async (e) => {
           type = e.detail.type;
 
     msgOutput.innerText = msg;
-    setTimeout(() => { msgOutput.innerText = "" }, 3000)
+    clearTimeout(msgTimeout); // Force reset in case of overlapping events
+    msgTimeout = setTimeout(() => { msgOutput.innerText = "" }, 3000)
   });
   // Redraw timeline whenever data-dur value changes
   const durationChange = new MutationObserver((list) => {
@@ -418,6 +419,7 @@ async function exportSettings() {
   // Deprected method but no way around it since clipboard API won't work in ACT
   document.execCommand("copy");
   document.body.removeChild(field);
+  sendMessage("Copied to clipboard");
 }
 
 function sendMessage(message, priority) {
