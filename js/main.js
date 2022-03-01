@@ -3,12 +3,9 @@
 let uuid, character, spot;
 const settings = {}, log = {};
 
-fetch("./dist/fishing-log-min.json")
+fetch("https://steponmepls.github.io/fishing-overlay/dist/fishing-log-min.json")
 .then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
-.then(data => {
-  Object.assign(log, data);
-  if (character && Object.values(settings[character.id].records).length < 1) initRecord();
-} );
+.then(data => Object.assign(log, data));
 
 // Fallback in case ACT isn't running
 lang = !lang ? "English" : lang;
@@ -131,18 +128,20 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     // Prevents from running if value hasn't changed
     if (list[0].oldValue == list[0].target.getAttribute("data-dur")) return
 
-    const spotRecord = settings[character.id].records[zone][spot];
+    const records = settings[character.id].records;
+    if (!(zone in records) || !(spot in records[zone])) return;
+
     log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index);
-      if (fish.id in spotRecord) {
+      if (fish.id in records[zone][spot]) {
         let fishRecord, fishMark;
-        if ("min" in spotRecord[fish.id].chum) {
-          fishRecord = spotRecord[fish.id].chum;
+        if ("min" in records[zone][spot][fish.id].chum) {
+          fishRecord = records[zone][spot][fish.id].chum;
           fishMark = item.querySelector(".label .record-chum");
           redrawRecord(fishRecord, fishMark)
         }
-        if ("min" in spotRecord[fish.id]) {
-          fishRecord = spotRecord[fish.id];
+        if ("min" in records[zone][spot][fish.id]) {
+          fishRecord = records[zone][spot][fish.id];
           fishMark = item.querySelector(".label .record");
           redrawRecord(fishRecord, fishMark)
         }
@@ -206,7 +205,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
           // sizeUnit = fish.detail.unit,
           // totalFishes = fish.detail.amount,
           spotID = fish.detail.spotId,
-          spotRecord = settings[character.id].records[zone][spotID];
+          records = settings[character.id].records;
 
     const threshold = marker.getAttribute("data-dur");
     if (fishTime > 30 && threshold < 60) marker.setAttribute("data-dur", 60);
@@ -220,24 +219,26 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     }
   
     // Init if no entries yet
-    if (!(fishID in spotRecord)) {
-      spotRecord[fishID] = {}
-      spotRecord[fishID].chum = {}
+    if (!(zone in records)) records[zone] = {};
+    if (!(spot in records[zone])) records[zone][spot] = {};
+    if (!(fishID in records[zone][spot])) {
+      records[zone][spot][fishID] = {}
+      records[zone][spot][fishID].chum = {}
     }
   
     // Pick either chum or normal mark for a fish
     let fishRecord, fishMark;
     if (wasChum) {
-      fishRecord = spotRecord[fishID].chum;
+      fishRecord = records[zone][spot][fishID].chum;
       fishMark = spotFishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record-chum`)
     } else {
-      fishRecord = spotRecord[fishID];
+      fishRecord = records[zone][spot][fishID];
       fishMark = spotFishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record`)
     };
 
     // Reset chum bool
     wasChum = false
-  
+
     if (!("min" in fishRecord)) {
       fishRecord.min = fishTime;
       fishRecord.max = fishTime;
@@ -296,10 +297,8 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   }
 
   function populateEntries() {  
-    const spotRecord = settings[character.id].records[zone][spot];
-
-    // Find highest max record and redraw timeline when needed
-    const newDur = getMax() > 30 ? 60 : 30;
+    let newDur = 30;
+    const records = settings[character.id].records;
 
     log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index),
@@ -311,20 +310,23 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       // item.querySelector(".label .window").innerHTML = "";
       item.setAttribute("data-fishid", fish.id);
       ["medium", "heavy", "light"].forEach((t, index) => {
-        if (tug == index) {
-          item.classList.add(t);
-        }
+        if (tug == index) item.classList.add(t);
       });
+
+      
+      if (!(zone in records) || !(spot in records[zone])) return;
+      newDur = getMax() > 30 ? 60 : 30;
+
       // Add record marks
-      if (fish.id in spotRecord) {
+      if (fish.id in records[zone][spot]) {
         let fishRecord, fishMark;
-        if ("min" in spotRecord[fish.id].chum) {
-          fishRecord = spotRecord[fish.id].chum;
+        if ("min" in records[zone][spot][fish.id].chum) {
+          fishRecord = records[zone][spot][fish.id].chum;
           fishMark = item.querySelector(".label .record-chum");
           redrawRecord(fishRecord, fishMark, newDur)
         }
-        if ("min" in spotRecord[fish.id]) {
-          fishRecord = spotRecord[fish.id];
+        if ("min" in records[zone][spot][fish.id]) {
+          fishRecord = records[zone][spot][fish.id];
           fishMark = item.querySelector(".label .record");
           redrawRecord(fishRecord, fishMark, newDur)
         }
@@ -362,7 +364,9 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   }
 
   function getMax() {
-    return Math.max(...Object.values(settings[character.id].records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat())
+    const records = settings[character.id].records;
+    if (!(zone in records) || !(spot in records[zone])) return;
+    return Math.max(...Object.values(records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat())
   }
 });
 
@@ -370,17 +374,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
 async function initCharacter() {
   settings[character.id] = {};
   settings[character.id].name = character.name;
-  settings[character.id].records = {};
-  if (Object.values(log) > 0) initRecord()
-}
-
-function initRecord() {
-  for (const zone in log) {
-    settings[character.id].records[zone] = {};
-    for (const spot in log[zone]) {
-      settings[character.id].records[zone][spot] = {}
-    }
-  }
+  settings[character.id].records = {}
 }
 
 async function saveSettings(object) {
