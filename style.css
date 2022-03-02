@@ -26,13 +26,14 @@ html {
   color: white;
   font-family: sans-serif;
 }
-@media screen and (min-width: 1280px) {
+@media screen and (min-width: 800px) {
   #container {
     max-width: 33vw;
   }
 }
 html.fishing #container {
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 #header, #footer {
   background: rgba(10,10,10,.5);
@@ -61,6 +62,9 @@ html.fishing #container {
 }
 #entries {
   position: relative;
+}
+html.show-settings #entries {
+  visibility: collapse;
 }
 #marker {
   position: absolute;
@@ -166,25 +170,13 @@ html:not(.chum-records) .record[data-min] {
   border-bottom-right-radius: 3px;
   font-size: x-small;
   text-transform: uppercase;
-  padding: .15rem;
   display: flex;
   justify-content: right;
-}
-#footer .settings {
-  opacity: 0;
-  padding: 0 .15rem;
-  cursor: pointer;
-}
-#footer .settings:hover {
-  opacity: 1;
-}
-#footer input {
-  display: none;
-  width: 0px;
-  height: 0px;
+  position: relative;
 }
 #output-msg {
   width: 100%;
+  padding: .15rem;
   padding-left: .25rem;
   overflow: hidden;
   white-space: nowrap;
@@ -194,4 +186,35 @@ html:not(.chum-records) .record[data-min] {
   content: '>';
   opacity: .7;
   padding-right: .1rem
+}
+#show-settings:hover {
+  cursor: pointer;
+}
+#show-settings::before {
+  content: '⚙';
+  display: block;
+  width: auto;
+  height: 100%;
+  font-size: 14px;
+  line-height: 16px;
+  padding-right: .1rem;
+}
+#settings {
+  display: none;
+  flex-direction: column;
+  margin-bottom: 1px;
+}
+html.show-settings #settings {
+  display: flex;
+}
+#settings textarea {
+  width: 100%;
+  resize: none;
+}
+#settings textarea + div {
+  display: flex;
+  align-items: stretch;
+}
+#settings textarea + div button {
+  width: 50%;
 }
