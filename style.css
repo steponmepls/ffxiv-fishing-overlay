@@ -206,19 +206,20 @@ html:not(.chum-records) .record[data-min] {
 #settings {
   display: none;
   flex-direction: column;
-  margin-bottom: 1px;
+  background: rgba(10,10,10,.5);
 }
 html.show-settings #settings {
   display: flex;
 }
-#settings textarea {
-  width: 100%;
-  resize: none;
-}
-#settings textarea + div {
+#settings .settings {
   display: flex;
   align-items: stretch;
 }
-#settings textarea + div button {
-  width: 50%;
+#settings .settings > * {
+  width: 33%;
+}
+#settings .settings > div {
+  font-size: .8em;
+  align-self: center;
+  text-align: center;
 }
