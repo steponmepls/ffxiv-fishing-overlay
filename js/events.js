@@ -2,20 +2,8 @@
 
 let lang, nameLang, zone;
 
-// Get language from ACT and use "English" as fallback
-callOverlayHandler({ call: 'getLanguage' })
-.then(res => {
-  lang = ("language" in res) ? res.language : "English";
-  if (lang == "English") {
-    nameLang = "en"
-  } else if (lang == "German") {
-    nameLang = "de"
-  } else if (lang == "French") {
-    nameLang = "fr"
-  } else if (lang == "Japanese") {
-    nameLang = "ja"
-  }
-})
+// Prevent overlay from running if no internet available
+if (!window.callOverlayHandler) throw new Error("No internet connection available.");
 
 // Report when you change character
 addOverlayListener("ChangePrimaryPlayer", (e) => {
