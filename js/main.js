@@ -42,18 +42,7 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
       Object.assign(settings, obj.data);
       if (!(character.id in settings)) initCharacter()
     }})
-  });
-
-  // ACF functions
-  async function saveSettings(object) {
-    if (typeof object !== "object" || object === null) {
-      console.error("Couldn't save settings. Argument isn't an object.");
-      console.debug(object);
-      return
-    }
-  
-    callOverlayHandler({ call: "saveData", key: uuid, data: object })
-  }
+  })
 };
 
 fetch("https://steponmepls.github.io/fishing-overlay/dist/fishing-log-min.json")
@@ -404,6 +393,16 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   }
 
   // ACT functions
+  async function saveSettings(object) {
+    if (typeof object !== "object" || object === null) {
+      console.error("Couldn't save settings. Argument isn't an object.");
+      console.debug(object);
+      return
+    }
+  
+    callOverlayHandler({ call: "saveData", key: uuid, data: object })
+  }
+
   async function exportSettings(e) {
     if (Object.values(settings).legnth < 1) {
       console.error("Failed to export settings");
@@ -436,6 +435,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
         }
         
         Object.assign(settings, JSON.parse(e.target.result));
+        await saveSettings(settings);
         sendMessage("Imported new settings.");
         document.dispatchEvent(new CustomEvent("reloadEntries"))
       }
