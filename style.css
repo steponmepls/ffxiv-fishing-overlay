@@ -215,11 +215,16 @@ html.show-settings #settings {
   display: flex;
   align-items: stretch;
 }
-#settings .settings > * {
+#settings .settings > *:not(input) {
   width: 33%;
 }
 #settings .settings > div {
   font-size: .8em;
   align-self: center;
   text-align: center;
+}
+#settings .settings > input, 
+#settings .settings > b {
+  width: 0px;
+  height: 0px;
 }

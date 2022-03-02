@@ -35,8 +35,9 @@ window.addEventListener("DOMContentLoaded", async (e) => {
         fishes = document.getElementById("entries"),
         marker = document.getElementById("marker").querySelector(".markline"),
         settingsPanel = document.getElementById("settings"),
+        settingsInput = settingsPanel.querySelector(".settings input"),
         msgOutput = document.getElementById("output-msg"),
-        settingsButton = document.getElementById("show-settings"),
+        settingsToggle = document.getElementById("show-settings"),
         escaped = /[-\/\\^$*+?.()|[\]{}]/g;
 
   // Init 1->10 fish nodes
@@ -61,20 +62,10 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     };
   };
 
-  title.onclick = (e) => {
-    const title = e.target.getAttribute("title"),
-          id = parseInt(title.split(" / ")[1]);
-    if (!id || typeof id !== "number") return;
-
-    copyToClipboard("https://www.garlandtools.org/db/#fishing/" + id);
-    sendMessage("Copied link to clipboard");
-    console.debug(title)
-  };
-
   // Import / Export settings
-  settingsPanel.querySelector(".settings.import").addEventListener("click", importSettings);
-  settingsPanel.querySelector(".settings.export").addEventListener("click", exportSettings);
-  settingsPanel.querySelector("textarea").value = ""; // Force reset to clean form on reload
+  settingsPanel.querySelector(".settings .import").addEventListener("click", () => { settingsInput.click() });
+  settingsInput.addEventListener("click", importSettings);
+  settingsPanel.querySelector(".settings .export").addEventListener("click", exportSettings);
 
   // Overlay events
   document.addEventListener("startCasting", startCasting);
@@ -114,7 +105,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   	void html.offsetWidth;
   	html.classList.add("long-cast", "marker-animated")
   });
-  settingsButton.addEventListener("click", () => { html.classList.toggle("show-settings") });
+  settingsToggle.addEventListener("click", () => { html.classList.toggle("show-settings") });
   document.addEventListener("newMessage", (e) => {
     const msg = e.detail.msg,
           type = e.detail.type;
@@ -375,20 +366,31 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     return Math.max(...Object.values(records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat())
   }
 
-  async function importSettings() {
-    const value = settingsPanel.querySelector("textarea").value;
+  async function importSettings(e) {
+    let files = e.target.files;
+    if (files.length == 0) return;
+
+    const file = files[0];
+    let reader = new FileReader();
+
+    reader.onload = async (e) => {
+      if (!(isJSON(e.target.result))) {
+        sendMessage("Failed to import settings.");
+        console.error("Failed to import settings. String isn't valid JSON.");
+        return
+      }
+      
+      Object.assign(settings, JSON.parse(e.target.result));
+      await saveSettings(settings);
+      sendMessage("Imported new settings");
+      document.dispatchEvent(new CustomEvent("reloadEntries"))
+    };
+
+    reader.onerror = (e) => console.error(e.target.error.name);
+
+    reader.readAsText(file);
   
-    if (!(isJSON(value))) {
-      sendMessage("Failed to import settings.");
-      console.error("Failed to import settings. String isn't valid JSON.");
-      return
-    }
-  
-    Object.assign(settings, JSON.parse(value));
-    await saveSettings(settings);
-    sendMessage("Imported new settings");
-    document.dispatchEvent(new CustomEvent("reloadEntries"));
-  
+    // Method: https://stackoverflow.com/a/31881889
     function isJSON(string){
       if (typeof string !== "string"){
           return false;
@@ -403,16 +405,21 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     }
   }
   
-  async function exportSettings() {
+  async function exportSettings(e) {
     if (!settings || Object.values(settings).legnth < 1) {
       console.error("Failed to export settings");
       console.debug(settings);
       return
     };
-    const textarea = settingsPanel.querySelector("textarea"),
-    data = JSON.stringify(settings);
 
-    textarea.value = data
+    // Method: https://stackoverflow.com/a/30800715
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings));
+    const link = document.createElement("a");
+    link.setAttribute("href", dataStr);
+    link.setAttribute("download", "settings.json");
+    e.target.parentElement.appendChild(link);
+    link.click();
+    //e.target.parentElement.removeChild(link)
   }
 });
 
