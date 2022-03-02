@@ -427,7 +427,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       const file = e.target.files[0],
             reader = new FileReader();
       
-      reader.onload = (e) => {
+      reader.onload = async (e) => {
         if (!(isJSON(e.target.result))) {
           sendMessage("Failed to import settings.");
           console.error("Failed to import settings. String isn't valid JSON.");
