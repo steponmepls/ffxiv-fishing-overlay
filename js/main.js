@@ -3,28 +3,63 @@
 let uuid, character, spot;
 const settings = {}, log = {};
 
-fetch("https://steponmepls.github.io/fishing-overlay/dist/fishing-log-min.json")
-.then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
-.then(data => Object.assign(log, data));
-
 // Fallback in case ACT isn't running
 lang = !lang ? "English" : lang;
 nameLang = !nameLang ? "en" : nameLang;
 
+// Prevent overlay from running if no internet available
+if (!window.callOverlayHandler) throw new Error("No internet connection available.");
+
 if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
-  character =  {id: 0, name: "Testing"};
+  character = {id: 0, name: "Testing"};
   if (!(character.id in settings)) initCharacter();
   console.warn("ACT is unavailable or OverlayPlugin is broken.")
 } else {
   uuid = window.OverlayPluginApi.overlayUuid;
 
+  // Fetch language from ACT settings
+  callOverlayHandler({ call: 'getLanguage' })
+  .then(res => {
+    lang = ("language" in res) ? res.language : "English";
+    if (lang == "English") {
+      nameLang = "en"
+    } else if (lang == "German") {
+      nameLang = "de"
+    } else if (lang == "French") {
+      nameLang = "fr"
+    } else if (lang == "Japanese") {
+      nameLang = "ja"
+    }
+  });
+
   // ACT events
   document.addEventListener("changedCharacter", async (e) => {
     if (e.detail === null) return
+
     character = e.detail;
-    loadSettings()
-  })
+    callOverlayHandler({ call: "loadData", key: uuid })
+    .then(obj => { if (obj && obj.data) {
+      Object.assign(settings, obj.data);
+      if (!(character.id in settings)) initCharacter()
+    }})
+  });
+
+  // ACF functions
+  async function saveSettings(object) {
+    if (typeof object !== "object" || object === null) {
+      console.error("Couldn't save settings. Argument isn't an object.");
+      console.debug(object);
+      return
+    }
+  
+    callOverlayHandler({ call: "saveData", key: uuid, data: object })
+  }
 };
+
+fetch("https://steponmepls.github.io/fishing-overlay/dist/fishing-log-min.json")
+.then(res => res.json())
+.then(data => { if (data) Object.assign(log, data) });
+
 
 window.addEventListener("DOMContentLoaded", async (e) => {
   let interval, start = 0, wasChum = false, msgTimeout;
@@ -40,6 +75,12 @@ window.addEventListener("DOMContentLoaded", async (e) => {
         settingsToggle = document.getElementById("show-settings"),
         escaped = /[-\/\\^$*+?.()|[\]{}]/g;
 
+  // Import/Export settings
+  settingsPanel.querySelector(".import").addEventListener("click", () => { settingsInput.click() });
+  settingsInput.value = null; // Apparently needed to clear input on reload
+  settingsInput.addEventListener("click", (event) => { importSettings(event) });
+  settingsPanel.querySelector(".export").addEventListener("click", exportSettings);
+
   // Init 1->10 fish nodes
   for (let i=0; i<10; i++) {
     const fish = document.createElement("div");
@@ -47,25 +88,21 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     fish.classList.add("fish", "flex");
     fish.innerHTML = `<div class="icon"><img src=""></div>
     <div class="label flex">
-      <div class="record"></div>
-      <div class="record-chum"></div>
-      <div class="name"></div>
-      <div class="window"></div>
+    <div class="record"></div>
+    <div class="record-chum"></div>
+    <div class="name"></div>
+    <div class="window"></div>
     </div>`;
     fishes.appendChild(fish);
     fish.querySelector(".label .name").onclick = (e) => {
-      const id = parseInt(e.target.parentElement.parentElement.getAttribute("data-fishid"));
+      const item = e.target.parentElement.parentElement,
+            id = parseInt(item.getAttribute("data-fishid"));
       if (!id || typeof id !== "number") return;
 
       copyToClipboard("https://www.garlandtools.org/db/#item/" + id);
-      sendMessage("Copied link to clipboard")
+      sendMessage("Copied link to clipboard.")
     };
   };
-
-  // Import / Export settings
-  settingsPanel.querySelector(".settings .import").addEventListener("click", () => { settingsInput.click() });
-  settingsInput.addEventListener("click", importSettings);
-  settingsPanel.querySelector(".settings .export").addEventListener("click", exportSettings);
 
   // Overlay events
   document.addEventListener("startCasting", startCasting);
@@ -102,8 +139,8 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     // Restart animation
     marker.removeAttribute("animated");
     html.classList.remove("marker-animated");
-  	void html.offsetWidth;
-  	html.classList.add("long-cast", "marker-animated")
+    void html.offsetWidth;
+    html.classList.add("long-cast", "marker-animated")
   });
   settingsToggle.addEventListener("click", () => { html.classList.toggle("show-settings") });
   document.addEventListener("newMessage", (e) => {
@@ -366,29 +403,46 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     return Math.max(...Object.values(records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat())
   }
 
-  async function importSettings(e) {
-    let files = e.target.files;
-    if (files.length == 0) return;
-
-    const file = files[0];
-    let reader = new FileReader();
-
-    reader.onload = async (e) => {
-      if (!(isJSON(e.target.result))) {
-        sendMessage("Failed to import settings.");
-        console.error("Failed to import settings. String isn't valid JSON.");
-        return
-      }
-      
-      Object.assign(settings, JSON.parse(e.target.result));
-      await saveSettings(settings);
-      sendMessage("Imported new settings");
-      document.dispatchEvent(new CustomEvent("reloadEntries"))
+  // ACT functions
+  async function exportSettings(e) {
+    if (Object.values(settings).legnth < 1) {
+      console.error("Failed to export settings");
+      console.debug(settings);
+      return
     };
 
-    reader.onerror = (e) => console.error(e.target.error.name);
+    // Method: https://stackoverflow.com/a/30800715
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings));
+    const link = document.createElement("a");
+    link.setAttribute("href", dataStr);
+    link.setAttribute("download", "settings.json");
+    e.target.parentElement.appendChild(link);
+    link.click();
+    e.target.parentElement.removeChild(link)
+  }
 
-    reader.readAsText(file);
+  async function importSettings(e) {
+    e.target.onchange = async (e) => {
+      if (e.target.files.length == 0) return;
+
+      const file = e.target.files[0],
+            reader = new FileReader();
+      
+      reader.onload = (e) => {
+        if (!(isJSON(e.target.result))) {
+          sendMessage("Failed to import settings.");
+          console.error("Failed to import settings. String isn't valid JSON.");
+          return
+        }
+        
+        Object.assign(settings, JSON.parse(e.target.result));
+        sendMessage("Imported new settings.");
+        document.dispatchEvent(new CustomEvent("reloadEntries"))
+      }
+
+      reader.onerror = (e) => console.error(e.target.error.name);
+      reader.readAsText(file);
+    };
   
     // Method: https://stackoverflow.com/a/31881889
     function isJSON(string){
@@ -404,70 +458,36 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       }
     }
   }
-  
-  async function exportSettings(e) {
-    if (!settings || Object.values(settings).legnth < 1) {
-      console.error("Failed to export settings");
-      console.debug(settings);
-      return
-    };
 
-    // Method: https://stackoverflow.com/a/30800715
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings));
-    const link = document.createElement("a");
-    link.setAttribute("href", dataStr);
-    link.setAttribute("download", "settings.json");
-    e.target.parentElement.appendChild(link);
-    link.click();
-    //e.target.parentElement.removeChild(link)
+  // Misc functions
+  function copyToClipboard(string) {
+    const field = document.createElement("input");
+    field.type = "text";
+    field.setAttribute("value", string);
+    document.body.appendChild(field);
+    field.select();
+    // Deprected method but no way around it since clipboard API won't work in ACT
+    document.execCommand("copy");
+    document.body.removeChild(field);
+    sendMessage("Copied to clipboard");
+  }
+
+  function sendMessage(message, priority) {
+    document.dispatchEvent(new CustomEvent("newMessage", {
+      detail: {
+        msg: message,
+        type: priority
+      }
+    }))
   }
 });
 
 // Core functions
-async function initCharacter() {
+function initCharacter() {
   settings[character.id] = {};
   settings[character.id].name = character.name;
   settings[character.id].records = {}
 }
-
-async function saveSettings(object) {
-  if (typeof object !== "object" || object === null) {
-    console.error("Couldn't save settings. Argument isn't an object.");
-    console.debug(object);
-    return
-  }
-
-  callOverlayHandler({ call: "saveData", key: uuid, data: object })
-}
-
-async function loadSettings() {
-  callOverlayHandler({ call: "loadData", key: uuid })
-  .then(obj => { if (obj && obj.data) {
-    Object.assign(settings, obj.data);
-    if (!(character.id in settings)) initCharacter()
-  }})
-}
-
-async function copyToClipboard(string) {
-  const field = document.createElement("input");
-  field.type = "text";
-  field.setAttribute("value", string);
-  document.body.appendChild(field);
-  field.select();
-  // Deprected method but no way around it since clipboard API won't work in ACT
-  document.execCommand("copy");
-  document.body.removeChild(field);
-  sendMessage("Copied to clipboard");
-}
-
-function sendMessage(message, priority) {
-  document.dispatchEvent(new CustomEvent("newMessage", {
-    detail: {
-      msg: message,
-      type: priority
-    }
-  }))
-};
 
 // DEBUG
 function debug(delay) {
