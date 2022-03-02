@@ -65,6 +65,10 @@ html.fishing #container {
 }
 html.show-settings #entries {
   visibility: collapse;
+  /* Following are needed because collapse doesn't work on Chrome for some reason */
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
 }
 #marker {
   position: absolute;
