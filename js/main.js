@@ -30,11 +30,13 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   let interval, start = 0, wasChum = false, msgTimeout;
 
   const html = document.body.parentElement,
-        spotTitle = document.getElementById("spot"),
+        title = document.getElementById("spot"),
         timer = document.getElementById("timer"),
-        spotFishes = document.getElementById("entries"),
+        fishes = document.getElementById("entries"),
         marker = document.getElementById("marker").querySelector(".markline"),
+        settingsPanel = document.getElementById("settings"),
         msgOutput = document.getElementById("output-msg"),
+        settingsButton = document.getElementById("show-settings"),
         escaped = /[-\/\\^$*+?.()|[\]{}]/g;
 
   // Init 1->10 fish nodes
@@ -49,7 +51,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       <div class="name"></div>
       <div class="window"></div>
     </div>`;
-    spotFishes.appendChild(fish);
+    fishes.appendChild(fish);
     fish.querySelector(".label .name").onclick = (e) => {
       const id = parseInt(e.target.parentElement.parentElement.getAttribute("data-fishid"));
       if (!id || typeof id !== "number") return;
@@ -59,7 +61,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     };
   };
 
-  spotTitle.onclick = (e) => {
+  title.onclick = (e) => {
     const title = e.target.getAttribute("title"),
           id = parseInt(title.split(" / ")[1]);
     if (!id || typeof id !== "number") return;
@@ -70,12 +72,9 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   };
 
   // Import / Export settings
-  const importButton = document.getElementById("import-settings"),
-        importField = importButton.querySelector("input");
-  importButton.onclick = () => { importField.click() };
-  importField.addEventListener("change", importSettings);
-  const exportButton = document.getElementById("export-settings");
-  exportButton.addEventListener("click", exportSettings);
+  settingsPanel.querySelector(".settings.import").addEventListener("click", importSettings);
+  settingsPanel.querySelector(".settings.export").addEventListener("click", exportSettings);
+  settingsPanel.querySelector("textarea").value = ""; // Force reset to clean form on reload
 
   // Overlay events
   document.addEventListener("startCasting", startCasting);
@@ -115,11 +114,13 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   	void html.offsetWidth;
   	html.classList.add("long-cast", "marker-animated")
   });
+  settingsButton.addEventListener("click", () => { html.classList.toggle("show-settings") });
   document.addEventListener("newMessage", (e) => {
     const msg = e.detail.msg,
           type = e.detail.type;
 
-    msgOutput.innerText = msg;
+    msgOutput.innerText = ""; // Visual feedback for force-reset
+    setTimeout(() => { msgOutput.innerText = msg }, 100);
     clearTimeout(msgTimeout); // Force reset in case of overlapping events
     msgTimeout = setTimeout(() => { msgOutput.innerText = "" }, 3000)
   });
@@ -188,8 +189,8 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     // Get current spot and update list if needed
     if (regex.start[1].test(e.detail.line)) { // if undiscovered spot
       spot = undefined;
-      spotTitle.innerText = "";
-      spotTitle.title = "";
+      title.innerText = "";
+      title.title = "";
       resetEntries()
     } else if (regex.start[2].test(e.detail.line)) {
       return
@@ -234,10 +235,10 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     if (wasChum) {
       if (!("chum" in spotRecords[fishID])) spotRecords[fishID].chum = {};
       fishRecord = spotRecords[fishID].chum;
-      fishMark = spotFishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record-chum`)
+      fishMark = fishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record-chum`)
     } else {
       fishRecord = spotRecords[fishID];
-      fishMark = spotFishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record`)
+      fishMark = fishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record`)
     };
 
     // Reset chum bool
@@ -267,8 +268,8 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       if (rule.test(line)) {
         if (id != spot) {
           spot = parseInt(id);
-          spotTitle.innerText = spots[spot]["name_" + nameLang];
-          spotTitle.title = `${zone} / ${spot}`;
+          title.innerText = spots[spot]["name_" + nameLang];
+          title.title = `${zone} / ${spot}`;
           resetEntries();
           populateEntries()
         } else { // Reset
@@ -373,6 +374,46 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     if (!(zone in records) || !(spot in records[zone])) return;
     return Math.max(...Object.values(records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat())
   }
+
+  async function importSettings() {
+    const value = settingsPanel.querySelector("textarea").value;
+  
+    if (!(isJSON(value))) {
+      sendMessage("Failed to import settings.");
+      console.error("Failed to import settings. String isn't valid JSON.");
+      return
+    }
+  
+    Object.assign(settings, JSON.parse(value));
+    await saveSettings(settings);
+    sendMessage("Imported new settings");
+    document.dispatchEvent(new CustomEvent("reloadEntries"));
+  
+    function isJSON(string){
+      if (typeof string !== "string"){
+          return false;
+      }
+      try{
+          const json = JSON.parse(string);
+          return (typeof json === "object");
+      }
+      catch (error){
+          return false;
+      }
+    }
+  }
+  
+  async function exportSettings() {
+    if (!settings || Object.values(settings).legnth < 1) {
+      console.error("Failed to export settings");
+      console.debug(settings);
+      return
+    };
+    const textarea = settingsPanel.querySelector("textarea"),
+    data = JSON.stringify(settings);
+
+    textarea.value = data
+  }
 });
 
 // Core functions
@@ -398,36 +439,6 @@ async function loadSettings() {
     Object.assign(settings, obj.data);
     if (!(character.id in settings)) initCharacter()
   }})
-}
-
-async function importSettings(e) {
-  let files = e.target.files;
-  if (files.length == 0) return;
-
-  const file = files[0];
-  let reader = new FileReader();
-
-  reader.onload = async (e) => {
-    const file = JSON.parse(e.target.result);
-    Object.assign(settings, file);
-    await saveSettings(file);
-    if (!(character.id in settings)) initCharacter();
-    document.dispatchEvent(new CustomEvent("reloadEntries"))
-  };
-
-  reader.onerror = (e) => console.error(e.target.error.name);
-
-  reader.readAsText(file);
-}
-
-async function exportSettings() {
-  if (!settings || Object.values(settings).legnth < 1) {
-    console.error("Failed to export settings");
-    console.debug(settings);
-    return
-  };
-  const data = JSON.stringify(settings);
-  copyToClipboard(data)
 }
 
 async function copyToClipboard(string) {
