@@ -224,7 +224,7 @@ html.show-settings #settings {
   text-align: center;
 }
 #settings .settings > input, 
-#settings .settings > b {
+#settings .settings > a {
   width: 0px;
   height: 0px;
 }
