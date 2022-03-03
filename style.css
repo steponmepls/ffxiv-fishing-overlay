@@ -10,6 +10,9 @@ html {
   -webkit-box-sizing: inherit;
   -moz-box-sizing: inherit;
   box-sizing: inherit;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 :root {
   --icon-size: 24;
@@ -129,12 +132,12 @@ html.marker-paused .markline {
   width: auto;
   height: 100%;
 }
-.label {
+.fish .label {
   position: relative;
   width: 100%;
   overflow: hidden;
 }
-.label .name {
+.fish .label .name {
   font-family: 'Roboto Condensed', sans-serif;
   font-size: .8em;
   font-weight: bold;
@@ -144,7 +147,7 @@ html.marker-paused .markline {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.label .name:not(:empty) {
+.fish .label .name:not(:empty) {
   padding-left: 0.5rem;
 }
 .record,
@@ -159,13 +162,13 @@ html.chum-records .record-chum[data-min],
 html:not(.chum-records) .record[data-min] {
   display: block;
 }
-.light .label {
+.fish.light .label {
   background-color: rgb(50, 205, 50, .5);
 }
-.medium .label {
+.fish.medium .label {
   background-color: rgb(255, 215, 0, .5);
 }
-.heavy .label {
+.fish.heavy .label {
   background-color: rgb(165, 42, 42, .5);
 }
 #footer {
@@ -211,20 +214,19 @@ html:not(.chum-records) .record[data-min] {
 html.show-settings #settings {
   display: flex;
 }
-#settings .settings {
+#settings .row {
   display: flex;
   align-items: stretch;
+  padding: 0 .25rem 0 .5rem;
 }
-#settings .settings > *:not(input) {
-  width: 33%;
-}
-#settings .settings > div {
+#settings .label {
+  width: 100%;
   font-size: .8em;
   align-self: center;
-  text-align: center;
+  text-align: left;
 }
-#settings .settings > input, 
-#settings .settings > a {
+#settings input, 
+#settings a {
   width: 0px;
   height: 0px;
 }
