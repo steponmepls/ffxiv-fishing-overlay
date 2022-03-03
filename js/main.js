@@ -58,17 +58,9 @@ window.addEventListener("DOMContentLoaded", async (e) => {
         timer = document.getElementById("timer"),
         fishes = document.getElementById("entries"),
         marker = document.getElementById("marker").querySelector(".markline"),
-        settingsPanel = document.getElementById("settings"),
-        settingsInput = settingsPanel.querySelector(".settings input"),
         msgOutput = document.getElementById("output-msg"),
         settingsToggle = document.getElementById("show-settings"),
         escaped = /[-\/\\^$*+?.()|[\]{}]/g;
-
-  // Import/Export settings
-  settingsPanel.querySelector(".import").addEventListener("click", () => { settingsInput.click() });
-  settingsInput.value = null; // Apparently needed to clear input on reload
-  settingsInput.addEventListener("click", (event) => { importSettings(event) });
-  settingsPanel.querySelector(".export").addEventListener("click", exportSettings);
 
   // Init 1->10 fish nodes
   for (let i=0; i<10; i++) {
@@ -92,6 +84,17 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       sendMessage("Copied link to clipboard.")
     };
   };
+
+  // Import/Export settings
+  const settingsPanel = document.getElementById("settings"),
+        overlayInput = settingsPanel.querySelector(".overlay input"),
+        carbPlushyBtn = settingsPanel.querySelector(".carbuncle-plushy button");
+
+  settingsPanel.querySelector(".import").addEventListener("click", () => { overlayInput.click() });
+  overlayInput.value = null; // Apparently needed to clear input on reload
+  overlayInput.addEventListener("click", (event) => { importSettings(event) });
+  settingsPanel.querySelector(".export").addEventListener("click", exportSettings);
+  carbPlushyBtn.addEventListener("click", exportCarbPlushy);
 
   // Overlay events
   document.addEventListener("startCasting", startCasting);
@@ -391,6 +394,20 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     if (!(zone in records) || !(spot in records[zone])) return;
     return Math.max(...Object.values(records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat())
   }
+  
+  function exportCarbPlushy() {
+    const output = [],
+          records = settings[character.id].records;
+    for (const zone in records) {
+      for (const spot in records[zone]) {
+        for (const key in records[zone][spot]) {
+          output.push(key)
+        }
+      }
+    }
+
+    copyToClipboard("[" + output.toString() + "]")
+  }
 });
 
 // Core functions
@@ -400,8 +417,9 @@ function initCharacter() {
   settings[character.id].records = {}
 }
 
-function copyToClipboard(string) {
-  const field = document.createElement("input");
+function copyToClipboard(string, msgOutput) {
+  const field = document.createElement("input"),
+        message = (msgOutput && typeof msgOutput === "string") ? msgOutput : "Copied to clipboard";
   field.type = "text";
   field.setAttribute("value", string);
   document.body.appendChild(field);
