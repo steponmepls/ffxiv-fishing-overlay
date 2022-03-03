@@ -410,14 +410,18 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       return
     };
 
+    // Alternative till I figure out how to make downloads work in Chromium
+    const string = JSON.stringify(settings);
+    copyToClipboard(string);
+
     // Method: https://stackoverflow.com/a/30800715
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings));
+/*     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings));
     const link = document.createElement("a");
     link.setAttribute("href", dataStr);
     link.setAttribute("download", "settings.json");
     e.target.parentElement.appendChild(link);
     link.click();
-    e.target.parentElement.removeChild(link)
+    e.target.parentElement.removeChild(link) */
   }
 
   async function importSettings(e) {
