@@ -391,99 +391,6 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     if (!(zone in records) || !(spot in records[zone])) return;
     return Math.max(...Object.values(records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat())
   }
-
-  // ACT functions
-  async function saveSettings(object) {
-    if (typeof object !== "object" || object === null) {
-      console.error("Couldn't save settings. Argument isn't an object.");
-      console.debug(object);
-      return
-    }
-  
-    callOverlayHandler({ call: "saveData", key: uuid, data: object })
-  }
-
-  async function exportSettings(e) {
-    if (Object.values(settings).legnth < 1) {
-      console.error("Failed to export settings");
-      console.debug(settings);
-      return
-    };
-
-    // Alternative till I figure out how to make downloads work in Chromium
-    const string = JSON.stringify(settings);
-    copyToClipboard(string);
-
-    // Method: https://stackoverflow.com/a/30800715
-/*     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings));
-    const link = document.createElement("a");
-    link.setAttribute("href", dataStr);
-    link.setAttribute("download", "settings.json");
-    e.target.parentElement.appendChild(link);
-    link.click();
-    e.target.parentElement.removeChild(link) */
-  }
-
-  async function importSettings(e) {
-    e.target.onchange = async (e) => {
-      if (e.target.files.length == 0) return;
-
-      const file = e.target.files[0],
-            reader = new FileReader();
-      
-      reader.onload = async (e) => {
-        if (!(isJSON(e.target.result))) {
-          sendMessage("Failed to import settings.");
-          console.error("Failed to import settings. String isn't valid JSON.");
-          return
-        }
-        
-        Object.assign(settings, JSON.parse(e.target.result));
-        await saveSettings(settings);
-        sendMessage("Imported new settings.");
-        document.dispatchEvent(new CustomEvent("reloadEntries"))
-      }
-
-      reader.onerror = (e) => console.error(e.target.error.name);
-      reader.readAsText(file);
-    };
-  
-    // Method: https://stackoverflow.com/a/31881889
-    function isJSON(string){
-      if (typeof string !== "string"){
-          return false;
-      }
-      try{
-          const json = JSON.parse(string);
-          return (typeof json === "object");
-      }
-      catch (error){
-          return false;
-      }
-    }
-  }
-
-  // Misc functions
-  function copyToClipboard(string) {
-    const field = document.createElement("input");
-    field.type = "text";
-    field.setAttribute("value", string);
-    document.body.appendChild(field);
-    field.select();
-    // Deprected method but no way around it since clipboard API won't work in ACT
-    document.execCommand("copy");
-    document.body.removeChild(field);
-    sendMessage("Copied to clipboard");
-  }
-
-  function sendMessage(message, priority) {
-    document.dispatchEvent(new CustomEvent("newMessage", {
-      detail: {
-        msg: message,
-        type: priority
-      }
-    }))
-  }
 });
 
 // Core functions
@@ -491,6 +398,98 @@ function initCharacter() {
   settings[character.id] = {};
   settings[character.id].name = character.name;
   settings[character.id].records = {}
+}
+
+function copyToClipboard(string) {
+  const field = document.createElement("input");
+  field.type = "text";
+  field.setAttribute("value", string);
+  document.body.appendChild(field);
+  field.select();
+  // Deprected method but no way around it since clipboard API won't work in ACT
+  document.execCommand("copy");
+  document.body.removeChild(field);
+  sendMessage("Copied to clipboard");
+}
+
+function sendMessage(message, priority) {
+  document.dispatchEvent(new CustomEvent("newMessage", {
+    detail: {
+      msg: message,
+      type: priority
+    }
+  }))
+}
+
+// ACT functions
+async function saveSettings(object) {
+  if (typeof object !== "object" || object === null) {
+    console.error("Couldn't save settings. Argument isn't an object.");
+    console.debug(object);
+    return
+  }
+
+  callOverlayHandler({ call: "saveData", key: uuid, data: object })
+}
+
+async function exportSettings(e) {
+  if (Object.values(settings).legnth < 1) {
+    console.error("Failed to export settings");
+    console.debug(settings);
+    return
+  };
+
+  // Alternative till I figure out how to make downloads work in Chromium
+  const string = JSON.stringify(settings);
+  copyToClipboard(string);
+
+  // Method: https://stackoverflow.com/a/30800715
+/*     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings));
+  const link = document.createElement("a");
+  link.setAttribute("href", dataStr);
+  link.setAttribute("download", "settings.json");
+  e.target.parentElement.appendChild(link);
+  link.click();
+  e.target.parentElement.removeChild(link) */
+}
+
+async function importSettings(e) {
+  e.target.onchange = async (e) => {
+    if (e.target.files.length == 0) return;
+
+    const file = e.target.files[0],
+          reader = new FileReader();
+    
+    reader.onload = async (e) => {
+      if (!(isJSON(e.target.result))) {
+        sendMessage("Failed to import settings.");
+        console.error("Failed to import settings. String isn't valid JSON.");
+        return
+      }
+      
+      Object.assign(settings, JSON.parse(e.target.result));
+      await saveSettings(settings);
+      sendMessage("Imported new settings.");
+      document.dispatchEvent(new CustomEvent("reloadEntries"))
+    }
+
+    reader.onerror = (e) => console.error(e.target.error.name);
+    reader.readAsText(file);
+  };
+
+  // Method: https://stackoverflow.com/a/31881889
+  function isJSON(string){
+    if (typeof string !== "string"){
+        return false;
+    }
+    try{
+        const json = JSON.parse(string);
+        return (typeof json === "object");
+    }
+    catch (error){
+        return false;
+    }
+  }
 }
 
 // DEBUG
