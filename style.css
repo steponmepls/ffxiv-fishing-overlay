@@ -28,15 +28,15 @@ html {
   display: none;
   color: white;
   font-family: sans-serif;
+  flex-direction: column;
+}
+html.is-fisher #container {
+  display: flex;
 }
 @media screen and (min-width: 800px) {
   #container {
     max-width: 33vw;
   }
-}
-html.fishing #container {
-  display: flex;
-  flex-direction: column;
 }
 #header, #footer {
   background: rgba(10,10,10,.5);
@@ -44,8 +44,6 @@ html.fishing #container {
 #header {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-}
-#header > * {
   padding: 0.5rem;
 }
 #spot {
@@ -57,11 +55,11 @@ html.fishing #container {
   flex-basis: 100%;
 }
 #spot:empty::before {
-  content: 'Unknown';
-  opacity: 0.7;
+  content: 'Fishing overlay'
 }
-#timer:empty::before {
+html.fishing #timer:empty::before {
   content: '0.0';
+  opacity: 0.7;
 }
 #entries {
   position: relative;
@@ -214,16 +212,22 @@ html:not(.chum-records) .record[data-min] {
 html.show-settings #settings {
   display: flex;
 }
-#settings .row {
-  display: flex;
-  align-items: stretch;
+#settings .container {
   padding: 0 .25rem 0 .5rem;
 }
+
 #settings .label {
   width: 100%;
   font-size: .8em;
   align-self: center;
   text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#settings .buttons {
+  justify-content: right;
+  flex: 0 0 auto;
 }
 #settings input, 
 #settings a {
