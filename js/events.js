@@ -30,11 +30,8 @@ addOverlayListener("LogLine", (e) => {
 
   // When to show the overlay
   if (regex.job[0].test(log)) {
-    callOverlayHandler({ call: "getCombatants" })
-    .then(res => {
-      const event = new CustomEvent("jobChanged", { detail: { id: res.combatants[0].Job } });
-      document.dispatchEvent(event)
-    });
+    const event = new CustomEvent("jobChange", { detail: { line: log } });
+    document.dispatchEvent(event)
   }
 
   // When to start timer
