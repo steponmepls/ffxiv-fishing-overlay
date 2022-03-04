@@ -29,7 +29,10 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
       }});
 
       callOverlayHandler({ call: "getCombatants" })
-      .then(res => { if (res.combatants[0].Job === 18) { html.classList.add("is-fisher") }});
+      .then(res => { if (res.combatants[0].Job === 18) { 
+        const html = document.body.parentElement;
+        html.classList.add("is-fisher")
+       }});
     }
   })
 
@@ -40,7 +43,13 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
       if (lang == "English") { langId = "en" } 
       else if (lang == "German") { langId = "de" } 
       else if (lang == "French") { langId = "fr" } 
-      else if (lang == "Japanese") { langId = "ja" }
+      else if (lang == "Japanese") { langId = "ja" };
+
+      // Fallback till regex for other languages is finished
+      if (languages[lang].start.length < 1) {
+        lang = "English";
+        langId = "en"
+      }
     })
   }
 };
@@ -95,10 +104,10 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   carbPlushyBtn.onclick = () => { exportCarbPlushy() };
 
   // Overlay events
-  document.addEventListener("jobChanged", (e) => {
-    const job = e.detail.job;
-
-    if (job === 18) {
+  document.addEventListener("jobChange", (e) => {
+    const regex = languages[lang];
+    
+    if (regex.job[1].test(e.detail.line)) {
       html.classList.add("is-fisher");
     } else {
       html.classList.remove("is-fisher")
