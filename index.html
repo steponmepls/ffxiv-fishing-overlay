@@ -5,8 +5,8 @@
     <title>Fishing Overlay</title>
     <script type="text/javascript" src="https://ngld.github.io/OverlayPlugin/assets/shared/common.min.js"></script>
     <script type="text/javascript" src="./js/languages.js"></script>
-    <script type="text/javascript" src="./js/events.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
+    <script type="text/javascript" src="./js/events.js"></script>
     <link rel="stylesheet" href="./style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,15 +27,25 @@
         </div>
       </div>
       <div id="settings">
-        <div class="row overlay">
-          <div class="label">Overlay Settings</div>
-          <button class="import">Import</button>
-          <button class="export">Export</button>
-          <input type="file" accept=".json">
+        <div class="container flex overlay import">
+          <div class="label">Import settings from JSON</div>
+          <div class="flex buttons">
+            <button>Pick file</button>
+            <input type="file" accept=".json">
+          </div>
         </div>
-        <div class="row carbuncle-plushy">
+        <div class="container flex overlay export">
+          <div class="label">Export settings to clipboard</div>
+          <div class="flex buttons">
+            <button class="current">Character</button>
+            <button class="all">All characters</button>
+          </div>
+        </div>
+        <div class="container flex carbuncle-plushy">
           <div class="label">Carb Plushy Progress</div>
-          <button class="export">Export</button>
+          <div class="flex buttons">
+            <button class="export">Export</button>
+          </div>
         </div>
       </div>
       <div id="footer">
