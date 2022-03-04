@@ -26,6 +26,9 @@ const languages = {
       /^You put away your/,
       /^You reel in your line/,
       /^The fish sense something amiss/
+    ],
+    job: [
+      /^You change to .+\.$/
     ]
   },
   French: {
