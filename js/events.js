@@ -1,6 +1,6 @@
 "use strict";
 
-let lang, nameLang, zone;
+let zone;
 
 // Prevent overlay from running if no internet available
 if (!window.callOverlayHandler) throw new Error("No internet connection available.");
@@ -29,6 +29,15 @@ addOverlayListener("LogLine", (e) => {
         regex = languages[lang]; // Filter events to current language
 
   // When to show the overlay
+  if (regex.job[0].test(log)) {
+    callOverlayHandler({ call: "getCombatants" })
+    .then(res => {
+      const event = new CustomEvent("jobChanged", { detail: { id: res.combatants[0].Job } });
+      document.dispatchEvent(event)
+    });
+  }
+
+  // When to start timer
   if (regex.start[0].test(log)) {
     const event = new CustomEvent("startCasting", { detail: { line: log }});
     document.dispatchEvent(event)
