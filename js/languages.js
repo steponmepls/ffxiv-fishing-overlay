@@ -28,31 +28,35 @@ const languages = {
       /^The fish sense something amiss/
     ],
     job: [
-      /^You change to .+\.$/
+      /^You change to .+\.$/,
+      /\bfisher\b/i
     ]
   },
   French: {
-    show: [],
-    stat: [],
+    start: [],
+    buff: [],
     spot: [],
-    stop: [],
+    pause: [],
     loot: [],
+    exit: [],
     hide: []
   },
   German: {
-    show: [],
-    stat: [],
+    start: [],
+    buff: [],
     spot: [],
-    stop: [],
+    pause: [],
     loot: [],
+    exit: [],
     hide: []
   },
   Japanese: {
-    show: [],
-    stat: [],
+    start: [],
+    buff: [],
     spot: [],
-    stop: [],
+    pause: [],
     loot: [],
+    exit: [],
     hide: []
   }
 }
