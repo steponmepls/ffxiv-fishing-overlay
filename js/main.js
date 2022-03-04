@@ -122,7 +122,8 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   });
   document.addEventListener("stopFishing", () => {
     html.classList.remove("fishing", "marker-active", "marker-paused");
-    timer.innerText = (0).toFixed(1);
+    title.innerText = "";
+    timer.innerText = "";
     wasChum = false
   });
   document.addEventListener("statusChange", (e) => {
@@ -301,10 +302,9 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       const sanitized = spots[id]["name_" + langId].replace(escaped, '\\$&');
       const rule = new RegExp(sanitized, "i");
       if (rule.test(line)) {
+        title.innerText = spots[id]["name_" + langId];
         if (id != spot) {
           spot = parseInt(id);
-          title.innerText = spots[spot]["name_" + langId];
-          title.title = `${zone} / ${spot}`;
           resetEntries();
           populateEntries()
         } else { // Reset
