@@ -1,54 +1,49 @@
 "use strict";
 
-let uuid, character, spot;
+let lang, langId, uuid, character, spot;
 const settings = {}, log = {};
-
-// Fallback in case ACT isn't running
-lang = !lang ? "English" : lang;
-nameLang = !nameLang ? "en" : nameLang;
-
-// Prevent overlay from running if no internet available
-if (!window.callOverlayHandler) throw new Error("No internet connection available.");
-
-if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
-  character = {id: 0, name: "Testing"};
-  if (!(character.id in settings)) initCharacter();
-  console.warn("ACT is unavailable or OverlayPlugin is broken.")
-} else {
-  uuid = window.OverlayPluginApi.overlayUuid;
-
-  // Fetch language from ACT settings
-  callOverlayHandler({ call: 'getLanguage' })
-  .then(res => {
-    lang = ("language" in res) ? res.language : "English";
-    if (lang == "English") {
-      nameLang = "en"
-    } else if (lang == "German") {
-      nameLang = "de"
-    } else if (lang == "French") {
-      nameLang = "fr"
-    } else if (lang == "Japanese") {
-      nameLang = "ja"
-    }
-  });
-
-  // ACT events
-  document.addEventListener("changedCharacter", async (e) => {
-    if (e.detail === null) return
-
-    character = e.detail;
-    callOverlayHandler({ call: "loadData", key: uuid })
-    .then(obj => { if (obj && obj.data) {
-      Object.assign(settings, obj.data);
-      if (!(character.id in settings)) initCharacter()
-    }})
-  })
-};
 
 fetch("https://steponmepls.github.io/fishing-overlay/dist/fishing-log-min.json")
 .then(res => res.json())
 .then(data => { if (data) Object.assign(log, data) });
 
+if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
+  console.warn("ACT is unavailable or OverlayPlugin is broken.");
+  character = {id: 0, name: "Testing"};
+  window.onload = () => { document.body.parentElement.classList.add("is-fisher") };
+  if (!(character.id in settings)) initCharacter();
+  lang = !lang ? "English" : lang;
+  langId = !langId ? "en" : langId
+} else {
+  // Fetch overlay key
+  uuid = window.OverlayPluginApi.overlayUuid;
+
+  // Update character+settings when needed
+  document.addEventListener("changedCharacter", (e) => {
+    character = e.detail;
+    if (window.callOverlayHandler) {
+      callOverlayHandler({ call: "loadData", key: uuid })
+      .then(obj => { if (obj && obj.data) {
+        Object.assign(settings, obj.data);
+        if (!(character.id in settings)) initCharacter()
+      }});
+
+      callOverlayHandler({ call: "getCombatants" })
+      .then(res => { if (res.combatants[0].Job === 18) { html.classList.add("is-fisher") }});
+    }
+  })
+
+  // Fetch language from ACT settings
+  if (window.callOverlayHandler) {
+    callOverlayHandler({ call: "getLanguage" })
+    .then(res => { lang = ("language" in res) ? res.language : "English";
+      if (lang == "English") { langId = "en" } 
+      else if (lang == "German") { langId = "de" } 
+      else if (lang == "French") { langId = "fr" } 
+      else if (lang == "Japanese") { langId = "ja" }
+    })
+  }
+};
 
 window.addEventListener("DOMContentLoaded", async (e) => {
   let interval, start = 0, wasChum = false, msgTimeout;
@@ -87,16 +82,28 @@ window.addEventListener("DOMContentLoaded", async (e) => {
 
   // Import/Export settings
   const settingsPanel = document.getElementById("settings"),
-        overlayInput = settingsPanel.querySelector(".overlay input"),
+        settingsImport = settingsPanel.querySelector(".overlay.import"),
+        settingsInput = settingsImport.querySelector("input"),
+        settingsExport = settingsPanel.querySelector(".overlay.export"),
         carbPlushyBtn = settingsPanel.querySelector(".carbuncle-plushy button");
 
-  settingsPanel.querySelector(".import").addEventListener("click", () => { overlayInput.click() });
-  overlayInput.value = null; // Apparently needed to clear input on reload
-  overlayInput.addEventListener("click", (event) => { importSettings(event) });
-  settingsPanel.querySelector(".export").addEventListener("click", exportSettings);
-  carbPlushyBtn.addEventListener("click", exportCarbPlushy);
+  settingsImport.querySelector("button").onclick = () => { settingsInput.click() };
+  settingsInput.value = null; // Apparently needed to clear input on reload
+  settingsInput.onclick = (e) => { importSettings(e) };
+  settingsExport.querySelector(".current").onclick = () => { exportSettings(character.id) };
+  settingsExport.querySelector(".all").onclick = () => { exportSettings() };
+  carbPlushyBtn.onclick = () => { exportCarbPlushy() };
 
   // Overlay events
+  document.addEventListener("jobChanged", (e) => {
+    const job = e.detail.job;
+
+    if (job === 18) {
+      html.classList.add("is-fisher");
+    } else {
+      html.classList.remove("is-fisher")
+    }
+  });
   document.addEventListener("startCasting", startCasting);
   document.addEventListener("fishCaught", updateLog);
   document.addEventListener("stopCasting", () => {
@@ -209,8 +216,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     // Get current spot and update list if needed
     if (regex.start[1].test(e.detail.line)) { // if undiscovered spot
       spot = undefined;
-      title.innerText = "";
-      title.title = "";
+      title.innerText = "???";
       resetEntries()
     } else if (regex.start[2].test(e.detail.line)) {
       return
@@ -234,7 +240,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     if (fishTime > 30 && threshold < 45) marker.setAttribute("data-dur", 45);
 
     for (const item of log[zone][spot].fishes) {
-      const regex = new RegExp(`${item["name_" + nameLang]}`, "i");
+      const regex = new RegExp(`${item["name_" + langId]}`, "i");
       if (regex.test(fishName)) {
         fishID = item.id;
         break
@@ -283,12 +289,12 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   function findSpot(line) {
     const spots = log[zone];
     for (const id in spots) {
-      const sanitized = spots[id]["name_" + nameLang].replace(escaped, '\\$&');
+      const sanitized = spots[id]["name_" + langId].replace(escaped, '\\$&');
       const rule = new RegExp(sanitized, "i");
       if (rule.test(line)) {
         if (id != spot) {
           spot = parseInt(id);
-          title.innerText = spots[spot]["name_" + nameLang];
+          title.innerText = spots[spot]["name_" + langId];
           title.title = `${zone} / ${spot}`;
           resetEntries();
           populateEntries()
@@ -327,7 +333,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
 
     log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index),
-            name = fish["name_" + nameLang],
+            name = fish["name_" + langId],
             icon = "https://xivapi.com" + fish.icon,
             tug = fish.tug;
       item.querySelector(".icon img").src = icon;
@@ -427,7 +433,7 @@ function copyToClipboard(string, msgOutput) {
   // Deprected method but no way around it since clipboard API won't work in ACT
   document.execCommand("copy");
   document.body.removeChild(field);
-  sendMessage("Copied to clipboard");
+  sendMessage(message);
 }
 
 function sendMessage(message, priority) {
@@ -450,25 +456,23 @@ async function saveSettings(object) {
   callOverlayHandler({ call: "saveData", key: uuid, data: object })
 }
 
-async function exportSettings(e) {
+async function exportSettings(id) {
   if (Object.values(settings).legnth < 1) {
     console.error("Failed to export settings");
     console.debug(settings);
     return
   };
 
-  // Alternative till I figure out how to make downloads work in Chromium
-  const string = JSON.stringify(settings);
-  copyToClipboard(string);
+  let output;
+  if (typeof id === "undefined") {
+    output = settings;
+  } else {
+    output = {};
+    Object.assign(output, settings[id])
+  }
 
-  // Method: https://stackoverflow.com/a/30800715
-/*     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(settings));
-  const link = document.createElement("a");
-  link.setAttribute("href", dataStr);
-  link.setAttribute("download", "settings.json");
-  e.target.parentElement.appendChild(link);
-  link.click();
-  e.target.parentElement.removeChild(link) */
+  const string = JSON.stringify(output);
+  copyToClipboard(string)
 }
 
 async function importSettings(e) {
