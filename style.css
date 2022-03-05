@@ -38,9 +38,12 @@ html.is-fisher #container {
     max-width: 33vw;
   }
 }
-#header, #footer {
+#header, #entries, #settings, #footer {
   background: rgba(10,10,10,.5);
 }
+
+/* Header */
+
 #header {
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
@@ -61,6 +64,9 @@ html:not(.fishing) #timer::before {
   content: '0.0';
   opacity: 0.7;
 }
+
+/* Main */
+
 #entries {
   display: none;
   position: relative;
@@ -122,7 +128,10 @@ html.marker-paused .markline {
 .fish {
   max-height: calc(var(--icon-size) * 1px);
 }
-[data-fishid]:not(:nth-of-type(2)) {
+.fish[data-fishid] {
+  background: rgba(10,10,10,.2);
+}
+.fish[data-fishid]:not(:nth-of-type(2)) {
   margin-top: 1px;
 }
 .icon, .offset {
@@ -164,15 +173,65 @@ html.chum-records .record-chum[data-min],
 html:not(.chum-records) .record[data-min] {
   display: block;
 }
-.fish.light .label {
+.fish .label .name {
+  width: 100%;
+}
+.fish .req {
+  align-self: center;
+  margin-right: .25rem;
+  z-index: 1
+}
+.fish .req .hook {
+  display: none;
+  width: 16px;
+  height: 16px;
+  align-self: center;
+  margin-right: .25rem;
+}
+.fish[data-hook="1"] .req .hook {
+  background: url("https://xivapi.com/i/001000/001115.png") no-repeat center/16px;
+}
+.fish[data-hook="2"] .req .hook {
+  background: url("https://xivapi.com/i/001000/001116.png") no-repeat center/16px;
+}
+/* Only show hook suggestion on quirky fishes */
+.fish[data-fishid][data-hook="2"][data-tug="1"] .req .hook,
+.fish[data-fishid][data-hook="1"][data-tug="2"] .req .hook {
+  display: inline-block;
+}
+.fish .req .tug {
+  display: none;
+  min-width: 16px;
+  min-height: 16px;
+  border-radius: 4px;
+  font-family: "Roboto Condensed";
+  font-style: normal;
+  text-align: center;
+}
+.fish[data-fishid] .req .tug {
+  display: inline-block;
+}
+.fish[data-tug="2"] .req .tug {
   background-color: rgb(50, 205, 50, .5);
 }
-.fish.medium .label {
+.fish[data-tug="2"] .req .tug::before {
+  content: '!'
+}
+.fish[data-tug="0"] .req .tug {
   background-color: rgb(255, 215, 0, .5);
 }
-.fish.heavy .label {
+.fish[data-tug="0"] .req .tug::before {
+  content: '!!'
+}
+.fish[data-tug="1"] .req .tug {
   background-color: rgb(165, 42, 42, .5);
 }
+.fish[data-tug="1"] .req .tug::before {
+  content: '!!!'
+}
+
+/* Footer */
+
 #footer {
   height: 16px;
   border-bottom-left-radius: 3px;
@@ -218,8 +277,11 @@ html.show-settings #settings {
 }
 #settings .container {
   padding: 0 .25rem 0 .5rem;
+  background: rgba(10,10,10,.2);
 }
-
+#settings .container:not(:first-of-type) {
+  margin-top: 1px;
+}
 #settings .label {
   width: 100%;
   font-size: .7em;
