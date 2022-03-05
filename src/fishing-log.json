@@ -29958,7 +29958,7 @@
                     "name_ja": "ガラディオンゴビー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29715,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -29971,7 +29971,7 @@
                     "name_ja": "ガラディオンアンチョビ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -29989,7 +29989,7 @@
                     "name_ja": "レオパードイール",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29715,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30007,7 +30007,7 @@
                     "name_ja": "ジャスパーヘッド",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30020,7 +30020,7 @@
                     "name_ja": "ターニッシュシャーク",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29715,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30056,7 +30056,7 @@
                     "name_ja": "シアンオクトパス",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30069,7 +30069,7 @@
                     "name_ja": "ヘヴンリーフィッシュ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29715,
+                    "bait": 29714,
                     "oceanFishingTime": 0,
                     "snagging": false,
                     "weathers": [],
@@ -30087,7 +30087,7 @@
                     "name_ja": "スペクトラルメガロドン",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29714,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30113,7 +30113,7 @@
                     "name_ja": "マーマンヘアー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 2603,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30126,7 +30126,7 @@
                     "name_ja": "キー・オブ・ヘヴン",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30139,7 +30139,7 @@
                     "name_ja": "ゴーストシャーク",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 2603,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30157,7 +30157,7 @@
                     "name_ja": "フィッシュモンガー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30175,7 +30175,7 @@
                     "name_ja": "リムレーンプリント",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30188,7 +30188,7 @@
                     "name_ja": "ネイルドオイスター",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 2
                 },
                 {
@@ -30201,7 +30201,7 @@
                     "name_ja": "クイックシルバーブレード",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 1
                 },
                 {
@@ -30214,7 +30214,7 @@
                     "name_ja": "ファンネルシャーク",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 1
                 },
                 {
@@ -30227,7 +30227,7 @@
                     "name_ja": "ニンブルダンサー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 2
                 }
             ]
@@ -30248,7 +30248,7 @@
                     "name_ja": "グールバラクーダ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30266,7 +30266,7 @@
                     "name_ja": "ラノシアンジェリー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30279,7 +30279,7 @@
                     "name_ja": "サニーバタフライ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30292,7 +30292,7 @@
                     "name_ja": "マリンボム",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30305,7 +30305,7 @@
                     "name_ja": "シャギーシードラゴン",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29715,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30318,7 +30318,7 @@
                     "name_ja": "モモラ・モラ",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 2606,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30336,7 +30336,7 @@
                     "name_ja": "メルトールバタフライ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30371,7 +30371,7 @@
                     "name_fr": "Discus spectral",
                     "name_ja": "スペクトラルディスカス",
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29715,
                     "hookset": 2,
                     "snagging": false,
                     "weathers": [],
@@ -30398,7 +30398,7 @@
                     "name_ja": "シーネトル",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30434,7 +30434,7 @@
                     "name_ja": "レックドクロス",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29717,
                     "oceanFishingTime": 0,
                     "weathers": [],
                     "weathersFrom": [],
@@ -30452,7 +30452,7 @@
                     "name_ja": "シャーラタンサバイバー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30465,7 +30465,7 @@
                     "name_ja": "ハイエーテルラウス",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29715,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30483,7 +30483,7 @@
                     "name_ja": "アーゼマの垂衣",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30519,7 +30519,7 @@
                     "name_ja": "ミスリルソブリン",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30563,7 +30563,7 @@
                     "name_ja": "ロータノワフー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29716,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30581,7 +30581,7 @@
                     "name_ja": "ロータノサーディン",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30594,7 +30594,7 @@
                     "name_ja": "ディープシー・プレイス",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29716,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30607,7 +30607,7 @@
                     "name_ja": "クリムゾンモンクフィッシュ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30620,7 +30620,7 @@
                     "name_ja": "クロムハンマーヘッド",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29715,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30633,7 +30633,7 @@
                     "name_ja": "オーガイール",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30651,7 +30651,7 @@
                     "name_ja": "ダークノーチラス",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0,
                     "weathers": [],
                     "weathersFrom": [],
@@ -30669,7 +30669,7 @@
                     "name_ja": "ランプフィッシュ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30682,7 +30682,7 @@
                     "name_ja": "スペクトラルバス",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 }
             ]
@@ -30703,7 +30703,7 @@
                     "name_ja": "アロナクス",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 2591,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30716,7 +30716,7 @@
                     "name_ja": "フラッフィー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 2
                 },
                 {
@@ -30729,7 +30729,7 @@
                     "name_ja": "サイレンサー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 2591,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30742,7 +30742,7 @@
                     "name_ja": "ディープシーイール",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 2591,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30760,7 +30760,7 @@
                     "name_ja": "エクスキューショナー",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 2
                 },
                 {
@@ -30773,7 +30773,7 @@
                     "name_ja": "フローティングソーサー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30791,7 +30791,7 @@
                     "name_ja": "バラマンディ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 2591,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30804,7 +30804,7 @@
                     "name_ja": "プロディガルサン",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 2591,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30817,7 +30817,7 @@
                     "name_ja": "スネイルフィッシュ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 }
             ]
@@ -30838,7 +30838,7 @@
                     "name_ja": "ドリフトアイスフィッシュ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29714,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30856,7 +30856,7 @@
                     "name_ja": "メガスキッド",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30874,7 +30874,7 @@
                     "name_ja": "オシュオンズストーン",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30892,7 +30892,7 @@
                     "name_ja": "スロウンダガー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30910,7 +30910,7 @@
                     "name_ja": "トライポッド",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30923,7 +30923,7 @@
                     "name_ja": "スパイダークラブ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30936,7 +30936,7 @@
                     "name_ja": "メルトールロブスター",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30967,7 +30967,7 @@
                     "name_ja": "スペクトラルシーホース",
                     "hookset": 2,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 }
             ]
@@ -30988,7 +30988,7 @@
                     "name_ja": "ハンマーロブスター",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 2619,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31006,7 +31006,7 @@
                     "name_ja": "コッコステウス",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 2619,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31019,7 +31019,7 @@
                     "name_ja": "ザ・チョッパー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 3
                 },
                 {
@@ -31032,7 +31032,7 @@
                     "name_ja": "タイガーキャットコッド",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 2619,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31045,7 +31045,7 @@
                     "name_ja": "モッピィビアード",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31063,7 +31063,7 @@
                     "name_ja": "ワイルドアーチン",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 2619,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31076,7 +31076,7 @@
                     "name_ja": "ググリューサウルス",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 2619,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31089,7 +31089,7 @@
                     "name_ja": "コーラルシードラゴン",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31107,7 +31107,7 @@
                     "name_ja": "フォーレンワン",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 1
                 }
             ]
@@ -31128,7 +31128,7 @@
                     "name_ja": "トータスシェルクラブ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31146,7 +31146,7 @@
                     "name_ja": "エドヴィアの指輪",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31164,7 +31164,7 @@
                     "name_ja": "メタルボックス",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31177,7 +31177,7 @@
                     "name_ja": "グゥーブーレイ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31190,7 +31190,7 @@
                     "name_ja": "シーワモーラ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31203,7 +31203,7 @@
                     "name_ja": "キングコブラフィッシュ",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31216,7 +31216,7 @@
                     "name_ja": "ママヒマヒ",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31229,7 +31229,7 @@
                     "name_ja": "ラバンジンレモラ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31245,8 +31245,8 @@
                     "name_de": "Spektralschmetterling",
                     "name_fr": "Papillon spectral",
                     "name_ja": "スペクトラルバタフライ",
-                    "tug": 0,
-                    "bait": 29715,
+                    "tug": 1,
+                    "bait": 29714,
                     "hookset": 2,
                     "snagging": false,
                     "weathers": [],
@@ -31273,7 +31273,7 @@
                     "name_ja": "タイタンシェルクラブ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 27590,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31286,7 +31286,7 @@
                     "name_ja": "ミスリルボックス",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 27590,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31299,7 +31299,7 @@
                     "name_ja": "霧髭の盃",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 27590,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31312,7 +31312,7 @@
                     "name_ja": "アノマロカリス・サロン",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29714,
+                    "bait": 29715,
                     "oceanFishingTime": 0,
                     "weathers": [],
                     "weathersFrom": [],
@@ -31330,7 +31330,7 @@
                     "name_ja": "フレイミングイール",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 27590,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31348,7 +31348,7 @@
                     "name_ja": "ジェットフライマンタ",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 27590,
+                    "bait": 29716,
                     "oceanFishingTime": 0,
                     "weathers": [],
                     "weathersFrom": [],
@@ -31366,7 +31366,7 @@
                     "name_ja": "デビルスティンガー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 27590,
+                    "bait": 29715,
                     "oceanFishingTime": 2
                 },
                 {
@@ -31379,7 +31379,7 @@
                     "name_ja": "カリクティス",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 2
                 },
                 {
@@ -31392,7 +31392,7 @@
                     "name_ja": "フローティング・モラ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31418,7 +31418,7 @@
                     "name_ja": "サリャクリバークラブ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31436,7 +31436,7 @@
                     "name_ja": "ラールガーの星屑",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31449,7 +31449,7 @@
                     "name_ja": "トゥルースキャッド",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29716,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31462,7 +31462,7 @@
                     "name_ja": "ブラッディハンプヘッド",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31480,7 +31480,7 @@
                     "name_ja": "ブラッディポリッシュ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31493,7 +31493,7 @@
                     "name_ja": "ブルーニードル",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31506,7 +31506,7 @@
                     "name_ja": "ブラッディトゥーナ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0,
                     "weathers": [],
                     "weathersFrom": [],
@@ -31524,7 +31524,7 @@
                     "name_ja": "サンクンマスク",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0,
                     "weathers": [],
                     "weathersFrom": [],
@@ -31542,7 +31542,7 @@
                     "name_ja": "スペクトラルイール",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 }
             ]
@@ -31563,7 +31563,7 @@
                     "name_ja": "オラクルクラブ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 2
                 },
                 {
@@ -31576,7 +31576,7 @@
                     "name_ja": "ドラヴァニアンブリーム",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31589,7 +31589,7 @@
                     "name_ja": "スコルドミンニー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 3
                 },
                 {
@@ -31602,7 +31602,7 @@
                     "name_ja": "セレーテッドクラム",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31620,7 +31620,7 @@
                     "name_ja": "ビティフィックビジョン",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31633,7 +31633,7 @@
                     "name_ja": "エクスターミネーター",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 2
                 },
                 {
@@ -31646,7 +31646,7 @@
                     "name_ja": "ゴーリィトゥーナ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31659,7 +31659,7 @@
                     "name_ja": "ティキネポミス",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31672,7 +31672,7 @@
                     "name_ja": "クォーツハンマーヘッド",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31698,7 +31698,7 @@
                     "name_ja": "パフィークロウ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31716,7 +31716,7 @@
                     "name_ja": "ロズリトケルプ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31729,7 +31729,7 @@
                     "name_ja": "ホオズキクラゲ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31742,7 +31742,7 @@
                     "name_ja": "ハニカムフィッシュ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31755,7 +31755,7 @@
                     "name_ja": "海神の寝台",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31768,7 +31768,7 @@
                     "name_ja": "ランスケネット",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31781,7 +31781,7 @@
                     "name_ja": "サベネアンシャーク",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29714,
+                    "bait": 29717,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31794,7 +31794,7 @@
                     "name_ja": "ネフライトイール",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31812,7 +31812,7 @@
                     "name_ja": "スペクトラルザウルス",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 }
             ]
@@ -31833,8 +31833,8 @@
                     "name_ja": "ガルームポット",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
-                    "oceanFishingTime": 3
+                    "bait": 29715,
+                    "oceanFishingTime": 2
                 },
                 {
                     "id": 32106,
@@ -31846,7 +31846,7 @@
                     "name_ja": "シーパンサー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31864,7 +31864,7 @@
                     "name_ja": "ロズリトムール",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29717,
                     "oceanFishingTime": 0,
                     "weathers": []
                 },
@@ -31878,7 +31878,7 @@
                     "name_ja": "ジュヴナイル・リヴィ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31891,8 +31891,8 @@
                     "name_ja": "パールボム",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
-                    "oceanFishingTime": 3
+                    "bait": 29715,
+                    "oceanFishingTime": 2
                 },
                 {
                     "id": 32110,
@@ -31922,7 +31922,7 @@
                     "name_ja": "パノプテス",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 2
                 },
                 {
@@ -31935,7 +31935,7 @@
                     "name_ja": "ゴールデンソール",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31948,7 +31948,7 @@
                     "name_ja": "ナイフジョー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 }
             ]
