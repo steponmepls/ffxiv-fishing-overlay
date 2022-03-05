@@ -3,7 +3,7 @@
 let lang, langId, uuid, character, spot;
 const settings = {}, log = {};
 
-fetch("https://steponmepls.github.io/fishing-overlay/dist/fishing-log-min.json")
+fetch("./dist/fishing-log-min.json")
 .then(res => res.json())
 .then(data => { if (data) Object.assign(log, data) });
 
@@ -77,6 +77,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     <div class="record-chum"></div>
     <div class="name"></div>
     <div class="window"></div>
+    <div class="req flex"><i class="hook"></i><i class="tug"></i></div>
     </div>`;
     fishes.appendChild(fish);
     fish.querySelector(".label .name").onclick = (e) => {
@@ -324,9 +325,8 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       item.querySelector(".label .name").innerHTML = "";
       // item.querySelector(".label .window").innerHTML = "";
       item.removeAttribute("data-fishid");
-      for (const tug of ["medium", "heavy", "light"]) {
-        item.classList.remove(tug)
-      };
+      item.removeAttribute("data-hook");
+      item.removeAttribute("data-tug");
       const records = item.querySelectorAll("div[class*='record']");
       for (const record of records) {
         record.removeAttribute("data-min");
@@ -344,13 +344,15 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       const item = document.getElementById("item" + index),
             name = fish["name_" + langId],
             icon = "https://xivapi.com" + fish.icon,
-            tug = fish.tug;
+            tug = fish.tug,
+            hook = fish.hookset;
       item.querySelector(".icon img").src = icon;
       item.querySelector(".label .name").innerText = name;
       // item.querySelector(".label .window").innerHTML = "";
       item.setAttribute("data-fishid", fish.id);
+      item.setAttribute("data-hook", hook);
       ["medium", "heavy", "light"].forEach((t, index) => {
-        if (tug == index) item.classList.add(t);
+        if (tug == index) item.setAttribute("data-tug", index);
       });
 
       
@@ -525,10 +527,10 @@ async function importSettings(e) {
 
 // DEBUG
 function debug(delay) {
-  zone = 135;
+  zone = 401;
   document.dispatchEvent(new CustomEvent("startCasting", {
     detail: {
-      line: "the salt strand"
+      line: "Mok Oogl Island"
     }
   }));
 
