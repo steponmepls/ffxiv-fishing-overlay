@@ -121,7 +121,7 @@ function mergeEntries() {
             if (item.id == id) {
               for (const key in data) {
                 if (/spot/.test(key) === false) {
-                  item[key] = data[key];
+                  if (!(key in item)) item[key] = data[key]
                 }
               }
               break
