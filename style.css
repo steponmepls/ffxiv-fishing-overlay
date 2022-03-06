@@ -18,11 +18,11 @@ html {
   --icon-size: 24;
   --text-color: white;
   --bg-0-color: rgb(10,10,10,.5);
-  --bg-1-color: rgb(10,10,10,.1);
+  --bg-1-color: rgba(255, 255, 255, 0.05);
   --bg-tug-0-color: rgb(255, 215, 0, .5);
   --bg-tug-1-color: rgb(165, 42, 42, .5);
   --bg-tug-2-color: rgb(50, 205, 50, .5);
-  --marker-color: rgb(45, 135, 219);
+  --marker-color: black;
 }
 .flex {
   display: flex;
@@ -165,6 +165,7 @@ html.marker-paused .markline {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.6);
 }
 .fish .label .name:not(:empty) {
   padding-left: 0.5rem;
@@ -302,6 +303,16 @@ html.show-settings #settings {
 #settings .buttons {
   justify-content: right;
   flex: 0 0 auto;
+}
+#settings button {
+  font-size: .7em;
+  padding: .05rem .2rem;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+#settings button ~ button {
+  margin-left: 1px
 }
 #settings input, 
 #settings a {
