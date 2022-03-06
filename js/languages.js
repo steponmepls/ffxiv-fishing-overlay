@@ -26,10 +26,6 @@ const languages = {
       /^You put away your/,
       /^You reel in your line/,
       /^The fish sense something amiss/
-    ],
-    job: [
-      /^You change to .+\.$/,
-      /\bfisher\b/i
     ]
   },
   French: {
@@ -38,8 +34,7 @@ const languages = {
     spot: [],
     pause: [],
     loot: [],
-    exit: [],
-    hide: []
+    exit: []
   },
   German: {
     start: [],
@@ -47,8 +42,7 @@ const languages = {
     spot: [],
     pause: [],
     loot: [],
-    exit: [],
-    hide: []
+    exit: []
   },
   Japanese: {
     start: [],
@@ -56,7 +50,6 @@ const languages = {
     spot: [],
     pause: [],
     loot: [],
-    exit: [],
-    hide: []
+    exit: []
   }
 }

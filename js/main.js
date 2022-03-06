@@ -10,7 +10,6 @@ fetch("./dist/fishing-log-min.json")
 if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
   console.warn("ACT is unavailable or OverlayPlugin is broken.");
   character = {id: 0, name: "Testing"};
-  window.onload = () => { document.body.parentElement.classList.add("is-fisher") };
   if (!(character.id in settings)) initCharacter();
   lang = !lang ? "English" : lang;
   langId = !langId ? "en" : langId
@@ -18,26 +17,18 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
   // Fetch overlay key
   uuid = window.OverlayPluginApi.overlayUuid;
 
-  // Update character+settings when needed
-  document.addEventListener("changedCharacter", (e) => {
-    character = e.detail;
-    if (window.callOverlayHandler) {
-      callOverlayHandler({ call: "loadData", key: uuid })
-      .then(obj => { if (obj && obj.data) {
-        Object.assign(settings, obj.data);
-        if (!(character.id in settings)) initCharacter()
-      }});
-
-      callOverlayHandler({ call: "getCombatants" })
-      .then(res => { if (res.combatants[0].Job === 18) { 
-        const html = document.body.parentElement;
-        html.classList.add("is-fisher")
-       }});
-    }
-  })
-
-  // Fetch language from ACT settings
   if (window.callOverlayHandler) {
+    // Update character+settings when needed
+    document.addEventListener("changedCharacter", (e) => {
+      character = e.detail;
+      callOverlayHandler({ call: "loadData", key: uuid })
+        .then(obj => { if (obj && obj.data) {
+          Object.assign(settings, obj.data);
+          if (!(character.id in settings)) initCharacter()
+        }})
+    });
+
+    // Fetch language from ACT settings
     callOverlayHandler({ call: "getLanguage" })
     .then(res => { lang = ("language" in res) ? res.language : "English";
       if (lang == "English") { langId = "en" } 
@@ -62,7 +53,6 @@ window.addEventListener("DOMContentLoaded", async (e) => {
         timer = document.getElementById("timer"),
         fishes = document.getElementById("entries"),
         marker = document.getElementById("marker").querySelector(".markline"),
-        settingsToggle = document.getElementById("show-settings"),
         escaped = /[-\/\\^$*+?.()|[\]{}]/g;
 
   // Init 1->10 fish nodes
@@ -90,7 +80,8 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   };
 
   // Import/Export settings
-  const settingsPanel = document.getElementById("settings"),
+  const settingsToggle = document.getElementById("show-settings"),
+        settingsPanel = document.getElementById("settings"),
         settingsImport = settingsPanel.querySelector(".overlay.import"),
         settingsInput = settingsImport.querySelector("input"),
         settingsExport = settingsPanel.querySelector(".overlay.export"),
@@ -105,21 +96,25 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   progressExport.onclick = () => { exportCarbPlushy() };
 
   // Overlay events
-  document.addEventListener("jobChange", (e) => {
-    const regex = languages[lang];
-    
-    if (regex.job[1].test(e.detail.line)) {
-      html.classList.add("is-fisher");
-    } else {
-      html.classList.remove("is-fisher")
-    }
-  });
   document.addEventListener("startCasting", startCasting);
   document.addEventListener("fishCaught", updateLog);
+  document.addEventListener("newSpot", (e) => { findSpot(e.detail.line) });
   document.addEventListener("stopCasting", () => {
     html.classList.remove("casting");
     html.classList.add("marker-paused");
     if (interval) window.clearInterval(interval)
+  });
+  marker.addEventListener("animationend", (e) => {
+    // Force-stop marker animation when elapsed time reaches 60s
+    if (e.elapsedTime >= 45) return
+
+    // Redraw records considering new 60s delay
+    marker.setAttribute("data-dur", 45);
+
+    // Restart animation
+    html.classList.remove("marker-animated");
+    void html.offsetWidth;
+    html.classList.add("long-cast", "marker-animated")
   });
   document.addEventListener("stopFishing", () => {
     html.classList.remove("fishing", "marker-active", "marker-paused");
@@ -137,20 +132,6 @@ window.addEventListener("DOMContentLoaded", async (e) => {
         html.classList.remove("chum-active")
       }
     }
-  });
-  document.addEventListener("newSpot", (e) => { findSpot(e.detail.line) });
-  marker.addEventListener("animationend", (e) => {
-    // Force-stop marker animation when elapsed time reaches 60s
-    if (e.elapsedTime >= 45) return
-
-    // Redraw records considering new 60s delay
-    marker.setAttribute("data-dur", 45);
-
-    // Restart animation
-    marker.removeAttribute("animated");
-    html.classList.remove("marker-animated");
-    void html.offsetWidth;
-    html.classList.add("long-cast", "marker-animated")
   });
 
   // Redraw timeline whenever data-dur value changes

@@ -29,12 +29,6 @@ addOverlayListener("LogLine", (e) => {
         regex = languages[lang]; // Filter events to current language
 
   // When to show the overlay
-  if (regex.job[0].test(log)) {
-    const event = new CustomEvent("jobChange", { detail: { line: log } });
-    document.dispatchEvent(event)
-  }
-
-  // When to start timer
   if (regex.start[0].test(log)) {
     const event = new CustomEvent("startCasting", { detail: { line: log }});
     document.dispatchEvent(event)

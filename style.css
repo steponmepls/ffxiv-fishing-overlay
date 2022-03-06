@@ -19,7 +19,7 @@ html {
   --text-color: white;
   --text-stroke-color: rgb(0,0,0,.5);
   --bg-0-color: rgb(10,10,10,.5);
-  --bg-1-color: rgba(255, 255, 255, 0.05);
+  --bg-1-color: rgba(255, 255, 255, 0.10);
   --bg-tug-0-color: rgb(255, 215, 0, .5);
   --bg-tug-1-color: rgb(165, 42, 42, .5);
   --bg-tug-2-color: rgb(50, 205, 50, .5);
@@ -38,7 +38,7 @@ html {
   font-family: sans-serif;
   flex-direction: column;
 }
-html.is-fisher #container {
+html.fishing #container {
   display: flex;
 }
 @media screen and (min-width: 800px) {
@@ -231,12 +231,14 @@ html:not(.chum-records) .record[data-min] {
 }
 .fish[data-tug="0"] .req .tug {
   background-color: var(--bg-tug-0-color);
+  letter-spacing: 0.64px;
 }
 .fish[data-tug="0"] .req .tug::before {
   content: '!!'
 }
 .fish[data-tug="1"] .req .tug {
   background-color: var(--bg-tug-1-color);
+  letter-spacing: 0.64px;
 }
 .fish[data-tug="1"] .req .tug::before {
   content: '!!!'
@@ -289,7 +291,6 @@ html.show-settings #settings {
 }
 #settings .container {
   padding: 0 .25rem 0 .5rem;
-  background: var(--bg-1-color);
 }
 #settings .container:not(:first-of-type) {
   margin-top: 1px;
