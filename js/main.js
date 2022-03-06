@@ -1,6 +1,6 @@
 "use strict";
 
-let lang, langId, uuid, character, spot;
+let lang, langId, uuid, character, spot, msgTimeout;
 const settings = {}, log = {};
 
 fetch("./dist/fishing-log-min.json")
@@ -55,14 +55,13 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
 };
 
 window.addEventListener("DOMContentLoaded", async (e) => {
-  let interval, start = 0, wasChum = false, msgTimeout;
+  let interval, start = 0, wasChum = false;
 
   const html = document.body.parentElement,
         title = document.getElementById("spot"),
         timer = document.getElementById("timer"),
         fishes = document.getElementById("entries"),
         marker = document.getElementById("marker").querySelector(".markline"),
-        msgOutput = document.getElementById("output-msg"),
         settingsToggle = document.getElementById("show-settings"),
         escaped = /[-\/\\^$*+?.()|[\]{}]/g;
 
@@ -426,9 +425,9 @@ function initCharacter() {
   settings[character.id].records = {}
 }
 
-function copyToClipboard(string, msgOutput) {
+function copyToClipboard(string, msg) {
   const field = document.createElement("input"),
-        message = (msgOutput && typeof msgOutput === "string") ? msgOutput : "Copied to clipboard";
+        message = (msg && typeof msg === "string") ? msg : "Copied to clipboard";
   field.type = "text";
   field.setAttribute("value", string);
   document.body.appendChild(field);
@@ -439,7 +438,8 @@ function copyToClipboard(string, msgOutput) {
   sendMessage(message);
 }
 
-function sendMessage(message) {
+function sendMessage(msg) {
+  const msgOutput = document.getElementById("output-msg");
   msgOutput.innerText = ""; // Visual feedback for force-reset
   setTimeout(() => { msgOutput.innerText = msg }, 100);
   clearTimeout(msgTimeout); // Force reset in case of overlapping events
