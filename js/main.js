@@ -87,7 +87,10 @@ window.addEventListener("DOMContentLoaded", async (e) => {
         settingsExport = settingsPanel.querySelector(".overlay.export"),
         progressExport = settingsPanel.querySelector(".carbuncle-plushy button");
 
-  settingsToggle.onclick = () => { html.classList.toggle("show-settings") };
+  settingsToggle.onclick = () => { 
+    html.classList.toggle("show-settings"); 
+    html.classList.remove("manual-settings") 
+  };
   settingsImport.querySelector("button").onclick = () => { settingsInput.click() };
   settingsInput.value = null; // Apparently needed to clear input on reload
   settingsInput.onclick = (e) => { importSettings(e) };
@@ -132,6 +135,11 @@ window.addEventListener("DOMContentLoaded", async (e) => {
         html.classList.remove("chum-active")
       }
     }
+  });
+  document.addEventListener("manualSettings", () => {
+    if (html.classList.contains("fishing")) return;
+    html.classList.toggle("manual-settings");
+    html.classList.add("show-settings")
   });
 
   // Redraw timeline whenever data-dur value changes
@@ -186,7 +194,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     }, 100);
 
     // Reset classes and variables
-    html.classList.remove("marker-animated", "marker-paused", "long-cast");
+    html.classList.remove("marker-animated", "marker-paused", "long-cast", "manual-settings");
     if (!html.classList.contains("chum-active") && html.classList.contains("chum-records")) {
       html.classList.remove("chum-active", "chum-records");
       wasChum = false

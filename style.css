@@ -38,7 +38,8 @@ html {
   font-family: sans-serif;
   flex-direction: column;
 }
-html.fishing #container {
+html.fishing #container,
+html.manual-settings #container {
   display: flex;
 }
 @media screen and (min-width: 800px) {

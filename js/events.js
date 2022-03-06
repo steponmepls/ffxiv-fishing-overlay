@@ -28,6 +28,12 @@ addOverlayListener("LogLine", (e) => {
   const log = e.line[4], // Chat log lines
         regex = languages[lang]; // Filter events to current language
 
+  // Manually show settings
+  if (e.line[2] == "0038" && /^\!fbs$/.test(log)) {
+    const event = new CustomEvent("manualSettings");
+    document.dispatchEvent(event)
+  }
+
   // When to show the overlay
   if (regex.start[0].test(log)) {
     const event = new CustomEvent("startCasting", { detail: { line: log }});
