@@ -73,11 +73,11 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     fish.classList.add("fish", "flex");
     fish.innerHTML = `<div class="icon"><img src=""></div>
     <div class="label flex">
-    <div class="record"></div>
-    <div class="record-chum"></div>
-    <div class="name"></div>
-    <div class="window"></div>
-    <div class="req flex"><i class="hook"></i><i class="tug"></i></div>
+      <div class="record"></div>
+      <div class="record-chum"></div>
+      <div class="name"></div>
+      <div class="window"></div>
+      <div class="req flex"><i class="hook"></i><i class="tug"></i></div>
     </div>`;
     fishes.appendChild(fish);
     fish.querySelector(".label .name").onclick = (e) => {
@@ -95,14 +95,15 @@ window.addEventListener("DOMContentLoaded", async (e) => {
         settingsImport = settingsPanel.querySelector(".overlay.import"),
         settingsInput = settingsImport.querySelector("input"),
         settingsExport = settingsPanel.querySelector(".overlay.export"),
-        carbPlushyBtn = settingsPanel.querySelector(".carbuncle-plushy button");
+        progressExport = settingsPanel.querySelector(".carbuncle-plushy button");
 
+  settingsToggle.onclick = () => { html.classList.toggle("show-settings") };
   settingsImport.querySelector("button").onclick = () => { settingsInput.click() };
   settingsInput.value = null; // Apparently needed to clear input on reload
   settingsInput.onclick = (e) => { importSettings(e) };
   settingsExport.querySelector(".current").onclick = () => { exportSettings(character.id) };
   settingsExport.querySelector(".all").onclick = () => { exportSettings() };
-  carbPlushyBtn.onclick = () => { exportCarbPlushy() };
+  progressExport.onclick = () => { exportCarbPlushy() };
 
   // Overlay events
   document.addEventListener("jobChange", (e) => {
@@ -152,16 +153,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     void html.offsetWidth;
     html.classList.add("long-cast", "marker-animated")
   });
-  settingsToggle.addEventListener("click", () => { html.classList.toggle("show-settings") });
-  document.addEventListener("newMessage", (e) => {
-    const msg = e.detail.msg,
-          type = e.detail.type;
 
-    msgOutput.innerText = ""; // Visual feedback for force-reset
-    setTimeout(() => { msgOutput.innerText = msg }, 100);
-    clearTimeout(msgTimeout); // Force reset in case of overlapping events
-    msgTimeout = setTimeout(() => { msgOutput.innerText = "" }, 3000)
-  });
   // Redraw timeline whenever data-dur value changes
   const durationChange = new MutationObserver((list) => {
     // Prevents from running if value hasn't changed
@@ -447,13 +439,11 @@ function copyToClipboard(string, msgOutput) {
   sendMessage(message);
 }
 
-function sendMessage(message, priority) {
-  document.dispatchEvent(new CustomEvent("newMessage", {
-    detail: {
-      msg: message,
-      type: priority
-    }
-  }))
+function sendMessage(message) {
+  msgOutput.innerText = ""; // Visual feedback for force-reset
+  setTimeout(() => { msgOutput.innerText = msg }, 100);
+  clearTimeout(msgTimeout); // Force reset in case of overlapping events
+  msgTimeout = setTimeout(() => { msgOutput.innerText = "" }, 3000)
 }
 
 // ACT functions
