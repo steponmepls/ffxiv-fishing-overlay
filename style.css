@@ -16,6 +16,13 @@ html {
 }
 :root {
   --icon-size: 24;
+  --text-color: white;
+  --bg-0-color: rgb(10,10,10,.5);
+  --bg-1-color: rgb(10,10,10,.1);
+  --bg-tug-0-color: rgb(255, 215, 0, .5);
+  --bg-tug-1-color: rgb(165, 42, 42, .5);
+  --bg-tug-2-color: rgb(50, 205, 50, .5);
+  --marker-color: rgb(45, 135, 219);
 }
 .flex {
   display: flex;
@@ -39,7 +46,7 @@ html.is-fisher #container {
   }
 }
 #header, #entries, #settings, #footer {
-  background: rgba(10,10,10,.5);
+  background: var(--bg-0-color);
 }
 
 /* Header */
@@ -93,7 +100,8 @@ html.show-settings #entries {
   display: none;
   width: 0;
   height: 100%;
-  border-right: 3px solid black;
+  border-right: 3px solid;
+  border-color: var(--marker-color);
   /* This is very important! If not set it will default to ease and not align with min max records! */
   animation-timing-function: linear;
   /* Stays at 100% once finished */
@@ -129,7 +137,7 @@ html.marker-paused .markline {
   max-height: calc(var(--icon-size) * 1px);
 }
 .fish[data-fishid] {
-  background: rgba(10,10,10,.2);
+  background: var(--bg-1-color);
 }
 .fish[data-fishid]:not(:nth-of-type(2)) {
   margin-top: 1px;
@@ -167,7 +175,7 @@ html.marker-paused .markline {
   display: none;
   min-width: 2px;
   height: 100%;
-  background-color: rgba(10,10,10,.5);
+  background-color: var(--bg-0-color);
 }
 html.chum-records .record-chum[data-min],
 html:not(.chum-records) .record[data-min] {
@@ -212,19 +220,19 @@ html:not(.chum-records) .record[data-min] {
   display: inline-block;
 }
 .fish[data-tug="2"] .req .tug {
-  background-color: rgb(50, 205, 50, .5);
+  background-color: var(--bg-tug-2-color);
 }
 .fish[data-tug="2"] .req .tug::before {
   content: '!'
 }
 .fish[data-tug="0"] .req .tug {
-  background-color: rgb(255, 215, 0, .5);
+  background-color: var(--bg-tug-0-color);
 }
 .fish[data-tug="0"] .req .tug::before {
   content: '!!'
 }
 .fish[data-tug="1"] .req .tug {
-  background-color: rgb(165, 42, 42, .5);
+  background-color: var(--bg-tug-1-color);
 }
 .fish[data-tug="1"] .req .tug::before {
   content: '!!!'
@@ -270,14 +278,14 @@ html:not(.chum-records) .record[data-min] {
 #settings {
   display: none;
   flex-direction: column;
-  background: rgba(10,10,10,.5);
+  background: var(--bg-0-color);
 }
 html.show-settings #settings {
   display: flex;
 }
 #settings .container {
   padding: 0 .25rem 0 .5rem;
-  background: rgba(10,10,10,.2);
+  background: var(--bg-1-color);
 }
 #settings .container:not(:first-of-type) {
   margin-top: 1px;
