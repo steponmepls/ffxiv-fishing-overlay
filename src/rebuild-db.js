@@ -42,7 +42,7 @@ function fetchSpot(s) {
     if (!("PlaceName" in data) || data.PlaceName === null) return;
 
     const spot = data;
-    const zoneID = spot.TerritoryTypeTargetID;
+    const zoneID = (spot.ID > 146 && spot.ID < 155) ? 939 : spot.TerritoryTypeTargetID;
     if (!(zoneID in fishingLog)) { fishingLog[zoneID] = {} }
     // const zoneName = spot.TerritoryType.PlaceName.Name
     const spotID = spot.ID;
