@@ -23,9 +23,7 @@ function initDatabase(totalSpots) {
     for (let i=0; i<5; i++) {
       iteration += 1;
       fetchSpot(iteration)
-      if (i === 4 && iteration % 5 === 0) { // Print completion %
-        console.log(parseInt((iteration * 100) / totalSpots))
-      }
+      if (i === 4) console.log(parseInt((iteration * 100) / totalSpots))
       if (iteration === totalSpots) { // End
         clearInterval(interval);
         console.log("Done!");
@@ -41,7 +39,7 @@ function fetchSpot(s) {
   fetch("https://xivapi.com/FishingSpot/" + s, { mode: "cors" })
   .then(res => res.json())
   .then(data => {
-    if (!(data.TerritoryTypeTargetID || data.PlaceName.Name)) return;
+    if (!("PlaceName" in data) || data.PlaceName === null) return;
 
     const spot = data;
     const zoneID = spot.TerritoryTypeTargetID;
@@ -54,7 +52,7 @@ function fetchSpot(s) {
           spotNameFR = spot.PlaceName.Name_fr,
           spotNameJA = spot.PlaceName.Name_ja,
           fishes = [];
-    for (let i=0; i<9; i++) {
+    for (let i=0; i<10; i++) {
       const key = "Item" + i;
       if (spot[key] !== null) {
         const item = spot[key],

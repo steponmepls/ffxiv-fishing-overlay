@@ -1,4 +1,250 @@
 {
+    "0": {
+        "147": {
+            "name_en": "Diadem Skysprings",
+            "name_de": "Diadem-Himmelsquellen",
+            "name_fr": "Sources du Diadème",
+            "name_ja": "ディアデム諸島の湧水地",
+            "fishes": [
+                {
+                    "id": 12728,
+                    "icon": "/i/029000/029399.png",
+                    "iconHD": "/i/029000/029399_hr1.png",
+                    "name_en": "Maiboi",
+                    "name_de": "Maiboi",
+                    "name_fr": "Maïboï",
+                    "name_ja": "マイボイ"
+                },
+                {
+                    "id": 12731,
+                    "icon": "/i/029000/029411.png",
+                    "iconHD": "/i/029000/029411_hr1.png",
+                    "name_en": "Cloudfish",
+                    "name_de": "Wolkenfisch",
+                    "name_fr": "Poisson-nuage",
+                    "name_ja": "クラウドフィッシュ"
+                }
+            ]
+        },
+        "148": {
+            "name_en": "Diadem Grotto",
+            "name_de": "Diadem-Grotte",
+            "name_fr": "Grotte du Diadème",
+            "name_ja": "ディアデム諸島の洞穴",
+            "fishes": [
+                {
+                    "id": 12828,
+                    "icon": "/i/029000/029205.png",
+                    "iconHD": "/i/029000/029205_hr1.png",
+                    "name_en": "Thunderbolt Eel",
+                    "name_de": "Blitzaal",
+                    "name_fr": "Anguille foudroyante",
+                    "name_ja": "サンダーボルト"
+                },
+                {
+                    "id": 12768,
+                    "icon": "/i/029000/029403.png",
+                    "iconHD": "/i/029000/029403_hr1.png",
+                    "name_en": "Noontide Oscar",
+                    "name_de": "Albinobarsch",
+                    "name_fr": "Oscar blanc",
+                    "name_ja": "ホワイトオスカー"
+                }
+            ]
+        },
+        "149": {
+            "name_en": "Southern Diadem Lake",
+            "name_de": "Südlicher Diademteich",
+            "name_fr": "Mares du quadrant sud-ouest",
+            "name_ja": "ディアデム諸島の南西池",
+            "fishes": [
+                {
+                    "id": 12728,
+                    "icon": "/i/029000/029399.png",
+                    "iconHD": "/i/029000/029399_hr1.png",
+                    "name_en": "Maiboi",
+                    "name_de": "Maiboi",
+                    "name_fr": "Maïboï",
+                    "name_ja": "マイボイ"
+                },
+                {
+                    "id": 12730,
+                    "icon": "/i/029000/029233.png",
+                    "iconHD": "/i/029000/029233_hr1.png",
+                    "name_en": "Bullfrog",
+                    "name_de": "Ochsenfrosch",
+                    "name_fr": "Grenouille-taureau",
+                    "name_ja": "ブルフロッグ"
+                },
+                {
+                    "id": 12731,
+                    "icon": "/i/029000/029411.png",
+                    "iconHD": "/i/029000/029411_hr1.png",
+                    "name_en": "Cloudfish",
+                    "name_de": "Wolkenfisch",
+                    "name_fr": "Poisson-nuage",
+                    "name_ja": "クラウドフィッシュ"
+                },
+                {
+                    "id": 12818,
+                    "icon": "/i/029000/029227.png",
+                    "iconHD": "/i/029000/029227_hr1.png",
+                    "name_en": "Yalm Lobster",
+                    "name_de": "Yalmhummer",
+                    "name_fr": "Homard-yalm",
+                    "name_ja": "ヤルムロブスター"
+                }
+            ]
+        },
+        "150": {
+            "name_en": "Secluded Diadem Pond",
+            "name_de": "Abgeschiedener Diademteich",
+            "name_fr": "Banc du Diadème",
+            "name_ja": "ディアデム諸島の穴場",
+            "fishes": [
+                {
+                    "id": 12729,
+                    "icon": "/i/029000/029409.png",
+                    "iconHD": "/i/029000/029409_hr1.png",
+                    "name_en": "Three-lip Carp",
+                    "name_de": "Dreilippen-Karpfen",
+                    "name_fr": "Carpe à trois lèvres",
+                    "name_ja": "スリーリップス"
+                }
+            ]
+        },
+        "151": {
+            "name_en": "Northern Diadem Lake",
+            "name_de": "Nördlicher Diademteich",
+            "name_fr": "Étang du quadrant nord-ouest",
+            "name_ja": "ディアデム諸島の北西池",
+            "fishes": [
+                {
+                    "id": 12731,
+                    "icon": "/i/029000/029411.png",
+                    "iconHD": "/i/029000/029411_hr1.png",
+                    "name_en": "Cloudfish",
+                    "name_de": "Wolkenfisch",
+                    "name_fr": "Poisson-nuage",
+                    "name_ja": "クラウドフィッシュ"
+                }
+            ]
+        },
+        "152": {
+            "name_en": "Blustery Cloudtop",
+            "name_de": "Tosende Wolken",
+            "name_fr": "Cimes venteuses",
+            "name_ja": "風吹き抜ける雲海",
+            "fishes": [
+                {
+                    "id": 12734,
+                    "icon": "/i/029000/029723.png",
+                    "iconHD": "/i/029000/029723_hr1.png",
+                    "name_en": "Buoyant Oviform",
+                    "name_de": "Flieger-Ei",
+                    "name_fr": "Œuf volant",
+                    "name_ja": "フライングエッグ"
+                },
+                {
+                    "id": 12732,
+                    "icon": "/i/029000/029713.png",
+                    "iconHD": "/i/029000/029713_hr1.png",
+                    "name_en": "Mahu Wai",
+                    "name_de": "Mahu Wai",
+                    "name_fr": "Mahu waï",
+                    "name_ja": "マフワイ"
+                },
+                {
+                    "id": 12744,
+                    "icon": "/i/029000/029714.png",
+                    "iconHD": "/i/029000/029714_hr1.png",
+                    "name_en": "Mitre Slug",
+                    "name_de": "Mitraschnecke",
+                    "name_fr": "Limace-mitre",
+                    "name_ja": "ミトラスラッグ"
+                },
+                {
+                    "id": 12736,
+                    "icon": "/i/029000/029061.png",
+                    "iconHD": "/i/029000/029061_hr1.png",
+                    "name_en": "Blue Cloud Coral",
+                    "name_de": "Blaue Wolkenkoralle",
+                    "name_fr": "Corail céruléen",
+                    "name_ja": "青空珊瑚"
+                }
+            ]
+        },
+        "153": {
+            "name_en": "Calm Cloudtop",
+            "name_de": "Sanfte Wolken",
+            "name_fr": "Cimes calmes",
+            "name_ja": "風穏やかな雲海",
+            "fishes": [
+                {
+                    "id": 12732,
+                    "icon": "/i/029000/029713.png",
+                    "iconHD": "/i/029000/029713_hr1.png",
+                    "name_en": "Mahu Wai",
+                    "name_de": "Mahu Wai",
+                    "name_fr": "Mahu waï",
+                    "name_ja": "マフワイ"
+                },
+                {
+                    "id": 12735,
+                    "icon": "/i/029000/029719.png",
+                    "iconHD": "/i/029000/029719_hr1.png",
+                    "name_en": "Whiteloom",
+                    "name_de": "Weißschimmer",
+                    "name_fr": "Chanterelle céleste",
+                    "name_ja": "スカイルーム"
+                },
+                {
+                    "id": 12736,
+                    "icon": "/i/029000/029061.png",
+                    "iconHD": "/i/029000/029061_hr1.png",
+                    "name_en": "Blue Cloud Coral",
+                    "name_de": "Blaue Wolkenkoralle",
+                    "name_fr": "Corail céruléen",
+                    "name_ja": "青空珊瑚"
+                },
+                {
+                    "id": 12744,
+                    "icon": "/i/029000/029714.png",
+                    "iconHD": "/i/029000/029714_hr1.png",
+                    "name_en": "Mitre Slug",
+                    "name_de": "Mitraschnecke",
+                    "name_fr": "Limace-mitre",
+                    "name_ja": "ミトラスラッグ"
+                }
+            ]
+        },
+        "154": {
+            "name_en": "Swirling Cloudtop",
+            "name_de": "Wirbelnde Wolken",
+            "name_fr": "Cimes tumultueuses",
+            "name_ja": "風渦巻く雲海",
+            "fishes": [
+                {
+                    "id": 12834,
+                    "icon": "/i/029000/029701.png",
+                    "iconHD": "/i/029000/029701_hr1.png",
+                    "name_en": "Vampiric Tapestry",
+                    "name_de": "Vampirteppich",
+                    "name_fr": "Voile-vampire",
+                    "name_ja": "ヴァンパイアブランケット"
+                },
+                {
+                    "id": 12814,
+                    "icon": "/i/029000/029702.png",
+                    "iconHD": "/i/029000/029702_hr1.png",
+                    "name_en": "Moogle Spirit",
+                    "name_de": "Mogryseele",
+                    "name_fr": "Esprit-de-Vanu",
+                    "name_ja": "スピリット"
+                }
+            ]
+        }
+    },
     "128": {
         "36": {
             "name_en": "Limsa Lominsa Upper Decks",
@@ -931,6 +1177,24 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7678,
+                    "icon": "/i/029000/029069.png",
+                    "iconHD": "/i/029000/029069_hr1.png",
+                    "name_en": "Zalera",
+                    "name_de": "Zalhera",
+                    "name_fr": "Zaléra",
+                    "name_ja": "ザルエラ",
+                    "tug": 1,
+                    "bait": 2591,
+                    "spawn": 9,
+                    "hookset": 2,
+                    "duration": 5,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -1081,6 +1345,25 @@
                     "hookset": 1,
                     "snagging": false,
                     "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7686,
+                    "icon": "/i/029000/029065.png",
+                    "iconHD": "/i/029000/029065_hr1.png",
+                    "name_en": "Gigantshark",
+                    "name_de": "Gigahai",
+                    "name_fr": "Giga requin",
+                    "name_ja": "ギガシャーク",
+                    "tug": 1,
+                    "bait": 4874,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        1,
+                        2
+                    ],
                     "predators": [],
                     "weathersFrom": []
                 }
@@ -3023,6 +3306,24 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7909,
+                    "icon": "/i/029000/029080.png",
+                    "iconHD": "/i/029000/029080_hr1.png",
+                    "name_en": "The Greatest Bream in the World",
+                    "name_de": "Groß-Bianaq-Brasse",
+                    "name_fr": "Brème de Bianaq grandissime",
+                    "name_ja": "ビアナックブーン",
+                    "tug": 1,
+                    "bait": 2613,
+                    "spawn": 20,
+                    "hookset": 1,
+                    "duration": 3,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -3180,6 +3481,27 @@
                     ],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7915,
+                    "icon": "/i/029000/029083.png",
+                    "iconHD": "/i/029000/029083_hr1.png",
+                    "name_en": "Shark Tuna",
+                    "name_de": "Hai-Thunfisch",
+                    "name_fr": "Thon-requin",
+                    "name_ja": "シャークトゥーナ",
+                    "tug": 1,
+                    "bait": 4898,
+                    "spawn": 19,
+                    "hookset": 1,
+                    "duration": 2,
+                    "snagging": false,
+                    "weathers": [
+                        1,
+                        2
+                    ],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -3330,6 +3652,26 @@
                     "hookset": 1,
                     "snagging": false,
                     "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7924,
+                    "icon": "/i/029000/029087.png",
+                    "iconHD": "/i/029000/029087_hr1.png",
+                    "name_en": "Bombardfish",
+                    "name_de": "Knallomat-Fisch",
+                    "name_fr": "Poisson bombardo",
+                    "name_ja": "ボンバードフィッシュ",
+                    "tug": 1,
+                    "bait": 2598,
+                    "spawn": 9,
+                    "hookset": 1,
+                    "duration": 6,
+                    "snagging": false,
+                    "weathers": [
+                        1
+                    ],
                     "predators": [],
                     "weathersFrom": []
                 }
@@ -3774,6 +4116,24 @@
                     "hookset": 1,
                     "snagging": false,
                     "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7939,
+                    "icon": "/i/029000/029364.png",
+                    "iconHD": "/i/029000/029364_hr1.png",
+                    "name_en": "The Terpsichorean",
+                    "name_de": "Terpsichore",
+                    "name_fr": "Terpsichorien",
+                    "name_ja": "テルプシコレアン",
+                    "tug": 1,
+                    "bait": 2599,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        4
+                    ],
                     "predators": [],
                     "weathersFrom": []
                 }
@@ -4226,6 +4586,27 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 8753,
+                    "icon": "/i/029000/029095.png",
+                    "iconHD": "/i/029000/029095_hr1.png",
+                    "name_en": "The Old Man in the Sea",
+                    "name_de": "Graumarlin",
+                    "name_fr": "Vieil homme à la mer",
+                    "name_ja": "オールドマーリン",
+                    "tug": 1,
+                    "bait": 4888,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        1
+                    ],
+                    "predators": [],
+                    "weathersFrom": [
+                        7,
+                        8
+                    ]
                 }
             ]
         },
@@ -4382,6 +4763,30 @@
                     "snagging": false,
                     "weathers": [],
                     "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 8754,
+                    "icon": "/i/029000/029094.png",
+                    "iconHD": "/i/029000/029094_hr1.png",
+                    "name_en": "Nepto Dragon",
+                    "name_de": "Neptodrache",
+                    "name_fr": "Dragon de Nepto",
+                    "name_ja": "ネプトの竜",
+                    "tug": 1,
+                    "bait": 2606,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        7,
+                        8
+                    ],
+                    "predators": [
+                        {
+                            "id": 4913,
+                            "amount": 3
+                        }
+                    ],
                     "weathersFrom": []
                 }
             ]
@@ -4540,6 +4945,25 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 20143,
+                    "icon": "/i/029000/029147.png",
+                    "iconHD": "/i/029000/029147_hr1.png",
+                    "name_en": "Little Perykos",
+                    "name_de": "Kleiner Perykos",
+                    "name_fr": "Petit Perykos",
+                    "name_ja": "リトルペリュコス",
+                    "tug": 0,
+                    "bait": 4904,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        7,
+                        8
+                    ],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         }
@@ -4690,6 +5114,24 @@
                     "tug": 1,
                     "bait": 2606,
                     "hookset": 1,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7687,
+                    "icon": "/i/029000/029077.png",
+                    "iconHD": "/i/029000/029077_hr1.png",
+                    "name_en": "Armorer",
+                    "name_de": "Panzerschuppe",
+                    "name_fr": "Conquedure",
+                    "name_ja": "スケーリーフット",
+                    "tug": 1,
+                    "bait": 2606,
+                    "spawn": 19,
+                    "hookset": 2,
+                    "duration": 8,
                     "snagging": false,
                     "weathers": [],
                     "predators": [],
@@ -5124,6 +5566,28 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7941,
+                    "icon": "/i/029000/029084.png",
+                    "iconHD": "/i/029000/029084_hr1.png",
+                    "name_en": "Helmsman's Hand",
+                    "name_de": "Rudergänger",
+                    "name_fr": "Main du timonier",
+                    "name_ja": "ヘルムズマンズハンド",
+                    "tug": 1,
+                    "bait": 4872,
+                    "spawn": 9,
+                    "hookset": 1,
+                    "duration": 6,
+                    "snagging": false,
+                    "weathers": [
+                        3,
+                        4,
+                        5
+                    ],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -5286,6 +5750,31 @@
                     ],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 8756,
+                    "icon": "/i/029000/029090.png",
+                    "iconHD": "/i/029000/029090_hr1.png",
+                    "name_en": "Endoceras",
+                    "name_de": "Endoceras",
+                    "name_fr": "Endoceras",
+                    "name_ja": "エンドセラス",
+                    "tug": 1,
+                    "bait": 4898,
+                    "spawn": 20,
+                    "hookset": 1,
+                    "duration": 8,
+                    "snagging": false,
+                    "weathers": [
+                        3,
+                        4,
+                        5
+                    ],
+                    "predators": [],
+                    "weathersFrom": [
+                        1,
+                        2
+                    ]
                 }
             ]
         },
@@ -5577,6 +6066,28 @@
                     "hookset": 1,
                     "snagging": false,
                     "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7950,
+                    "icon": "/i/029000/029088.png",
+                    "iconHD": "/i/029000/029088_hr1.png",
+                    "name_en": "Frilled Shark",
+                    "name_de": "Kragenhai",
+                    "name_fr": "Requin frangé",
+                    "name_ja": "ラブカ",
+                    "tug": 1,
+                    "bait": 4919,
+                    "spawn": 17,
+                    "hookset": 1,
+                    "duration": 10,
+                    "snagging": false,
+                    "weathers": [
+                        3,
+                        4,
+                        5
+                    ],
                     "predators": [],
                     "weathersFrom": []
                 }
@@ -6005,6 +6516,27 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7905,
+                    "icon": "/i/029000/029358.png",
+                    "iconHD": "/i/029000/029358_hr1.png",
+                    "name_en": "Toramafish",
+                    "name_de": "Toramafisch",
+                    "name_fr": "Poisson torama",
+                    "name_ja": "トラマフィッシュ",
+                    "tug": 1,
+                    "bait": 4995,
+                    "spawn": 17,
+                    "hookset": 1,
+                    "duration": 3,
+                    "snagging": false,
+                    "weathers": [
+                        3,
+                        4
+                    ],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -6159,6 +6691,24 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7904,
+                    "icon": "/i/029000/029351.png",
+                    "iconHD": "/i/029000/029351_hr1.png",
+                    "name_en": "Joan of Trout",
+                    "name_de": "Johanna von Forelleans",
+                    "name_fr": "Jeanne de Truite",
+                    "name_ja": "ジャンヌ・トラウト",
+                    "tug": 1,
+                    "bait": 2614,
+                    "spawn": 4,
+                    "hookset": 1,
+                    "duration": 2,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -6309,6 +6859,24 @@
                     "tug": 0,
                     "bait": 4978,
                     "hookset": 1,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7927,
+                    "icon": "/i/029000/029362.png",
+                    "iconHD": "/i/029000/029362_hr1.png",
+                    "name_en": "King of the Spring",
+                    "name_de": "Frühlingskönig",
+                    "name_fr": "Reine des sources",
+                    "name_ja": "スプリングキング",
+                    "tug": 1,
+                    "bait": 2626,
+                    "spawn": 16,
+                    "hookset": 1,
+                    "duration": 3,
                     "snagging": false,
                     "weathers": [],
                     "predators": [],
@@ -7272,6 +7840,27 @@
                         2
                     ],
                     "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 8764,
+                    "icon": "/i/029000/029092.png",
+                    "iconHD": "/i/029000/029092_hr1.png",
+                    "name_en": "Pirate's Bane",
+                    "name_de": "Piratenfluch",
+                    "name_fr": "Naufrageur de pirates",
+                    "name_ja": "パイレーツハンター",
+                    "tug": 1,
+                    "bait": 4904,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [
+                        {
+                            "id": 4904,
+                            "amount": 6
+                        }
+                    ],
                     "weathersFrom": []
                 }
             ]
@@ -8539,6 +9128,24 @@
                     ],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7942,
+                    "icon": "/i/029000/029369.png",
+                    "iconHD": "/i/029000/029369_hr1.png",
+                    "name_en": "The Thousand-year Itch",
+                    "name_de": "Tausend-Jahre-Wels",
+                    "name_fr": "Irritation millénaire",
+                    "name_ja": "サウザンドイヤー・イーチ",
+                    "tug": 1,
+                    "bait": 2601,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        4
+                    ],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         }
@@ -9541,6 +10148,26 @@
                     "hookset": 1,
                     "snagging": false,
                     "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7943,
+                    "icon": "/i/029000/029345.png",
+                    "iconHD": "/i/029000/029345_hr1.png",
+                    "name_en": "Hannibal",
+                    "name_de": "Hannibal",
+                    "name_fr": "Hannibal",
+                    "name_ja": "ハンニバル",
+                    "tug": 1,
+                    "bait": 4995,
+                    "spawn": 22,
+                    "hookset": 1,
+                    "duration": 6,
+                    "snagging": false,
+                    "weathers": [
+                        4
+                    ],
                     "predators": [],
                     "weathersFrom": []
                 }
@@ -11369,6 +11996,27 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7913,
+                    "icon": "/i/029000/029352.png",
+                    "iconHD": "/i/029000/029352_hr1.png",
+                    "name_en": "Floating Boulder",
+                    "name_de": "Schwebender Felsen",
+                    "name_fr": "Roche flottante",
+                    "name_ja": "フローティングボルダー",
+                    "tug": 1,
+                    "bait": 2595,
+                    "spawn": 0,
+                    "hookset": 1,
+                    "duration": 8,
+                    "snagging": false,
+                    "weathers": [
+                        3,
+                        4
+                    ],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -11677,6 +12325,25 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7922,
+                    "icon": "/i/029000/029357.png",
+                    "iconHD": "/i/029000/029357_hr1.png",
+                    "name_en": "The Gobfather",
+                    "name_de": "Goblin-Schlächter",
+                    "name_fr": "Gobeuse de Gobelins",
+                    "name_ja": "ゴブスレイヤー",
+                    "tug": 1,
+                    "bait": 4978,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        9,
+                        10
+                    ],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -11956,6 +12623,31 @@
                         10
                     ],
                     "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 8775,
+                    "icon": "/i/029000/029384.png",
+                    "iconHD": "/i/029000/029384_hr1.png",
+                    "name_en": "Namitaro",
+                    "name_de": "Namitaro",
+                    "name_fr": "Namitaro",
+                    "name_ja": "ナミタロ",
+                    "tug": 1,
+                    "bait": 2624,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        9,
+                        10
+                    ],
+                    "predators": [
+                        {
+                            "id": 8774,
+                            "amount": 1
+                        }
+                    ],
+                    "minGathering": 0,
                     "weathersFrom": []
                 }
             ]
@@ -14008,6 +14700,27 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 8759,
+                    "icon": "/i/029000/029389.png",
+                    "iconHD": "/i/029000/029389_hr1.png",
+                    "name_en": "Void Bass",
+                    "name_de": "Nichtsbarsch",
+                    "name_fr": "Bar du néant",
+                    "name_ja": "ヴォイドバス",
+                    "tug": 1,
+                    "bait": 2603,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        17
+                    ],
+                    "predators": [],
+                    "weathersFrom": [
+                        1,
+                        2
+                    ]
                 }
             ]
         },
@@ -14638,6 +15351,27 @@
                     ],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 8763,
+                    "icon": "/i/029000/029381.png",
+                    "iconHD": "/i/029000/029381_hr1.png",
+                    "name_en": "Kuno the Killer",
+                    "name_de": "Killerkuno",
+                    "name_fr": "Kuno le tueur",
+                    "name_ja": "クノ・ザ・キラー",
+                    "tug": 1,
+                    "bait": 5002,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [
+                        {
+                            "id": 8762,
+                            "amount": 1
+                        }
+                    ],
+                    "weathersFrom": []
                 }
             ]
         }
@@ -14919,6 +15653,24 @@
                     "tug": 0,
                     "bait": 4978,
                     "hookset": 1,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7927,
+                    "icon": "/i/029000/029362.png",
+                    "iconHD": "/i/029000/029362_hr1.png",
+                    "name_en": "King of the Spring",
+                    "name_de": "Frühlingskönig",
+                    "name_fr": "Reine des sources",
+                    "name_ja": "スプリングキング",
+                    "tug": 1,
+                    "bait": 2626,
+                    "spawn": 16,
+                    "hookset": 1,
+                    "duration": 3,
                     "snagging": false,
                     "weathers": [],
                     "predators": [],
@@ -16161,6 +16913,27 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 17578,
+                    "icon": "/i/029000/029816.png",
+                    "iconHD": "/i/029000/029816_hr1.png",
+                    "name_en": "Captain Nemo",
+                    "name_de": "Nemo",
+                    "name_fr": "Capitaine nemo",
+                    "name_ja": "ネモ",
+                    "tug": 1,
+                    "bait": 12711,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        16
+                    ],
+                    "predators": [],
+                    "minGathering": 750,
+                    "weathersFrom": [
+                        15
+                    ]
                 }
             ]
         },
@@ -18011,6 +18784,32 @@
                         3,
                         4
                     ]
+                },
+                {
+                    "id": 17590,
+                    "icon": "/i/029000/029435.png",
+                    "iconHD": "/i/029000/029435_hr1.png",
+                    "name_en": "Armor Fish",
+                    "name_de": "Panzerfisch",
+                    "name_fr": "Poisson cuirassé",
+                    "name_ja": "鎧魚",
+                    "tug": 1,
+                    "bait": 12757,
+                    "spawn": 1,
+                    "hookset": 2,
+                    "duration": 3,
+                    "snagging": false,
+                    "weathers": [
+                        1
+                    ],
+                    "predators": [
+                        {
+                            "id": 12757,
+                            "amount": 6
+                        }
+                    ],
+                    "minGathering": 800,
+                    "weathersFrom": []
                 }
             ]
         },
@@ -18173,6 +18972,28 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 16754,
+                    "icon": "/i/029000/029330.png",
+                    "iconHD": "/i/029000/029330_hr1.png",
+                    "name_en": "Bobgoblin Bass",
+                    "name_de": "Bobgoblinbarsch",
+                    "name_fr": "Bar gobelin tout-puissant",
+                    "name_ja": "万能のゴブリバス",
+                    "tug": 1,
+                    "bait": 12780,
+                    "spawn": 2,
+                    "hookset": 1,
+                    "duration": 4,
+                    "snagging": false,
+                    "weathers": [
+                        8
+                    ],
+                    "predators": [],
+                    "weathersFrom": [
+                        7
+                    ]
                 }
             ]
         }
@@ -18895,6 +19716,32 @@
                     "weathersFrom": [
                         1
                     ]
+                },
+                {
+                    "id": 17593,
+                    "icon": "/i/029000/029733.png",
+                    "iconHD": "/i/029000/029733_hr1.png",
+                    "name_en": "Raimdellopterus",
+                    "name_de": "Raimdellopterus",
+                    "name_fr": "Raimdellopterus",
+                    "name_ja": "ランデロプテルス",
+                    "tug": 1,
+                    "bait": 12805,
+                    "spawn": 5,
+                    "hookset": 1,
+                    "duration": 3,
+                    "snagging": false,
+                    "weathers": [
+                        6
+                    ],
+                    "predators": [
+                        {
+                            "id": 12805,
+                            "amount": 5
+                        }
+                    ],
+                    "minGathering": 800,
+                    "weathersFrom": []
                 }
             ]
         }
@@ -30094,6 +30941,29 @@
                     "predators": [],
                     "oceanFishingTime": 0,
                     "minGathering": 0
+                },
+                {
+                    "id": 29744,
+                    "icon": "/i/029000/029373.png",
+                    "iconHD": "/i/029000/029373_hr1.png",
+                    "name_en": "Drunkfish",
+                    "name_de": "Trunkenbold",
+                    "name_fr": "Psychrolutes aviné",
+                    "name_ja": "ドランカードフィッシュ",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 29715,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 28938,
+                            "amount": 3
+                        }
+                    ],
+                    "oceanFishingTime": 0,
+                    "minGathering": 0
                 }
             ]
         },
@@ -30229,6 +31099,33 @@
                     "tug": 2,
                     "bait": 29714,
                     "oceanFishingTime": 2
+                },
+                {
+                    "id": 29788,
+                    "icon": "/i/028000/028009.png",
+                    "iconHD": "/i/028000/028009_hr1.png",
+                    "name_en": "Sothis",
+                    "name_de": "Sotis",
+                    "name_fr": "Sothis",
+                    "name_ja": "ソティス",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 2603,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 29752,
+                            "amount": 1
+                        },
+                        {
+                            "id": 29749,
+                            "amount": 2
+                        }
+                    ],
+                    "oceanFishingTime": 3,
+                    "minGathering": 0
                 }
             ]
         },
@@ -30379,6 +31276,29 @@
                     "minGathering": 0,
                     "weathersFrom": [],
                     "oceanFishingTime": 0
+                },
+                {
+                    "id": 29745,
+                    "icon": "/i/029000/029147.png",
+                    "iconHD": "/i/029000/029147_hr1.png",
+                    "name_en": "Little Leviathan",
+                    "name_de": "Kleiner Leviathan",
+                    "name_fr": "Mini-Léviathan",
+                    "name_ja": "リトルリヴァイアサン",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 29716,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 29727,
+                            "amount": 1
+                        }
+                    ],
+                    "oceanFishingTime": 0,
+                    "minGathering": 0
                 }
             ]
         },
@@ -30544,6 +31464,29 @@
                     "predators": [],
                     "oceanFishingTime": 1,
                     "minGathering": 0
+                },
+                {
+                    "id": 29789,
+                    "icon": "/i/028000/028010.png",
+                    "iconHD": "/i/028000/028010_hr1.png",
+                    "name_en": "Coral Manta",
+                    "name_de": "Korallenmanta",
+                    "name_fr": "Raie corallienne",
+                    "name_ja": "コーラルマンタ",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 2613,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 29758,
+                            "amount": 2
+                        }
+                    ],
+                    "oceanFishingTime": 3,
+                    "minGathering": 0
                 }
             ]
         },
@@ -30684,6 +31627,29 @@
                     "tug": 1,
                     "bait": 29716,
                     "oceanFishingTime": 0
+                },
+                {
+                    "id": 29746,
+                    "icon": "/i/029000/029077.png",
+                    "iconHD": "/i/029000/029077_hr1.png",
+                    "name_en": "Sabaton",
+                    "name_de": "Eisenfuß",
+                    "name_fr": "Sabaton des mers",
+                    "name_ja": "シーサバトン",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 29715,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 29731,
+                            "amount": 2
+                        }
+                    ],
+                    "oceanFishingTime": 0,
+                    "minGathering": 0
                 }
             ]
         },
@@ -30819,6 +31785,33 @@
                     "tug": 2,
                     "bait": 29714,
                     "oceanFishingTime": 0
+                },
+                {
+                    "id": 29790,
+                    "icon": "/i/028000/028011.png",
+                    "iconHD": "/i/028000/028011_hr1.png",
+                    "name_en": "Stonescale",
+                    "name_de": "Felsenschuppe",
+                    "name_fr": "Pierrécailles",
+                    "name_ja": "ロックスケイル",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 2591,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 29768,
+                            "amount": 1
+                        },
+                        {
+                            "id": 29769,
+                            "amount": 1
+                        }
+                    ],
+                    "oceanFishingTime": 1,
+                    "minGathering": 0
                 }
             ]
         },
@@ -30969,6 +31962,29 @@
                     "tug": 1,
                     "bait": 29714,
                     "oceanFishingTime": 0
+                },
+                {
+                    "id": 29747,
+                    "icon": "/i/029000/029157.png",
+                    "iconHD": "/i/029000/029157_hr1.png",
+                    "name_en": "Shooting Star",
+                    "name_de": "Meerschnuppe",
+                    "name_fr": "Étoile filante des mers",
+                    "name_ja": "海の流星",
+                    "tug": 1,
+                    "bait": 29714,
+                    "hookset": 2,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [
+                        {
+                            "id": 29743,
+                            "amount": 1
+                        }
+                    ],
+                    "minGathering": 0,
+                    "weathersFrom": [],
+                    "oceanFishingTime": 0
                 }
             ]
         },
@@ -31109,6 +32125,29 @@
                     "tug": 0,
                     "bait": 29715,
                     "oceanFishingTime": 1
+                },
+                {
+                    "id": 29791,
+                    "icon": "/i/028000/028012.png",
+                    "iconHD": "/i/028000/028012_hr1.png",
+                    "name_en": "Elasmosaurus",
+                    "name_de": "Elasmosaurus",
+                    "name_fr": "Elasmosaurus",
+                    "name_ja": "エラスモサウルス",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 2619,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 29781,
+                            "amount": 3
+                        }
+                    ],
+                    "oceanFishingTime": 2,
+                    "minGathering": 0
                 }
             ]
         },
@@ -31254,6 +32293,29 @@
                     "minGathering": 0,
                     "weathersFrom": [],
                     "oceanFishingTime": 0
+                },
+                {
+                    "id": 32064,
+                    "icon": "/i/028000/028021.png",
+                    "iconHD": "/i/028000/028021_hr1.png",
+                    "name_en": "Cieldalaes Geode",
+                    "name_de": "Himmlische Geode",
+                    "name_fr": "Géode-de-Cieldalaes",
+                    "name_ja": "シェルダレージオード",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 29715,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 32057,
+                            "amount": 3
+                        }
+                    ],
+                    "oceanFishingTime": 0,
+                    "minGathering": 0
                 }
             ]
         },
@@ -31398,6 +32460,33 @@
                     "snagging": false,
                     "predators": [],
                     "oceanFishingTime": 1,
+                    "minGathering": 0
+                },
+                {
+                    "id": 32074,
+                    "icon": "/i/028000/028030.png",
+                    "iconHD": "/i/028000/028030_hr1.png",
+                    "name_en": "Hafgufa",
+                    "name_de": "Hafgufa",
+                    "name_fr": "Hafgufa",
+                    "name_ja": "ハーヴグーヴァ",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 27590,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 32067,
+                            "amount": 1
+                        },
+                        {
+                            "id": 32070,
+                            "amount": 2
+                        }
+                    ],
+                    "oceanFishingTime": 3,
                     "minGathering": 0
                 }
             ]
@@ -31544,6 +32633,25 @@
                     "tug": 1,
                     "bait": 29715,
                     "oceanFishingTime": 0
+                },
+                {
+                    "id": 32084,
+                    "icon": "/i/029000/029746.png",
+                    "iconHD": "/i/029000/029746_hr1.png",
+                    "name_en": "Bareface",
+                    "name_de": "Bargesicht",
+                    "name_fr": "Face-d'ours",
+                    "name_ja": "ベアフェイス",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 29715,
+                    "predators": [
+                        {
+                            "id": 32082,
+                            "amount": 1
+                        }
+                    ],
+                    "oceanFishingTime": 0
                 }
             ]
         },
@@ -31679,6 +32787,29 @@
                     "predators": [],
                     "oceanFishingTime": 0,
                     "minGathering": 0
+                },
+                {
+                    "id": 32094,
+                    "icon": "/i/028000/028032.png",
+                    "iconHD": "/i/028000/028032_hr1.png",
+                    "name_en": "Seafaring Toad",
+                    "name_de": "Hochseetüchtiger Frosch",
+                    "name_fr": "Crapaud de mer",
+                    "name_ja": "オーシャントード",
+                    "hookset": 2,
+                    "tug": 1,
+                    "bait": 2587,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 32089,
+                            "amount": 3
+                        }
+                    ],
+                    "oceanFishingTime": 2,
+                    "minGathering": 0
                 }
             ]
         },
@@ -31813,6 +32944,25 @@
                     "hookset": 1,
                     "tug": 1,
                     "bait": 29716,
+                    "oceanFishingTime": 0
+                },
+                {
+                    "id": 32104,
+                    "icon": "/i/028000/028490.png",
+                    "iconHD": "/i/028000/028490_hr1.png",
+                    "name_en": "Ginkgo Fin",
+                    "name_de": "Ginkgoflosse",
+                    "name_fr": "Gingko marin",
+                    "name_ja": "ギンコフィッシュ",
+                    "hookset": 2,
+                    "tug": 1,
+                    "bait": 29714,
+                    "predators": [
+                        {
+                            "id": 32096,
+                            "amount": 3
+                        }
+                    ],
                     "oceanFishingTime": 0
                 }
             ]
@@ -31950,6 +33100,29 @@
                     "tug": 0,
                     "bait": 29715,
                     "oceanFishingTime": 0
+                },
+                {
+                    "id": 32114,
+                    "icon": "/i/028000/028031.png",
+                    "iconHD": "/i/028000/028031_hr1.png",
+                    "name_en": "Placodus",
+                    "name_de": "Placodus",
+                    "name_fr": "Placodus",
+                    "name_ja": "プラコドゥス",
+                    "tug": 1,
+                    "bait": 32107,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [
+                        {
+                            "id": 32110,
+                            "amount": 1
+                        }
+                    ],
+                    "minGathering": 0,
+                    "weathersFrom": [],
+                    "oceanFishingTime": 1
                 }
             ]
         }
