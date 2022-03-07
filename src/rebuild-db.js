@@ -4,33 +4,34 @@ import * as fs from 'fs';
 let interval;
 const fishingLog = {};
 
-initDatabase();
+fetch("https://xivapi.com/FishingSpot", { mode: "cors"})
+.then(res => res.json())
+.then(data => {
+  const pageTotal = data.Pagination.PageTotal;
 
-function initDatabase(totalSpots) {
-  let iteration = 0;
-  fetch("https://xivapi.com/FishingSpot", { mode: "cors"})
-  .then(res => res.json())
-  .then(data => {
-    totalSpots = typeof totalSpots !== "number" ? parseInt(data.Pagination.ResultsTotal) : totalSpots;
-    if (typeof totalSpots === "number") {
-      interval = setInterval(sendReq, 1000)
-    } else { // Error from XIVAPI
-      throw new Error("XIVAPI is down or you are banned gg..")
-    }
-  });
+  for (let i=0; i<pageTotal; i++) {
+    fetch("https://xivapi.com/FishingSpot?page=" + (i + 1), { mode: "cors"})
+    .then(res => res.json())
+    .then(data => {
+      let iteration = 0;
+      const max = data.Pagination.Results;
+      console.log("Page " + (i +1) + "..");
+      interval = setInterval(sendReq, 1000, data.Results, max)
+    })
+  };
 
-  function sendReq() {
-    for (let i=0; i<5; i++) {
-      iteration += 1;
-      fetchSpot(iteration)
-      if (i === 4) console.log(parseInt((iteration * 100) / totalSpots))
-      if (iteration === totalSpots) { // End
-        clearInterval(interval);
-        console.log("Done!");
-        console.log("Now merging with TeamCraft entries..");
-        mergeEntries()
-        break
-      }
+  console.log("Done!");
+  console.log("Now merging with TeamCraft entries..");
+  mergeEntries()
+});
+
+function sendReq(results, total) {
+  for (let i=0; i<5; i++) {
+    iteration += 1;
+    fetchSpot(results[iteration].ID);
+    if (iteration === total) { // End
+      clearInterval(interval);
+      break
     }
   }
 }
