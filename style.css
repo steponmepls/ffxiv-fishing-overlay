@@ -19,7 +19,8 @@ html {
   --text-color: white;
   --text-stroke-color: rgb(0,0,0,.5);
   --bg-0-color: rgb(10,10,10,.5);
-  --bg-1-color: rgba(255, 255, 255, 0.10);
+  --bg-1-color: rgba(255, 255, 255, 0.075);
+  --bg-2-color: rgba(10,10,10,.6);
   --bg-tug-0-color: rgb(255, 215, 0, .5);
   --bg-tug-1-color: rgb(165, 42, 42, .5);
   --bg-tug-2-color: rgb(50, 205, 50, .5);
@@ -58,18 +59,26 @@ html.manual-settings #container {
   border-top-right-radius: 3px;
   padding: 0.5rem;
 }
+#spot, #timer {
+  align-self: center;
+}
 #spot {
   font-size: .8em;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  align-self: center;
   flex-basis: 100%;
+  line-height: 90%;
 }
 #spot:empty::before {
   content: 'Fishing overlay'
 }
-html:not(.fishing) #timer::before {
+#timer {
+  font-family: monospace;
+  font-size: 1.25em;
+  line-height: 100%;
+}
+html:not(.fishing):not(.manual-settings) #timer::before {
   content: '0.0';
   opacity: 0.7;
 }
@@ -137,9 +146,7 @@ html.marker-paused .markline {
 }
 .fish {
   max-height: calc(var(--icon-size) * 1px);
-}
-.fish[data-fishid] {
-  background: var(--bg-1-color);
+  background-color: var(--bg-1-color);
 }
 .fish[data-fishid]:not(:nth-of-type(2)) {
   margin-top: 1px;
@@ -165,14 +172,12 @@ html.marker-paused .markline {
   font-weight: bold;
   align-self: center;
   z-index: 2;
+  cursor: pointer;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis; /* --text-stroke-color */
-  text-shadow: 3px 3px 0 var(--text-stroke-color),
-               -1px -1px 0 var(--text-stroke-color), 
-               1px -1px 0 var(--text-stroke-color),
-               -1px 1px 0 var(--text-stroke-color),
-               1px 1px 0 var(--text-stroke-color);
+  text-overflow: ellipsis;
+  text-shadow: 1px 1px 0 var(--text-stroke-color),
+              -1px -1px 0 var(--text-stroke-color);
 }
 .fish .label .name:not(:empty) {
   padding-left: 0.5rem;
@@ -183,7 +188,7 @@ html.marker-paused .markline {
   display: none;
   min-width: 2px;
   height: 100%;
-  background-color: var(--bg-0-color);
+  background-color: var(--bg-2-color);
 }
 html.chum-records .record-chum[data-min],
 html:not(.chum-records) .record[data-min] {
@@ -281,6 +286,9 @@ html:not(.chum-records) .record[data-min] {
   font-size: 14px;
   line-height: 16px;
   padding-right: .1rem;
+}
+html.manual-settings #show-settings::before {
+  content: '✔';
 }
 #settings {
   display: none;
