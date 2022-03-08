@@ -27,10 +27,12 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
     // Fetch language from ACT settings
     callOverlayHandler({ call: "getLanguage" })
     .then(res => { lang = ("language" in res) ? res.language : "English";
-      if (lang == "English") { langId = "en" } 
-      else if (lang == "German") { langId = "de" } 
-      else if (lang == "French") { langId = "fr" } 
-      else if (lang == "Japanese") { langId = "ja" };
+      switch (lang) {
+        case "English": langId = "en"; break;
+        case "German": langId = "de"; break;
+        case "French": langId = "fr"; break;
+        case "Japanese": langId = "ja"
+      };
 
       // Fallback till regex for other languages is finished
       if (languages[lang].start.length < 1) {
