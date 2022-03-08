@@ -124,6 +124,9 @@ function sanitizeLog() {
       case "Buffeted Cloudtop":
         address = 939
         break;
+      case "The Doman Enclave":
+        address = 759
+        break;
       default:
         address = 0
     }
