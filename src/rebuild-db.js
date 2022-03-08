@@ -1,36 +1,40 @@
 import fetch from 'node-fetch';
 import * as fs from 'fs';
 
-let interval;
+let interval, iteration = 0;
 const fishingLog = {};
 
 fetch("https://xivapi.com/FishingSpot", { mode: "cors"})
 .then(res => res.json())
 .then(data => {
-  const pageTotal = data.Pagination.PageTotal;
+  const spots = [],
+        pageTotal = data.Pagination.PageTotal;
 
   for (let i=0; i<pageTotal; i++) {
     fetch("https://xivapi.com/FishingSpot?page=" + (i + 1), { mode: "cors"})
     .then(res => res.json())
     .then(data => {
-      let iteration = 0;
-      const max = data.Pagination.Results;
-      console.log("Page " + (i +1) + "..");
-      interval = setInterval(sendReq, 1000, data.Results, max)
+      for (const key in data.Results) {
+        spots.push(data.Results[key].ID)
+      };
+      if (i === pageTotal - 1) interval = setInterval(sendReq, 1000, spots)
     })
-  };
-
-  console.log("Done!");
-  console.log("Now merging with TeamCraft entries..");
-  mergeEntries()
+  }
 });
 
-function sendReq(results, total) {
+function sendReq(list) {
   for (let i=0; i<5; i++) {
     iteration += 1;
-    fetchSpot(results[iteration].ID);
-    if (iteration === total) { // End
+    fetchSpot(list[iteration]);
+    if (i === 4) console.log(parseInt((iteration * 100) / list.length));
+    if (iteration === list.length) { // End
       clearInterval(interval);
+      console.log("Done!");
+      console.log("Now sanitizing entries without zone ID..");
+      sanitizeLog();
+      console.log("Done!");
+      console.log("Now merging with TeamCraft entries..");
+      mergeEntries()
       break
     }
   }
@@ -43,7 +47,7 @@ function fetchSpot(s) {
     if (!("PlaceName" in data) || data.PlaceName === null) return;
 
     const spot = data;
-    const zoneID = (spot.ID > 146 && spot.ID < 155) ? 939 : spot.TerritoryTypeTargetID;
+    const zoneID = spot.TerritoryTypeTargetID;
     if (!(zoneID in fishingLog)) { fishingLog[zoneID] = {} }
     // const zoneName = spot.TerritoryType.PlaceName.Name
     const spotID = spot.ID;
@@ -82,6 +86,57 @@ function fetchSpot(s) {
     fishingLog[zoneID][spotID].name_ja = spotNameJA;
     fishingLog[zoneID][spotID].fishes = fishes
   })
+}
+
+function sanitizeLog() {
+  if (!("0" in fishingLog)) return;
+
+  const entries = fishingLog[0],
+        output = {};
+
+  // Init
+  for (const key in entries) {
+    let spot = {};
+    const name = entries[key].name_en;
+    if (!(name in output)) output[name] = [];
+    spot[key] = entries[key];
+    output[name].push(spot);
+    delete entries[key]
+  }
+
+  // Re-order
+  for (const name in output) {
+    let address;
+    const ids = output[name].map( obj => parseInt(Object.keys(obj)[0]) ),
+          max = Math.max(...ids);
+    switch(name) {
+      // Diadem spots
+      case "Diadem Skysprings":
+      case "Diadem Grotto":
+      case "Southern Diadem Lake":
+      case "Secluded Diadem Pond":
+      case "Northern Diadem Lake":
+      case "Blustery Cloudtop":
+      case "Calm Cloudtop":
+      case "Swirling Cloudtop":
+      case "Windswept Cloudtop":
+      case "Windbreaking Cloudtop":
+      case "Buffeted Cloudtop":
+        address = 939
+        break;
+      default:
+        address = 0
+    }
+    if (!(address in fishingLog)) fishingLog[address] = {};
+    fishingLog[address][max] = {};
+    Object.assign(fishingLog[address], output[name].find(obj => max in obj) );
+  }
+
+  // Show output message
+  if ("0" in fishingLog) {
+    const leftover = Object.keys(fishingLog["0"]).length;
+    console.warn(`There are still ${leftover} unknown spots.`)
+  }
 }
 
 function mergeEntries() {
