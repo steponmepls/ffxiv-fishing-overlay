@@ -18,9 +18,10 @@ const languages = {
       /^The fish gets away/,
       /^Nothing bites/,
       /^You reel in your line/,
+      /^You lose your bait/
     ],
     loot: [
-      /^You land (an?|\d) .(.+) measuring ([0-9.]+) (\w+)!$/
+      /^You land (an? |\d )?.(.+) measuring ([0-9.]+) (\w+)!$/
     ],
     exit: [
       /^You put away your/,
