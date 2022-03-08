@@ -18,15 +18,11 @@ if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
   uuid = window.OverlayPluginApi.overlayUuid;
 
   if (window.callOverlayHandler) {
-    // Update character+settings when needed
-    document.addEventListener("changedCharacter", (e) => {
-      character = e.detail;
-      callOverlayHandler({ call: "loadData", key: uuid })
-        .then(obj => { if (obj && obj.data) {
-          Object.assign(settings, obj.data);
-          if (!(character.id in settings)) initCharacter()
-        }})
-    });
+    callOverlayHandler({ call: "loadData", key: uuid })
+    .then(obj => Object.assign(settings, obj.data))
+
+    // Update character value when needed
+    document.addEventListener("changedCharacter", (e) => { character = e.detail });
 
     // Fetch language from ACT settings
     callOverlayHandler({ call: "getLanguage" })
@@ -105,7 +101,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   document.addEventListener("stopCasting", () => {
     html.classList.remove("casting");
     html.classList.add("marker-paused");
-    if (interval) window.clearInterval(interval)
+    window.clearInterval(interval)
   });
   marker.addEventListener("animationend", (e) => {
     // Force-stop marker animation when elapsed time reaches 60s
@@ -179,15 +175,17 @@ window.addEventListener("DOMContentLoaded", async (e) => {
   });
 
   // Overlay functions
-  function startCasting(e) {
+  async function startCasting(e) {
     const regex = languages[lang];
+
+    // Check if character exists in settings
+    if (!(character.id in settings)) await initCharacter();
 
     // Add class toggles
     html.classList.add("fishing", "casting");
 
     // Reset timers before rerun
     start = Date.now();
-    timer.innerText = (0).toFixed(1);
     interval = window.setInterval(() => {
       const raw = (Date.now() - start) / 1000;
       timer.innerText = raw.toFixed(1)
@@ -408,9 +406,11 @@ window.addEventListener("DOMContentLoaded", async (e) => {
 });
 
 // Core functions
-function initCharacter() {
+async function initCharacter() {
+  let characters = await callOverlayHandler({ call: 'getCombatants' });
   settings[character.id] = {};
   settings[character.id].name = character.name;
+  settings[character.id].world = characters.combatants[0].WorldName;
   settings[character.id].records = {}
 }
 
