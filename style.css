@@ -19,12 +19,12 @@ html {
   --text-color: white;
   --text-stroke-color: rgb(0,0,0,.5);
   --bg-0-color: rgb(10,10,10,.5);
-  --bg-1-color: rgba(255, 255, 255, 0.075);
+  --bg-1-color: rgb(60 241 212 / 20%);
   --bg-2-color: rgba(10,10,10,.6);
   --bg-tug-0-color: rgb(255, 215, 0, .5);
   --bg-tug-1-color: rgb(165, 42, 42, .5);
   --bg-tug-2-color: rgb(50, 205, 50, .5);
-  --marker-color: white;
+  --marker-color: black;
 }
 .flex {
   display: flex;
@@ -226,7 +226,7 @@ html:not(.chum-records) .record[data-min] {
   font-style: normal;
   text-align: center;
 }
-.fish[data-fishid] .req .tug {
+.fish[data-fishid][data-tug] .req .tug {
   display: inline-block;
 }
 .fish[data-tug="2"] .req .tug {
