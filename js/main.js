@@ -120,7 +120,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     html.classList.add("long-cast", "marker-animated")
   });
   document.addEventListener("stopFishing", () => {
-    html.classList.remove("fishing", "marker-active", "marker-paused");
+    html.classList.remove("fishing", "marker-animated", "marker-paused");
     title.innerText = "";
     timer.innerText = "";
     wasChum = false
@@ -330,7 +330,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       item.querySelector(".label .name").innerText = name;
       // item.querySelector(".label .window").innerHTML = "";
       item.setAttribute("data-fishid", fish.id);
-      item.setAttribute("data-hook", hook);
+      if (tug) item.setAttribute("data-hook", hook);
       ["medium", "heavy", "light"].forEach((t, index) => {
         if (tug == index) item.setAttribute("data-tug", index);
       });
@@ -525,7 +525,7 @@ function debugCatch() {
   const elapsed = timer.innerText;
   document.dispatchEvent(new CustomEvent("fishCaught", {
     detail: {
-      name: "sea cucumber",
+      name: "sky faerie",
       time: parseFloat(elapsed),
       size: 21,
       unit: "ilms",
