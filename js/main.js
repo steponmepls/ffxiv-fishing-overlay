@@ -1,7 +1,7 @@
 "use strict";
 
 (async function() {
-  let uuid, character, lang, langId, spot, interval, start = 0, wasChum = false;
+  let uuid, character, lang, langId, zone, spot, interval, start = 0, wasChum = false;
   const settings = {};
 
   if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
@@ -26,7 +26,12 @@
       }
     });
 
-    document.addEventListener("changedCharacter", (e) => { character = e.detail });
+    document.addEventListener("changedCharacter", (e) => {
+      character = e.detail;
+      // Check if character exists in settings
+      if (!(character.id in settings)) initCharacter()
+    });
+    document.addEventListener("changedZone", (e) => { zone = e.detail.zone });
     document.addEventListener("saveSettings", () => {
       callOverlayHandler({ call: "saveData", key: uuid, data: settings})
     });
@@ -36,12 +41,19 @@
         output = settings;
       } else {
         output = {};
-        Object.assign(output, settings[e.detail.character])
+        output[e.detail.character] = {};
+        Object.assign(output[e.detail.character], settings[e.detail.character])
       }
     
       const string = JSON.stringify(output);
-      copyToClipboard(string)
+      document.dispatchEvent(new CustomEvent("toClipboard", { detail: { string: string } }))
     });
+    document.addEventListener("deleteSettings", () => {
+      console.warn("Deleting all settings..");
+      for (const key in settings) delete settings[key];
+      document.dispatchEvent(new CustomEvent("saveSettings"));
+      console.debug(settings)
+    })
 
     const importSettings = document.getElementById("import");
     importSettings.querySelector("button").onclick = () => {
@@ -236,7 +248,10 @@
     }))
   };
   const settingsToggle = document.getElementById("settings-toggle");
-  settingsToggle.onclick = () => { html.classList.toggle("show-settings") };
+  settingsToggle.onclick = () => {
+    html.classList.remove("manual-settings");
+    html.classList.toggle("show-settings")
+  };
   document.addEventListener("toClipboard", (e) => {
     if (!e.detail || !e.detail.string || typeof e.detail.string !== "string") return;
 
@@ -275,8 +290,9 @@
     if (!window.OverlayPluginApi) return;
 
     callOverlayHandler({ call: 'getCombatants' })
-    .then(obj => { if (!obj || !obj.combatants) return;
-      settings[character.id].world = obj.combatants[0].WorldName;
+    .then(obj => {
+      const world = obj.combatants[0].WorldName;
+      settings[character.id].world = world
     })
   }
   function getMax() {
@@ -287,9 +303,6 @@
 
   // Overlay functions
   function startCasting(e) {
-    // Check if character exists in settings
-    if (!(character.id in settings)) initCharacter();
-
     // Add class toggles
     html.classList.add("fishing", "casting");
 
@@ -520,4 +533,7 @@ function debugCatch() {
       amount: 1
     }
   }))
+}
+function nukeSettings() {
+  document.dispatchEvent(new CustomEvent("deleteSettings"))
 }
