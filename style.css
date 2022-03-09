@@ -28,8 +28,7 @@ html {
 
 /* -------------------- OVERLAY -------------------- */
 .container {
-  /* display: none; */
-  display: flex;
+  display: none;
   color: var(--text-color);
   font-family: sans-serif;
   flex-direction: column;
@@ -80,10 +79,14 @@ html:not(.manual-settings) #timer:empty::before {
 /* ----------------------- MAIN -----------------------  */
 .main {
   visibility: collapse;
-  position: relative;
+  /* Needed on Chromium: visibility:collapse not enough */
+  position: absolute;
+  top: -9999;
+  left: -9999;
 }
 html.fishing:not(.show-settings) .main {
   visibility: visible;
+  position: relative;
 }
 /* Entries */
 .fish {
