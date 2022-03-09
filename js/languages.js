@@ -1,4 +1,4 @@
-const languages = {
+const regex = {
   English: {
     start: [
       /^You (?:re)?cast your line.+\.$/,

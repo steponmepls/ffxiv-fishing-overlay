@@ -1,24 +1,12 @@
-html {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-*,
-*:after,
-*:before {
-  -webkit-box-sizing: inherit;
-  -moz-box-sizing: inherit;
-  box-sizing: inherit;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
 :root {
-  --icon-size: 24;
+  /* Sizes */
+  --border-radius: 3px;
+  --icon-size: 24px;
+
+  /* Colors */
   --text-color: white;
   --text-stroke-color: rgb(0,0,0,.5);
-  --bg-0-color: rgb(10,10,10,.5);
+  --bg-color: rgb(10,10,10,.5);
   --bg-1-color: rgb(60 241 212 / 20%);
   --bg-2-color: rgba(10,10,10,.6);
   --bg-tug-0-color: rgb(255, 215, 0, .5);
@@ -26,52 +14,58 @@ html {
   --bg-tug-2-color: rgb(50, 205, 50, .5);
   --marker-color: black;
 }
+html {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+*, *:after, *:before {
+  box-sizing: inherit;
+  user-select: none;
+}
 .flex {
   display: flex;
 }
+
+/* -------------------- OVERLAY -------------------- */
 .container {
-  position: relative;
-  width: 100%;
-}
-#container {
-  display: none;
-  color: white;
+  /* display: none; */
+  display: flex;
+  color: var(--text-color);
   font-family: sans-serif;
   flex-direction: column;
 }
-html.fishing #container,
-html.manual-settings #container {
+html.fishing .container,
+html.manual-settings .container {
   display: flex;
 }
-@media screen and (min-width: 800px) {
-  #container {
-    max-width: 33vw;
-  }
+.header, .main, .settings, .footer {
+  background-color: var(--bg-color)
 }
-#header, #entries, #settings, #footer {
-  background: var(--bg-0-color);
+.header, .footer {
+  padding: .5em;
+}
+.header {
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+.footer {
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
 }
 
-/* Header */
-
-#header {
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  padding: 0.5rem;
-}
-#spot, #timer {
+/* --------------------------- HEADER --------------------------- */
+#fishing-spot, #timer {
   align-self: center;
 }
-#spot {
+#fishing-spot {
   font-size: .8em;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   flex-basis: 100%;
-  line-height: 90%;
 }
-#spot:empty::before {
-  content: 'Fishing overlay'
+#fishing-spot:empty::before {
+  content: 'Fishing Overlay';
 }
 #timer {
   font-family: monospace;
@@ -83,86 +77,37 @@ html:not(.manual-settings) #timer:empty::before {
   opacity: 0.7;
 }
 
-/* Main */
-
-#entries {
-  display: none;
+/* ----------------------- MAIN -----------------------  */
+.main {
+  visibility: collapse;
   position: relative;
 }
-html.fishing #entries {
-  display: block;
+html.fishing:not(.show-settings) .main {
+  visibility: visible;
 }
-html.show-settings #entries {
-  visibility: collapse;
-  /* Following are needed because collapse doesn't work on Chrome for some reason */
-  position: absolute;
-  left: -9999px;
-  top: -9999px;
-}
-#marker {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-.markline {
-  display: none;
-  width: 0;
-  height: 100%;
-  border-right: 2px solid;
-  border-color: var(--marker-color);
-  /* This is very important! If not set it will default to ease and not align with min max records! */
-  animation-timing-function: linear;
-  /* Stays at 100% once finished */
-  animation-fill-mode: forwards;
-}
-.markline[data-dur="30"] {
-  animation-duration: 30s;
-}
-.markline[data-dur="45"] {
-  animation-duration: 45s;
-}
-html.long-cast .markline[data-dur="45"] {
-  animation-delay: -30s;
-}
-html.fishing .markline {
-  display: block;
-}
-html.marker-animated .markline {
-  animation-name: slidein;
-}
-html.marker-paused .markline {
-  animation-play-state: paused;
-}
-@keyframes slidein {
-  from {
-      width: 0;
-  }
-  to {
-      width: 100%;
-  }
-}
+/* Entries */
 .fish {
-  max-height: calc(var(--icon-size) * 1px);
+  max-height: var(--icon-size);
   background-color: var(--bg-1-color);
 }
-.fish[data-fishid]:not(:nth-of-type(2)) {
+.fish[data-fishid]:not(:first-of-type) {
   margin-top: 1px;
 }
-.icon, .offset {
-  width: calc(var(--icon-size) * 1px);
+.fish .icon, .timeline .offset.icon {
+  width: var(--icon-size);
   flex-shrink: 0;
 }
-.icon img {
-  display: block; /* Get rid of unnecessary spacing at the bottom */
-  width: auto;
-  height: 100%;
+.fish img {
+  display: block;
 }
-.fish .label {
-  position: relative;
+.fish .icon img {
   width: 100%;
+  height: auto;
+}
+
+.fish .label {
+  width: 100%;
+  position: relative;
   overflow: hidden;
 }
 .fish .label .name {
@@ -176,16 +121,17 @@ html.marker-paused .markline {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  text-shadow: 1px 1px 0 var(--text-stroke-color),
-              -1px -1px 0 var(--text-stroke-color);
+  text-shadow: 1px 1px 1px var(--text-stroke-color),
+              -1px -1px 1px var(--text-stroke-color),
+              -1px 1px 1px var(--text-stroke-color),
+              1px -1px 1px var(--text-stroke-color);
 }
 .fish .label .name:not(:empty) {
   padding-left: 0.5rem;
 }
-.record,
-.record-chum {
-  position: absolute;
+.records .record, .records .record-chum {
   display: none;
+  position: absolute;
   min-width: 2px;
   height: 100%;
   background-color: var(--bg-2-color);
@@ -194,30 +140,30 @@ html.chum-records .record-chum[data-min],
 html:not(.chum-records) .record[data-min] {
   display: block;
 }
-.fish .req {
+.fish .info {
   align-self: center;
   margin-right: .25rem;
   z-index: 1
 }
-.fish .req .hook {
+.fish .info .hook {
   display: none;
   width: 16px;
   height: 16px;
   align-self: center;
   margin-right: .25rem;
 }
-.fish[data-hook="1"] .req .hook {
+.fish[data-hook="1"] .info .hook {
   background: url("https://xivapi.com/i/001000/001115.png") no-repeat center/16px;
 }
-.fish[data-hook="2"] .req .hook {
+.fish[data-hook="2"] .info .hook {
   background: url("https://xivapi.com/i/001000/001116.png") no-repeat center/16px;
 }
 /* Only show hook suggestion on quirky fishes */
-.fish[data-fishid][data-hook="2"][data-tug="1"] .req .hook,
-.fish[data-fishid][data-hook="1"][data-tug="2"] .req .hook {
+.fish[data-fishid][data-hook="2"][data-tug="1"] .info .hook,
+.fish[data-fishid][data-hook="1"][data-tug="2"] .info .hook {
   display: inline-block;
 }
-.fish .req .tug {
+.fish .info .tug {
   display: none;
   min-width: 16px;
   min-height: 16px;
@@ -226,85 +172,93 @@ html:not(.chum-records) .record[data-min] {
   font-style: normal;
   text-align: center;
 }
-.fish[data-fishid][data-tug] .req .tug {
+.fish[data-fishid][data-tug] .info .tug {
   display: inline-block;
 }
-.fish[data-tug="2"] .req .tug {
+.fish[data-tug="2"] .info .tug {
   background-color: var(--bg-tug-2-color);
 }
-.fish[data-tug="2"] .req .tug::before {
+.fish[data-tug="2"] .info .tug::before {
   content: '!'
 }
-.fish[data-tug="0"] .req .tug {
+.fish[data-tug="0"] .info .tug {
   background-color: var(--bg-tug-0-color);
   letter-spacing: 0.64px;
 }
-.fish[data-tug="0"] .req .tug::before {
+.fish[data-tug="0"] .info .tug::before {
   content: '!!'
 }
-.fish[data-tug="1"] .req .tug {
+.fish[data-tug="1"] .info .tug {
   background-color: var(--bg-tug-1-color);
   letter-spacing: 0.64px;
 }
-.fish[data-tug="1"] .req .tug::before {
+.fish[data-tug="1"] .info .tug::before {
   content: '!!!'
 }
 
-/* Footer */
-
-#footer {
-  height: 16px;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  font-size: x-small;
-  text-transform: uppercase;
-  display: flex;
-  justify-content: right;
-  position: relative;
-}
-#output-msg {
+/* Timeline */
+.timeline {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  padding: .15rem;
-  padding-left: .25rem;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-#output-msg::before {
-  content: '>';
-  opacity: .7;
-  padding-right: .1rem
-}
-#show-settings:hover {
-  cursor: pointer;
-}
-#show-settings::before {
-  content: '⚙';
-  display: block;
-  width: auto;
   height: 100%;
-  font-size: 14px;
-  line-height: 16px;
-  padding-right: .1rem;
+  z-index: 1;
 }
-html.manual-settings #show-settings::before {
-  content: '✔';
+.timeline > div:last-of-type {
+  width: 100%;
 }
-#settings {
+#markline {
+  display: none;
+  width: 0;
+  height: 100%;
+  border-right: 2px solid;
+  border-color: var(--marker-color);
+  /* This is very important! If not set it will 
+  default to ease and not align with records! */
+  animation-timing-function: linear;
+  /* Stays at 100% once finished */
+  animation-fill-mode: forwards;
+}
+#markline[data-dur="30"] {
+  animation-duration: 30s;
+}
+#markline[data-dur="45"] {
+  animation-duration: 45s;
+}
+html.long-cast #markline[data-dur="45"] {
+  animation-delay: -30s;
+}
+html.fishing #markline {
+  display: block;
+}
+html.marker-animated #markline {
+  animation-name: slidein;
+}
+html.marker-paused #markline {
+  animation-play-state: paused;
+}
+@keyframes slidein {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* ----------------------- SETTINGS ----------------------- */
+.settings {
   display: none;
   flex-direction: column;
-  background: var(--bg-0-color);
+  background: var(--bg-color);
 }
-html.show-settings #settings {
+html.show-settings .settings {
   display: flex;
 }
-#settings .container {
+.settings > * {
   padding: 0 .25rem 0 .5rem;
 }
-#settings .container:not(:first-of-type) {
+.settings > *:not(:first-of-type) {
   margin-top: 1px;
 }
-#settings .label {
+.settings .label {
   width: 100%;
   font-size: .7em;
   align-self: center;
@@ -313,22 +267,61 @@ html.show-settings #settings {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-#settings .buttons {
+.settings .buttons {
   justify-content: right;
   flex: 0 0 auto;
 }
-#settings button {
+.settings button {
   font-size: .7em;
   padding: .05rem .2rem;
   border: none;
   border-radius: 2px;
   cursor: pointer;
 }
-#settings button ~ button {
+.settings button ~ button {
   margin-left: 1px
 }
-#settings input, 
-#settings a {
+.settings input {
   width: 0px;
   height: 0px;
+}
+
+/* ----------------------- FOOTER ----------------------- */
+.footer {
+  position: relative;
+  font-size: x-small;
+  text-transform: uppercase;
+  justify-content: right;
+}
+#output-message {
+  width: 100%;
+  padding-left: .25rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  align-self: center;
+}
+#output-message::before {
+  content: '>';
+  opacity: .7;
+  padding-right: .1rem;
+  align-self: center;
+}
+#settings-toggle {
+  flex: 0 0 auto;
+}
+#settings-toggle:hover {
+  cursor: pointer;
+}
+#settings-toggle::before {
+  content: '⚙';
+  display: block;
+  width: auto;
+  height: 100%;
+  font-size: 14px;
+  line-height: 16px;
+  padding-right: .1rem;
+}
+html.manual-settings #settings-toggle::before {
+  content: '✔';
 }
