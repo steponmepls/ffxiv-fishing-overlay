@@ -84,7 +84,8 @@
     if (regex[lang].loot[0].test(log)) {
       let total;
 
-      const line = log.match(regex[lang].loot[0]);
+      const line = log.match(regex[lang].loot[0]),
+            elapsed = document.getElementById("timer").innerText;
 
       // Check how many fishes at once
       if (/\d/.test(line[1])) {
@@ -98,6 +99,7 @@
           name: line[2],
           size: parseFloat(line[3]),
           unit: line[4],
+          time: elapsed,
           amount: total
         }
       });

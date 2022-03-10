@@ -9,6 +9,7 @@
     character = {id: 0, name: "Testing"};
     lang = !lang ? "English" : lang;
     langId = !langId ? "en" : langId;
+    zone = 401;
     initCharacter()
   } else {
     uuid = window.OverlayPluginApi.overlayUuid;
@@ -150,18 +151,6 @@
   });
   document.addEventListener("fishCaught", updateLog);
   document.addEventListener("newSpot", (e) => { findSpot(e.detail.line) });
-  timelineMark.addEventListener("animationend", (e) => {
-    // Force-stop marker animation when elapsed time reaches 60s
-    if (e.elapsedTime >= 45) return
-
-    // Redraw records considering new 60s delay
-    e.target.setAttribute("data-dur", 45);
-
-    // Restart animation
-    html.classList.remove("marker-animated");
-    void html.offsetWidth;
-    html.classList.add("long-cast", "marker-animated")
-  });
   document.addEventListener("stopFishing", () => {
     html.classList.remove("fishing", "marker-animated", "marker-paused");
     spotName.innerText = "";
@@ -189,8 +178,19 @@
   });
 
   // Redraw timeline whenever data-dur value changes
+  timelineMark.addEventListener("animationend", (e) => {
+    // Force-stop marker animation when elapsed time reaches 60s
+    if (e.elapsedTime >= 45) return
+
+    // Redraw records considering new 60s delay
+    e.target.setAttribute("data-dur", 45);
+
+    // Restart animation
+    html.classList.remove("marker-animated");
+    void html.offsetWidth;
+    html.classList.add("long-cast", "marker-animated")
+  });
   const durationChange = new MutationObserver((list) => {
-    // Prevents from running if value hasn't changed
     if (list[0].oldValue == undefined) return;
     if (list[0].oldValue == list[0].target.getAttribute("data-dur")) return;
 
@@ -198,7 +198,6 @@
     if (!(zone in records) || !(spot in records[zone])) return;
 
     const spotRecords = records[zone][spot];
-
     log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index);
       if (fish.id in spotRecords) {
@@ -452,14 +451,11 @@
     let fishID;
 
     const fishName = fish.detail.name,
-          fishTime = timer.innerText,
+          fishTime = fish.detail.time,
           // fishSize = fish.detail.size,
           // sizeUnit = fish.detail.unit,
           // totalFishes = fish.detail.amount,
           records = settings[character.id].records;
-
-    const threshold = timelineMark.getAttribute("data-dur");
-    if (fishTime > 30 && threshold < 45) timelineMark.setAttribute("data-dur", 45);
 
     for (const item of log[zone][spot].fishes) {
       const regex = new RegExp(`${item["name_" + langId]}`, "i");
@@ -492,7 +488,7 @@
     };
 
     // Reset chum bool
-    wasChum = false
+    wasChum = false;
 
     if (!("min" in fishRecord)) {
       fishRecord.min = fishTime;
@@ -513,7 +509,6 @@
 
 // DEBUG
 function debug(delay) {
-  zone = 401;
   document.dispatchEvent(new CustomEvent("startCasting", {
     detail: { line: "Mok Oogl Island" }
   }));
@@ -532,6 +527,7 @@ function debugCatch() {
       name: "sky faerie",
       size: 21,
       unit: "ilms",
+      time: elapsed,
       amount: 1
     }
   }))
