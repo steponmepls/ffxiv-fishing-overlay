@@ -33,6 +33,7 @@
     });
     document.addEventListener("changedZone", (e) => { zone = e.detail.zone });
     document.addEventListener("saveSettings", () => {
+      if (character.id === 0) return;
       callOverlayHandler({ call: "saveData", key: uuid, data: settings})
     });
     document.addEventListener("exportSettings", (e) => {    
@@ -190,7 +191,8 @@
   // Redraw timeline whenever data-dur value changes
   const durationChange = new MutationObserver((list) => {
     // Prevents from running if value hasn't changed
-    if (list[0].oldValue == list[0].target.getAttribute("data-dur")) return
+    if (list[0].oldValue == undefined) return;
+    if (list[0].oldValue == list[0].target.getAttribute("data-dur")) return;
 
     const records = settings[character.id].records;
     if (!(zone in records) || !(spot in records[zone])) return;
@@ -495,15 +497,15 @@
     if (!("min" in fishRecord)) {
       fishRecord.min = fishTime;
       fishRecord.max = fishTime;
-      if (character.id != 0) saveSettings(settings);
+      document.dispatchEvent(new CustomEvent("saveSettings"));
       redrawRecord(fishRecord, fishMark)
     } else if (fishTime < fishRecord.min) {
       fishRecord.min = fishTime;
-      if (character.id != 0) saveSettings(settings);
+      document.dispatchEvent(new CustomEvent("saveSettings"));
       redrawRecord(fishRecord, fishMark)
     } else if (fishTime > fishRecord.max) {
       fishRecord.max = fishTime;
-      if (character.id != 0) saveSettings(settings);
+      document.dispatchEvent(new CustomEvent("saveSettings"));
       redrawRecord(fishRecord, fishMark)
     }
   }
