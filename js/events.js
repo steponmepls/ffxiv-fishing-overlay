@@ -11,10 +11,7 @@
   // Report when you change character
   addOverlayListener("ChangePrimaryPlayer", (e) => {
     const event = new CustomEvent("changedCharacter", {
-      detail: {
-        id: e.charID,
-        name: e.charName
-      }
+      detail: { id: e.charID, name: e.charName }
     });
     document.dispatchEvent(event)
   });
@@ -54,13 +51,9 @@
               name = log.match(rule)[1];
 
         const event = new CustomEvent("statusChange", {
-          detail: {
-            name: name,
-            status: bool
-          }
+          detail: { name: name, status: bool }
         });
         document.dispatchEvent(event);
-
         break
       }
     };
@@ -99,7 +92,7 @@
           name: line[2],
           size: parseFloat(line[3]),
           unit: line[4],
-          time: elapsed,
+          time: parseFloat(elapsed),
           amount: total
         }
       });
@@ -114,8 +107,5 @@
         break
       }
     }
-  });
-  
-  // OverlayPlugin will now start sending events
-  startOverlayEvents()
+  })
 })()
