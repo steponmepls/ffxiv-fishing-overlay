@@ -154,7 +154,6 @@ html:not(.chum-records) .record:not(.chum)[data-min] {
 .fish .info {
   align-self: center;
   margin-right: .25rem;
-  z-index: 1
 }
 .fish .info .hook {
   display: none;
@@ -182,6 +181,10 @@ html:not(.chum-records) .record:not(.chum)[data-min] {
   font-family: "Roboto Condensed";
   font-style: normal;
   text-align: center;
+  font-weight: bold;
+}
+.fish:not([data-tug="2"]) .info .tug {
+  letter-spacing: .5px
 }
 .fish[data-fishid][data-tug] .info .tug {
   display: inline-block;
@@ -194,14 +197,12 @@ html:not(.chum-records) .record:not(.chum)[data-min] {
 }
 .fish[data-tug="0"] .info .tug {
   background-color: var(--bg-tug-0-color);
-  letter-spacing: 0.64px;
 }
 .fish[data-tug="0"] .info .tug::before {
   content: '!!'
 }
 .fish[data-tug="1"] .info .tug {
   background-color: var(--bg-tug-1-color);
-  letter-spacing: 0.64px;
 }
 .fish[data-tug="1"] .info .tug::before {
   content: '!!!'
