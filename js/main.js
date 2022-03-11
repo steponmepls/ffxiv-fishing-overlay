@@ -1,7 +1,7 @@
 "use strict";
 
 (async function () {
-  let character, zone, spot, interval, start = 0, wasChum = false;
+  let character, zone, spot, interval, msgInterval, start = 0, wasChum = false;
   const settings = {}, log = {};
 
   // Retrieve fishing log
@@ -272,6 +272,8 @@
     html.classList.remove("manual-settings");
     html.classList.toggle("show-settings")
   };
+
+  // Actions
   document.addEventListener("toClipboard", (e) => {
     if (!e.detail || !e.detail.string || typeof e.detail.string !== "string") return;
 
@@ -297,7 +299,8 @@
     container.innerText = ""; // Visual feedback for force-reset
     setTimeout(() => { 
       container.innerText = message;
-      setTimeout(() => { container.innerText = "" }, 3000)
+      clearTimeout(msgInterval);
+      msgInterval = setTimeout(() => { container.innerText = "" }, 3000)
      }, 100);
   });
 
