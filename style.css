@@ -144,7 +144,7 @@ html.fishing:not(.show-settings) .main {
   background-color: var(--bg-2-color);
   cursor: zoom-in;
 }
-.fish:hover .records > [class^="record"] {
+.label:hover .records > [class^="record"] {
   z-index: 2;
 }
 html.chum-records .record.chum[data-min],
