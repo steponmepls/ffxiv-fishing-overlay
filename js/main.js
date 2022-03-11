@@ -141,29 +141,40 @@
     const item = document.getElementById(`item${i}`);
     item.innerHTML = `<div class="icon"><img src=""></div>
     <div class="label flex">
-      <div class="name"></div>
+      <div class="name flex"></div>
       <div class="info flex">
         <i class="hook"></i>
         <i class="tug"></i>
       </div>
       <div class="records">
         <div class="record"></div>
-        <div class="record-chum"></div>
+        <div class="record chum"></div>
       </div>
     </div>`;
 
-    item.querySelector(".label > .name").onclick = (e) => {
-      const item = e.target.parentElement.parentElement,
-            id = parseInt(item.getAttribute("data-fishid"));
+    item.querySelector(".icon").onclick = (e) => {
+      const node = e.target.parentElement.parentElement;
+      const id = parseInt(node.getAttribute("data-fishid"));
       if (!id || typeof id !== "number") return;
 
       document.dispatchEvent(new CustomEvent("toClipboard", {
         detail: {
           string: "https://www.garlandtools.org/db/#item/" + id,
-          msg: "Copied link to clipboard."
+          msg: "Copied link to clipboard"
         }
       }))
-    }
+    };
+    item.querySelectorAll(".record").forEach(r => {
+      r.onclick = (e) => {
+        const min = e.target.getAttribute("data-min"),
+              max = e.target.getAttribute("data-max");
+        document.dispatchEvent(new CustomEvent("sendMessage", {
+          detail: {
+            msg: `${min} ~ ${max}`
+          }
+        }))
+      }
+    })
   };
 
   // Overlay events
@@ -221,7 +232,7 @@
     const records = settings.characters[character.id].records;
     if (!(zone in records) || !(spot in records[zone])) return;
 
-    redrawRecords(spot)
+    redrawRecords(list[0].target.getAttribute("data-dur"))
   });
   durationChange.observe(timelineMark, {
     attributeFilter: ["data-dur"],
@@ -335,8 +346,7 @@
       item.removeAttribute("data-fishid");
       item.removeAttribute("data-hook");
       item.removeAttribute("data-tug");
-      const records = item.querySelectorAll("div[class*='record']");
-      for (const record of records) {
+      for (const record of item.querySelectorAll(".record")) {
         record.removeAttribute("data-min");
         record.removeAttribute("data-max");
         record.removeAttribute("style")
@@ -367,7 +377,7 @@
       }
     }
   }
-  function populateEntries() {  
+  function populateEntries() {
     const records = settings.characters[character.id].records;
 
     log[zone][spot].fishes.forEach((fish, index) => {
@@ -385,10 +395,9 @@
         if (tug == index) item.setAttribute("data-tug", index);
       });
     });
-
     // Add record marks
     if (!(zone in records) || !(spot in records[zone])) return;
-    redrawRecords(spot)
+    redrawRecords()
   }
   function redrawRecord(record, node, dur) {
     const threshold = (dur) ? dur : timelineMark.getAttribute("data-dur");
@@ -416,29 +425,31 @@
       return parseFloat(output.toFixed(1))
     }
   }
-  function redrawRecords(spot) {
-    let duration = 30;
+  function redrawRecords(dur) {
+    let duration;
     const records = settings.characters[character.id].records,
           spotRecords = records[zone][spot];
 
-    duration = getMax() > 30 ? 45 : 30;
+    duration = (!dur) ? (getMax() >= 30) ? 45 : 30 : dur;
+
     log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index);
       if (fish.id in spotRecords) {
-        let fishRecord, fishMark;
-        if ("chum" in spotRecords[fish.id] && "min" in spotRecords[fish.id].chum) {
-          fishRecord = spotRecords[fish.id].chum;
-          fishMark = item.querySelector(".records .record-chum");
-          redrawRecord(fishRecord, fishMark, duration)
-        }
-        if ("min" in spotRecords[fish.id]) {
-          fishRecord = spotRecords[fish.id];
-          fishMark = item.querySelector(".records .record");
-          redrawRecord(fishRecord, fishMark, duration)
+        for (const node of item.querySelectorAll(".record")) {
+          let record;
+          if (node.classList.contains("chum")) {
+            if (!("chum" in spotRecords[fish.id])) break;
+            record = spotRecords[fish.id].chum
+          } else {
+            if (!("min" in spotRecords[fish.id])) break;
+            record = spotRecords[fish.id];
+          }
+          redrawRecord(record, node, duration)
         }
       }
     });
-    timelineMark.setAttribute("data-dur", duration)
+
+    if (getMax() >= 30) timelineMark.setAttribute("data-dur", 45)
   }
   function updateLog(fish) {
     let fishID;
@@ -474,7 +485,7 @@
     if (wasChum) {
       if (!("chum" in spotRecords[fishID])) spotRecords[fishID].chum = {};
       fishRecord = spotRecords[fishID].chum;
-      fishMark = fishNode.querySelector(".records > .record-chum")
+      fishMark = fishNode.querySelector(".records > .record.chum")
     } else {
       fishRecord = spotRecords[fishID];
       fishMark = fishNode.querySelector(".records > .record")
@@ -488,12 +499,12 @@
       fishRecord.max = fishTime;
       document.dispatchEvent(new CustomEvent("saveSettings"));
       redrawRecord(fishRecord, fishMark)
-    } else if (fishTime < fishRecord.min) {
+    } else if (parseFloat(fishTime) < parseFloat(fishRecord.min)) {
       console.debug(`${fishTime} < ${fishRecord.min}`);
       fishRecord.min = fishTime;
       document.dispatchEvent(new CustomEvent("saveSettings"));
       redrawRecord(fishRecord, fishMark)
-    } else if (fishTime > fishRecord.max) {
+    } else if (parseFloat(fishTime) > parseFloat(fishRecord.max)) {
       console.debug(`${fishTime} > ${fishRecord.min}`);
       fishRecord.max = fishTime;
       document.dispatchEvent(new CustomEvent("saveSettings"));
