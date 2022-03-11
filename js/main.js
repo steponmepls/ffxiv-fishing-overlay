@@ -225,13 +225,12 @@
     html.classList.add("long-cast", "marker-animated")
   });
   const durationChange = new MutationObserver((list) => {
-    if (list[0].oldValue == undefined) return;
-    if (list[0].oldValue == list[0].target.getAttribute("data-dur")) return;
+    //if (list[0].oldValue == list[0].target.getAttribute("data-dur")) return;
 
     const records = settings.characters[character.id].records;
     if (!(zone in records) || !(spot in records[zone])) return;
 
-    redrawRecords(records)
+    refreshRecords(records)
   });
   durationChange.observe(timelineMark, {
     attributeFilter: ["data-dur"],
@@ -382,14 +381,6 @@
         };
         break
       }
-    };
-
-    function getMax() {
-      const records = settings.characters[character.id].records;
-      if (!(zone in records) || !(spot in records[zone])) return 0;
-      return Math.max(...Object.values(records[zone][spot]).map(i => 
-        [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]
-      ).flat())
     }
   }
   function populateEntries() {
@@ -411,9 +402,9 @@
     // Add record marks
     const records = settings.characters[character.id].records;
     if (!(zone in records) || !(spot in records[zone])) return;
-    redrawRecords(records)
+    timelineMark.setAttribute("data-dur", getMax() > 30 ? 45 : 30);
   }
-  function redrawRecord(record, node) {
+  function drawRecord(record, node) {
     const threshold = timelineMark.getAttribute("data-dur");
 
     let minMark = getPerc(record.min)
@@ -439,7 +430,7 @@
       return parseFloat(output.toFixed(1))
     }
   }
-  function redrawRecords(records) {
+  function refreshRecords(records) {
     const spotRecords = records[zone][spot];
     if (Object.values(spotRecords).length < 1) return;
 
@@ -456,7 +447,7 @@
           if (!("min" in spotRecords[fish.id])) continue;
           record = spotRecords[fish.id];
         }
-        redrawRecord(record, node)
+        drawRecord(record, node)
       }
     })
   }
@@ -505,18 +496,25 @@
       fishRecord.min = fishTime;
       fishRecord.max = fishTime;
       document.dispatchEvent(new CustomEvent("saveSettings"));
-      redrawRecord(fishRecord, fishMark)
+      drawRecord(fishRecord, fishMark)
     } else if (fishTime < parseFloat(fishRecord.min)) {
       //console.debug(`${fishTime} < ${fishRecord.min}`);
       fishRecord.min = fishTime;
       document.dispatchEvent(new CustomEvent("saveSettings"));
-      redrawRecord(fishRecord, fishMark)
+      drawRecord(fishRecord, fishMark)
     } else if (fishTime > parseFloat(fishRecord.max)) {
       //console.debug(`${fishTime} > ${fishRecord.min}`);
       fishRecord.max = fishTime;
       document.dispatchEvent(new CustomEvent("saveSettings"));
-      redrawRecord(fishRecord, fishMark)
+      drawRecord(fishRecord, fishMark)
     }
+  }
+  function getMax() {
+    const records = settings.characters[character.id].records;
+    if (!(zone in records) || !(spot in records[zone])) return 0;
+    return Math.max(...Object.values(records[zone][spot]).map(i => 
+      [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]
+    ).flat())
   }
 
   // OverlayPlugin will now start sending events
