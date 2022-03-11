@@ -187,7 +187,7 @@
   document.addEventListener("fishCaught", updateLog);
   document.addEventListener("newSpot", (e) => { findSpot(e.detail.line) });
   document.addEventListener("stopFishing", () => {
-    html.classList.remove("fishing", "marker-animated", "marker-paused");
+    html.classList.remove("fishing", "marker-animated", "marker-paused", "show-settings");
     spotName.innerText = "";
     castTimer.innerText = "";
     wasChum = false
@@ -309,7 +309,11 @@
     // Add class toggles
     html.classList.add("fishing", "casting");
 
-    // Reset timers before rerun
+    // Force-reset timer before rerun
+    // Bug: https://jsfiddle.net/zf96hcga/
+    // Fix: https://jsfiddle.net/zf96hcga/2/
+    window.clearInterval(interval)
+    // Start timer
     start = Date.now();
     interval = window.setInterval(() => {
       const raw = (Date.now() - start) / 1000;
@@ -458,7 +462,7 @@
     let fishID;
 
     const fishName = fish.detail.name,
-          fishTime = fish.detail.time,
+          fishTime = castTimer.innerText,
           // fishSize = fish.detail.size,
           // sizeUnit = fish.detail.unit,
           // totalFishes = fish.detail.amount,
@@ -477,9 +481,7 @@
     if (!(spot in records[zone])) records[zone][spot] = {};
     const spotRecords = records[zone][spot];
 
-    if (!(fishID in spotRecords)) {
-      records[zone][spot][fishID] = {}
-    };
+    if (!(fishID in spotRecords)) records[zone][spot][fishID] = {};
   
     // Pick either chum or normal mark for a fish
     let fishRecord, fishMark;
@@ -498,18 +500,18 @@
     wasChum = false;
 
     if (!("min" in fishRecord)) {
-      fishRecord.min = fishTime;
-      fishRecord.max = fishTime;
+      fishRecord.min = parseFloat(fishTime);
+      fishRecord.max = parseFloat(fishTime);
       document.dispatchEvent(new CustomEvent("saveSettings"));
       redrawRecord(fishRecord, fishMark)
     } else if (parseFloat(fishTime) < parseFloat(fishRecord.min)) {
-      console.debug(`${fishTime} < ${fishRecord.min}`);
-      fishRecord.min = fishTime;
+      //console.debug(`${fishTime} < ${fishRecord.min}`);
+      fishRecord.min = parseFloat(fishTime);
       document.dispatchEvent(new CustomEvent("saveSettings"));
       redrawRecord(fishRecord, fishMark)
     } else if (parseFloat(fishTime) > parseFloat(fishRecord.max)) {
-      console.debug(`${fishTime} > ${fishRecord.min}`);
-      fishRecord.max = fishTime;
+      //console.debug(`${fishTime} > ${fishRecord.min}`);
+      fishRecord.max = parseFloat(fishTime);
       document.dispatchEvent(new CustomEvent("saveSettings"));
       redrawRecord(fishRecord, fishMark)
     }
@@ -517,7 +519,9 @@
   function getMax() {
     const records = settings.characters[character.id].records;
     if (!(zone in records) || !(spot in records[zone])) return 0;
-    return Math.max(...Object.values(records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat())
+    return Math.max(...Object.values(records[zone][spot]).map(i => 
+      [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]
+    ).flat())
   };
 
   // OverlayPlugin will now start sending events
@@ -542,13 +546,11 @@ function debug(delay) {
 }
 function debugCatch() {
   document.dispatchEvent(new CustomEvent("stopCasting"));
-  const elapsed = timer.innerText;
   document.dispatchEvent(new CustomEvent("fishCaught", {
     detail: {
       name: "sky faerie",
       size: 21,
       unit: "ilms",
-      time: elapsed,
       amount: 1
     }
   }))
