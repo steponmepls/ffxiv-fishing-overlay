@@ -169,9 +169,7 @@
         const min = e.target.getAttribute("data-min"),
               max = e.target.getAttribute("data-max");
         document.dispatchEvent(new CustomEvent("sendMessage", {
-          detail: {
-            msg: `${min} ~ ${max}`
-          }
+          detail: { msg: `${min} ~ ${max}` }
         }))
       }
     })
@@ -208,6 +206,7 @@
     html.classList.add("show-settings")
   });
   document.addEventListener("reloadEntries", () => {
+    if (!(html.classList.contains("fishing"))) return;
     resetEntries();
     populateEntries()
   });
@@ -232,7 +231,7 @@
     const records = settings.characters[character.id].records;
     if (!(zone in records) || !(spot in records[zone])) return;
 
-    redrawRecords(list[0].target.getAttribute("data-dur"))
+    redrawRecords(records)
   });
   durationChange.observe(timelineMark, {
     attributeFilter: ["data-dur"],
@@ -376,17 +375,24 @@
           spot = parseInt(id);
           resetEntries();
           populateEntries()
-        } else { // Reset
+        } else {
+          // Reset timeline expansion if no record > 30s
           if (timelineMark.getAttribute("data-dur") > 30 && getMax() <= 30)
             timelineMark.setAttribute("data-dur", 30)
         };
         break
       }
+    };
+
+    function getMax() {
+      const records = settings.characters[character.id].records;
+      if (!(zone in records) || !(spot in records[zone])) return 0;
+      return Math.max(...Object.values(records[zone][spot]).map(i => 
+        [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]
+      ).flat())
     }
   }
   function populateEntries() {
-    const records = settings.characters[character.id].records;
-
     log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index),
             name = fish["name_" + settings.language.id],
@@ -403,11 +409,12 @@
       });
     });
     // Add record marks
+    const records = settings.characters[character.id].records;
     if (!(zone in records) || !(spot in records[zone])) return;
-    redrawRecords()
+    redrawRecords(records)
   }
-  function redrawRecord(record, node, dur) {
-    const threshold = (dur) ? dur : timelineMark.getAttribute("data-dur");
+  function redrawRecord(record, node) {
+    const threshold = timelineMark.getAttribute("data-dur");
 
     let minMark = getPerc(record.min)
     let maxMark = (getPerc(record.max)) - minMark;
@@ -432,37 +439,32 @@
       return parseFloat(output.toFixed(1))
     }
   }
-  function redrawRecords(dur) {
-    let duration;
-    const records = settings.characters[character.id].records,
-          spotRecords = records[zone][spot];
-
-    duration = (!dur) ? (getMax() >= 30) ? 45 : 30 : dur;
+  function redrawRecords(records) {
+    const spotRecords = records[zone][spot];
+    if (Object.values(spotRecords).length < 1) return;
 
     log[zone][spot].fishes.forEach((fish, index) => {
-      const item = document.getElementById("item" + index);
-      if (fish.id in spotRecords) {
-        for (const node of item.querySelectorAll(".record")) {
-          let record;
-          if (node.classList.contains("chum")) {
-            if (!("chum" in spotRecords[fish.id])) break;
-            record = spotRecords[fish.id].chum
-          } else {
-            if (!("min" in spotRecords[fish.id])) break;
-            record = spotRecords[fish.id];
-          }
-          redrawRecord(record, node, duration)
-        }
-      }
-    });
+      if (!(fish.id in spotRecords)) return;
 
-    if (getMax() >= 30) timelineMark.setAttribute("data-dur", 45)
+      const item = document.getElementById("item" + index);
+      for (const node of item.querySelectorAll(".record")) {
+        let record;
+        if (node.classList.contains("chum")) {
+          if (!("chum" in spotRecords[fish.id])) continue;
+          record = spotRecords[fish.id].chum
+        } else {
+          if (!("min" in spotRecords[fish.id])) continue;
+          record = spotRecords[fish.id];
+        }
+        redrawRecord(record, node)
+      }
+    })
   }
   function updateLog(fish) {
     let fishID;
 
     const fishName = fish.detail.name,
-          fishTime = castTimer.innerText,
+          fishTime = parseFloat(castTimer.innerText),
           // fishSize = fish.detail.size,
           // sizeUnit = fish.detail.unit,
           // totalFishes = fish.detail.amount,
@@ -500,38 +502,28 @@
     wasChum = false;
 
     if (!("min" in fishRecord)) {
-      fishRecord.min = parseFloat(fishTime);
-      fishRecord.max = parseFloat(fishTime);
+      fishRecord.min = fishTime;
+      fishRecord.max = fishTime;
       document.dispatchEvent(new CustomEvent("saveSettings"));
       redrawRecord(fishRecord, fishMark)
-    } else if (parseFloat(fishTime) < parseFloat(fishRecord.min)) {
+    } else if (fishTime < parseFloat(fishRecord.min)) {
       //console.debug(`${fishTime} < ${fishRecord.min}`);
-      fishRecord.min = parseFloat(fishTime);
+      fishRecord.min = fishTime;
       document.dispatchEvent(new CustomEvent("saveSettings"));
       redrawRecord(fishRecord, fishMark)
-    } else if (parseFloat(fishTime) > parseFloat(fishRecord.max)) {
+    } else if (fishTime > parseFloat(fishRecord.max)) {
       //console.debug(`${fishTime} > ${fishRecord.min}`);
-      fishRecord.max = parseFloat(fishTime);
+      fishRecord.max = fishTime;
       document.dispatchEvent(new CustomEvent("saveSettings"));
       redrawRecord(fishRecord, fishMark)
     }
   }
-  function getMax() {
-    const records = settings.characters[character.id].records;
-    if (!(zone in records) || !(spot in records[zone])) return 0;
-    return Math.max(...Object.values(records[zone][spot]).map(i => 
-      [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]
-    ).flat())
-  };
 
   // OverlayPlugin will now start sending events
   startOverlayEvents()
 })()
 
 // DEBUG
-function nukeSettings() {
-  document.dispatchEvent(new CustomEvent("deleteSettings"))
-}
 function debug(delay) {
   document.dispatchEvent(new CustomEvent("changedZone", { detail: { zone: 401 } }))
   document.dispatchEvent(new CustomEvent("startCasting", {
