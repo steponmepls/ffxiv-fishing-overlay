@@ -58,12 +58,6 @@
       }
     };
 
-    // Discovered a new fishing spot
-    if (regex[lang].spot[0].test(log)) {
-      const event = new CustomEvent("newSpot", { detail: { line: log }});
-      document.dispatchEvent(event)
-    };
-
     // When to pause the timer
     for (const rule of regex[lang].pause) {
       if (rule.test(log)) {
@@ -73,26 +67,22 @@
       }
     };
 
+    // Discovered a new fishing spot
+    if (regex[lang].spot[0].test(log)) {
+      const event = new CustomEvent("newSpot", { detail: { line: log }});
+      document.dispatchEvent(event)
+    };
+
     // You catch a fish
     if (regex[lang].loot[0].test(log)) {
-      let total;
-
       const line = log.match(regex[lang].loot[0]),
-            elapsed = document.getElementById("timer").innerText;
-
-      // Check how many fishes at once
-      if (/\d/.test(line[1])) {
-        total = parseInt(line[1])
-      } else {
-        total = 1
-      }
+            total = (/\d/.test(line[1])) ? parseInt(line[1]) : 1;
 
       const event = new CustomEvent("fishCaught", {
         detail: {
           name: line[2],
           size: parseFloat(line[3]),
           unit: line[4],
-          time: parseFloat(elapsed),
           amount: total
         }
       });
