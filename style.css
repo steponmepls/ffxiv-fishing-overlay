@@ -250,7 +250,7 @@ html.marker-paused #markline {
   height: 100%;
   background-color: var(--bg-2-color);
   cursor: zoom-in;
-  opacity: .3;
+  opacity: .5;
 }
 html.chum-records .record.chum[data-min],
 html:not(.chum-records) .record:not(.chum)[data-min] {
