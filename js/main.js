@@ -1,8 +1,8 @@
 "use strict";
 
 (async function () {
-  let character, zone, spot, interval, msgInterval, start = 0, wasChum = false;
-  const settings = {}, log = {};
+  let character, zone, spot, msgInterval, start = 0, wasChum = false;
+  const settings = {}, log = {}, interval = [];
 
   // Retrieve fishing log
   Object.assign(log, await fetch("./dist/fishing-log-min.json").then(res => res.json()));
@@ -180,7 +180,7 @@
   document.addEventListener("stopCasting", () => {
     html.classList.remove("casting");
     html.classList.add("marker-paused");
-    window.clearInterval(interval)
+    window.clearInterval(interval.slice(-1));
   });
   document.addEventListener("fishCaught", updateLog);
   document.addEventListener("newSpot", (e) => { findSpot(e.detail.line) });
@@ -307,16 +307,18 @@
     // Add class toggles
     html.classList.add("fishing", "casting");
 
-    // Force-reset timer before rerun
-    // Bug: https://jsfiddle.net/zf96hcga/
-    // Fix: https://jsfiddle.net/zf96hcga/2/
-    window.clearInterval(interval)
     // Start timer
     start = Date.now();
-    interval = window.setInterval(() => {
-      const raw = (Date.now() - start) / 1000;
-      castTimer.innerText = raw.toFixed(1)
-    }, 100);
+    interval.forEach((i, index, array) => {
+      window.clearInterval(i);
+      array.splice(array.indexOf(i, 1))
+    });
+    interval.push(
+      window.setInterval(() => {
+        const raw = (Date.now() - start) / 1000;
+        castTimer.innerText = raw.toFixed(1)
+      }, 100)
+    );
 
     // Reset classes and variables
     html.classList.remove("marker-animated", "marker-paused", "long-cast", "manual-settings");
