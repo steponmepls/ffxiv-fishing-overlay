@@ -211,7 +211,7 @@
     populateEntries()
   });
 
-  // Redraw timeline whenever data-dur value changes
+  // Redraw timeline on long casts
   timelineMark.addEventListener("animationend", (e) => {
     // Force-stop marker animation when elapsed time reaches 60s
     if (e.elapsedTime >= 45) return
@@ -230,7 +230,25 @@
     const records = settings.characters[character.id].records;
     if (!(zone in records) || !(spot in records[zone])) return;
 
-    refreshRecords(records)
+    const spotRecords = records[zone][spot];
+    if (Object.values(spotRecords).length < 1) return;
+
+    log[zone][spot].fishes.forEach((fish, index) => {
+      if (!(fish.id in spotRecords)) return;
+
+      const item = document.getElementById("item" + index);
+      for (const node of item.querySelectorAll(".record")) {
+        let record;
+        if (node.classList.contains("chum")) {
+          if (!("chum" in spotRecords[fish.id])) continue;
+          record = spotRecords[fish.id].chum
+        } else {
+          if (!("min" in spotRecords[fish.id])) continue;
+          record = spotRecords[fish.id];
+        }
+        drawRecord(record, node)
+      }
+    })
   });
   durationChange.observe(timelineMark, {
     attributeFilter: ["data-dur"],
@@ -344,7 +362,6 @@
     }
   }
   function resetEntries() {
-    timelineMark.setAttribute("data-dur", 30);
     for (let i=0; i<10; i++) {
       const item = document.getElementById("item" + i);
       item.querySelector(".icon img").src = "";
@@ -371,13 +388,13 @@
       const rule = new RegExp(sanitized, "i");
 
       if (rule.test(line)) {
-        spotName.innerText = spots[id]["name_" + settings.language.id];
         if (id != spot) {
           spot = parseInt(id);
+          spotName.innerText = spots[id]["name_" + settings.language.id];
           resetEntries();
           populateEntries()
         } else {
-          // Reset timeline expansion if no record > 30s
+          // Reset timeline expansion if no record > 30s after long cast
           if (timelineMark.getAttribute("data-dur") > 30 && getMax() <= 30)
             timelineMark.setAttribute("data-dur", 30)
         };
@@ -399,12 +416,10 @@
       if (tug) item.setAttribute("data-hook", hook);
       ["medium", "heavy", "light"].forEach((t, index) => {
         if (tug == index) item.setAttribute("data-tug", index);
-      });
+      })
     });
     // Add record marks
-    const records = settings.characters[character.id].records;
-    if (!(zone in records) || !(spot in records[zone])) return;
-    timelineMark.setAttribute("data-dur", getMax() > 30 ? 45 : 30);
+    timelineMark.setAttribute("data-dur", getMax() > 30 ? 45 : 30)
   }
   function drawRecord(record, node) {
     const threshold = timelineMark.getAttribute("data-dur");
@@ -431,27 +446,6 @@
       const output = (100 * time) / threshold;
       return parseFloat(output.toFixed(1))
     }
-  }
-  function refreshRecords(records) {
-    const spotRecords = records[zone][spot];
-    if (Object.values(spotRecords).length < 1) return;
-
-    log[zone][spot].fishes.forEach((fish, index) => {
-      if (!(fish.id in spotRecords)) return;
-
-      const item = document.getElementById("item" + index);
-      for (const node of item.querySelectorAll(".record")) {
-        let record;
-        if (node.classList.contains("chum")) {
-          if (!("chum" in spotRecords[fish.id])) continue;
-          record = spotRecords[fish.id].chum
-        } else {
-          if (!("min" in spotRecords[fish.id])) continue;
-          record = spotRecords[fish.id];
-        }
-        drawRecord(record, node)
-      }
-    })
   }
   function updateLog(fish) {
     let fishID;
