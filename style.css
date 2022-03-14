@@ -17,10 +17,16 @@
 html {
   box-sizing: border-box;
   overflow: hidden;
+  height: 100%;
 }
 *, *:after, *:before {
   box-sizing: inherit;
   user-select: none;
+}
+body {
+  position: relative;
+  height: 100%;
+  margin: 0;
 }
 .flex {
   display: flex;
@@ -29,6 +35,9 @@ html {
 /* -------------------- OVERLAY -------------------- */
 .container {
   display: none;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
   color: var(--text-color);
   font-family: sans-serif;
   flex-direction: column;
@@ -36,6 +45,10 @@ html {
 html.fishing .container,
 html.manual-settings .container {
   display: flex;
+}
+html.fishing.align-top .container {
+  top: 0;
+  bottom: auto;
 }
 .header, .main, .settings, .footer {
   background-color: var(--bg-color)
