@@ -20,6 +20,7 @@
       <div class="header flex">
         <div id="fishing-spot"></div>
         <div id="timer"></div>
+        <div id="hide-settings"></div>
       </div>
 
       <div class="main">
@@ -44,32 +45,24 @@
         </div>
       </div>
 
-      <div class="settings">
-        <div id="import" class="flex">
-          <div class="label">Import from JSON file</div>
-          <div class="buttons flex">
-            <button>Pick file</button>
+      <div id="settings">
+        <div class="flex">
+          <div class="overlay flex">
+            <div class="label">Settings</div>
+            <button class="import" disabled>Import</button>
+            <button class="export">Export</button>
             <input type="file" accept=".json">
           </div>
-        </div>
-        <div id="export" class="flex">
-          <div class="label">Export settings from</div>
-          <div class="buttons flex">
-            <button class="current">Character</button>
-            <button class="all-characters">All</button>
-          </div>
-        </div>
-        <div id="carbuncle-plushy" class="flex">
-          <div class="label">Export progress to tracker</div>
-          <div class="buttons flex">
+          <div class="carbuncle-plushy flex">
+            <div class="label">Progress</div>
             <button>Carb Plushy</button>
           </div>
         </div>
+        <div class="preferences flex"></div>
       </div>
 
       <div class="footer flex">
         <div id="output-message" class="flex"></div>
-        <div id="settings-toggle"></div>
       </div>
     </div>
   </body>
