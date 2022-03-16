@@ -33,8 +33,8 @@
     const log = e.line[4]; // Chat log lines
 
     // Manually show settings
-    if (e.line[2] == "0038" && /^\!fbs$/.test(log)) {
-      const event = new CustomEvent("manualSettings");
+    if (e.line[2] == "0038" && /^\!fsettings$/.test(log)) {
+      const event = new CustomEvent("showSettings");
       document.dispatchEvent(event)
     }
 
