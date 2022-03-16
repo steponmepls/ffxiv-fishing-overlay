@@ -1,14 +1,31 @@
 "use strict";
 
 (async function () {
-  let character, zone, spot, msgInterval, start = 0, wasChum = false;
-  const settings = {}, log = {}, interval = [];
+  let character, zone, spot, msgTimeout, start = 0, wasChum = false;
+  const log = {}, interval = [];
 
   // Retrieve fishing log
   Object.assign(log, await fetch("./dist/fishing-log-min.json").then(res => res.json()));
 
+  // Check if running in browser or in ACT
+  const overlayUuid = (window.OverlayPluginApi) ? window.OverlayPluginApi.overlayUuid : null;
+
+  // Init settings
+  const settings = {
+    lang: { name: "English", id: "en" },
+    preferences: {
+      "Align to bottom": [false, "When set to true the overlay will only grow vertically from bottom to top."]
+    },
+    characters: {}
+  };
+
+  const html = document.body.parentElement,
+        spotName = document.getElementById("fishing-spot"),
+        castTimer = document.getElementById("timer"),
+        timelineMark = document.getElementById("markline"),
+        settingsMenu = document.getElementById("settings");
+
   document.addEventListener("initCharacter", () => {
-    if (!("characters" in settings)) settings.characters = {};
     settings.characters[character.id] = {};
     settings.characters[character.id].name = character.name;
     settings.characters[character.id].records = {};
@@ -27,114 +44,29 @@
     console.warn("ACT isn't running or missing OverlayPlugin API.");
     character = {id: 0, name: "Testing"};
     document.dispatchEvent(new CustomEvent("initCharacter"));
-    settings.language = {};
-    settings.language.name = "English";
-    settings.language.id = "en";
   } else {
-    // Define overlay settings address from ACT
-    settings.uuid = window.OverlayPluginApi.overlayUuid;
-    // Retrieve characters from settings
-    callOverlayHandler({ call: "loadData", key: settings.uuid})
-    .then(obj => settings.characters = obj.data);
-    // Retrieve main language from ACT
-    callOverlayHandler({ call: "getLanguage" })
-    .then(obj => {
-      settings.language = {};
-      settings.language.name = obj.language;
-      switch (settings.language.name) {
-        case "English": settings.language.id = "en"; break;
-        case "German": settings.language.id = "de"; break;
-        case "French": settings.language.id = "fr"; break;
-        case "Japanese": settings.language.id = "ja"
-      }
-    });
+    callOverlayHandler({ call: "loadData", key: overlayUuid})
+    .then(obj => Object.assign(settings, obj.data));
     // ACT events
-    document.addEventListener("changedCharacter", (e) => {
-      character = e.detail;
-      if (!(character.id in settings.characters)) {
-        document.dispatchEvent(new CustomEvent("initCharacter"))
-      }
-    });
+    document.addEventListener("changedCharacter", (e) => { character = e.detail });
     document.addEventListener("saveSettings", () => {
-      if (character.id === 0) return;
-      callOverlayHandler({
-        call: "saveData",
-        key: settings.uuid,
-        data: settings.characters
-      })
+      if (overlayUuid === null) return;
+      callOverlayHandler({ call: "saveData", key: overlayUuid, data: settings })
     });
-    document.addEventListener("exportSettings", (e) => {    
-      let output;
-
-      if (!e.detail || typeof e.detail.character === "undefined") {
-        output = settings.characters;
-      } else {
-        output = {};
-        output[e.detail.character] = {};
-        Object.assign(output[e.detail.character], settings.characters[e.detail.character])
-      }
-    
-      const string = JSON.stringify(output);
+    document.addEventListener("exportSettings", () => {    
+      const string = JSON.stringify(settings);
       document.dispatchEvent(new CustomEvent("toClipboard", { detail: { string: string } }))
     });
     document.addEventListener("deleteSettings", () => {
-      console.warn("Deleting your character's settings..");
-      delete settings.characters[character.id];
+      for (const key in settings) delete settings[key];
       document.dispatchEvent(new CustomEvent("saveSettings"));
       console.debug(settings)
     });
-    const importSettings = document.getElementById("import");
-    importSettings.querySelector("button").onclick = () => {
-      importSettings.querySelector("input").value = null;
-      importSettings.querySelector("input").click()
-    };
-    importSettings.querySelector("input").addEventListener("change", (e) => {
-      if (e.target.files.length < 1) return;
-
-      const file = e.target.files[0],
-            reader = new FileReader();
-
-      reader.onload = (e) => {
-        if (!(isJSON(e.target.result))) {
-          document.dispatchEvent(new CustomEvent("sendMessage", {
-            detail: { msg: "Failed to import settings." }
-          }))
-          return
-        }
-        
-        Object.assign(settings.characters, JSON.parse(e.target.result));
-        document.dispatchEvent(new CustomEvent("reloadEntries"));
-        document.dispatchEvent(new CustomEvent("saveSettings"));
-        document.dispatchEvent(new CustomEvent("sendMessage", {
-          detail: { msg: "Imported new settings." }
-        }))
-      };
-
-      reader.onerror = (e) => console.error(e.target.error.name);
-      reader.readAsText(file);
-
-      // Method: https://stackoverflow.com/a/31881889
-      function isJSON(string){
-        if (typeof string !== "string"){
-            return false;
-        }
-        try{
-            const json = JSON.parse(string);
-            return (typeof json === "object");
-        }
-        catch (error){
-            return false;
-        }
-      }
-    });
+    // Enable import of settings
+    settingsMenu.querySelector("div > .overlay button.import").removeAttribute("disabled")
   };
 
   console.debug(settings);
-
-  const html = document.body.parentElement,
-        spotName = document.getElementById("fishing-spot"),
-        castTimer = document.getElementById("timer"),
-        timelineMark = document.getElementById("markline");
 
   // Init items content
   for (let i=0; i<10; i++) {
@@ -175,6 +107,88 @@
     })
   };
 
+  // Settings menu init
+  const hideSettings = document.getElementById("hide-settings");
+  hideSettings.onclick = () => { html.classList.toggle("show-settings") };
+  for (const i in settings.preferences) {
+    const container = document.createElement("div"),
+          label = document.createElement("label"),
+          desc = document.createElement("span");
+
+    container.setAttribute("data-name", i);
+    container.appendChild(label);
+    container.appendChild(desc);
+
+    desc.innerText = settings.preferences[i][1];
+    label.innerHTML = `<input type="checkbox" name="${i}">${i}`;
+
+    settingsMenu.querySelector(".preferences").appendChild(container);
+  }
+
+  // Settings events
+  settingsMenu.querySelector("div > .overlay button.export").onclick = () => {
+    document.dispatchEvent(new CustomEvent("exportSettings"))
+  };
+  settingsMenu.querySelector("div > .carbuncle-plushy button").onclick = () => {
+    const output = [],
+          records = settings.characters[character.id].records;
+          
+    for (const zone in records) {
+      for (const spot in records[zone]) {
+        for (const key in records[zone][spot]) {
+          output.push(key)
+        }
+      }
+    }
+
+    document.dispatchEvent(new CustomEvent("toClipboard", {
+      detail: { string: "[" + output.toString() + "]" }
+    }))
+  };
+  settingsMenu.querySelector("div > .overlay button.import").onclick = () => {
+    settingsMenu.querySelector("div > .overlay input").value = null;
+    settingsMenu.querySelector("div > .overlay input").click()
+  };
+  settingsMenu.querySelector("div > .overlay input").addEventListener("change", (e) => {
+    if (e.target.files.length < 1) return;
+
+    const file = e.target.files[0],
+          reader = new FileReader();
+
+    reader.onload = (e) => {
+      if (!(isJSON(e.target.result))) {
+        document.dispatchEvent(new CustomEvent("sendMessage", {
+          detail: { msg: "Failed to import settings." }
+        }))
+        return
+      }
+      
+      Object.assign(settings, JSON.parse(e.target.result));
+      document.dispatchEvent(new CustomEvent("reloadEntries"));
+      document.dispatchEvent(new CustomEvent("saveSettings"));
+      document.dispatchEvent(new CustomEvent("sendMessage", {
+        detail: { msg: "Imported new settings." }
+      }))
+    };
+
+    reader.onerror = (e) => console.error(e.target.error.name);
+    reader.readAsText(file);
+
+    // Method: https://stackoverflow.com/a/31881889
+    function isJSON(string){
+      if (typeof string !== "string"){
+          return false;
+      }
+      try{
+          const json = JSON.parse(string);
+          return (typeof json === "object");
+      }
+      catch (error){
+          return false;
+      }
+    }
+  });
+
   // Overlay events
   document.addEventListener("startCasting", startCasting);
   document.addEventListener("stopCasting", () => {
@@ -185,13 +199,18 @@
   document.addEventListener("fishCaught", updateLog);
   document.addEventListener("newSpot", (e) => { findSpot(e.detail.line) });
   document.addEventListener("stopFishing", () => {
-    html.classList.remove("fishing", "marker-animated", "marker-paused", "show-settings");
+    html.classList.remove(
+      "fishing", 
+      "marker-animated", 
+      "marker-paused", 
+      "chum-records"
+    );
     spotName.innerText = "";
     castTimer.innerText = "";
     wasChum = false
   });
   document.addEventListener("statusChange", (e) => {
-    if (regex[settings.language.name].buff[2].test(e.detail.name)) {
+    if (regex[settings.lang.name].buff[2].test(e.detail.name)) {
       if (e.detail.status === true) {
         html.classList.add("chum-active", "chum-records");
         wasChum = true
@@ -200,10 +219,9 @@
       }
     }
   });
-  document.addEventListener("manualSettings", () => {
-    if (html.classList.contains("fishing")) return;
-    html.classList.toggle("manual-settings");
-    html.classList.add("show-settings")
+  document.addEventListener("showSettings", () => {
+    if (html.classList.contains("casting")) return;
+    html.classList.toggle("show-settings")
   });
   document.addEventListener("reloadEntries", () => {
     if (!(html.classList.contains("fishing"))) return;
@@ -255,40 +273,6 @@
     attributeOldValue: true
   });
 
-  // Settings events
-  const exportSettings = document.getElementById("export");
-  exportSettings.querySelector(".current").onclick = () => {
-    const id = character.id;
-    document.dispatchEvent(new CustomEvent("exportSettings", {
-      detail: { character: id }
-    }))
-  };
-  exportSettings.querySelector(".all-characters").onclick = () => {
-    document.dispatchEvent(new CustomEvent("exportSettings"))
-  };
-  const carbunclePlushy = document.getElementById("carbuncle-plushy");
-  carbunclePlushy.querySelector("button").onclick = () => {
-    const output = [],
-          records = settings.characters[character.id].records;
-          
-    for (const zone in records) {
-      for (const spot in records[zone]) {
-        for (const key in records[zone][spot]) {
-          output.push(key)
-        }
-      }
-    }
-
-    document.dispatchEvent(new CustomEvent("toClipboard", {
-      detail: { string: "[" + output.toString() + "]" }
-    }))
-  };
-  const settingsToggle = document.getElementById("settings-toggle");
-  settingsToggle.onclick = () => {
-    html.classList.remove("manual-settings");
-    html.classList.toggle("show-settings")
-  };
-
   // Actions
   document.addEventListener("toClipboard", (e) => {
     if (!e.detail || !e.detail.string || typeof e.detail.string !== "string") return;
@@ -315,13 +299,17 @@
     container.innerText = ""; // Visual feedback for force-reset
     setTimeout(() => { 
       container.innerText = message;
-      clearTimeout(msgInterval);
-      msgInterval = setTimeout(() => { container.innerText = "" }, 3000)
+      clearTimeout(msgTimeout);
+      msgTimeout = setTimeout(() => { container.innerText = "" }, 3000)
      }, 100);
   });
 
   // Overlay functions
   function startCasting(e) {
+    // Init records for current character when needed
+    if (!(character.id in settings.characters))
+      document.dispatchEvent(new CustomEvent("initCharacter"));
+
     // Add class toggles
     html.classList.add("fishing", "casting");
 
@@ -350,10 +338,10 @@
     html.classList.add("marker-animated");
 
     // If mooch stop here
-    if (regex[settings.language.name].start[2].test(e.detail.line)) return;
+    if (regex[settings.lang.name].start[2].test(e.detail.line)) return;
   
     // Parse fishing spot
-    if (regex[settings.language.name].start[1].test(e.detail.line)) { // if undiscovered spot
+    if (regex[settings.lang.name].start[1].test(e.detail.line)) { // if undiscovered spot
       if (spot) resetEntries();
       spot = undefined;
       spotName.innerText = "???"
@@ -384,13 +372,13 @@
           illegalChars = /[-\/\\^$*+?.()|[\]{}]/g;
 
     for (const id in spots) {
-      const sanitized = spots[id]["name_" + settings.language.id].replace(illegalChars, '\\$&');
+      const sanitized = spots[id]["name_" + settings.lang.id].replace(illegalChars, '\\$&');
       const rule = new RegExp(sanitized, "i");
 
       if (rule.test(line)) {
         if (id != spot) {
           spot = parseInt(id);
-          spotName.innerText = spots[id]["name_" + settings.language.id];
+          spotName.innerText = spots[id]["name_" + settings.lang.id];
           resetEntries();
           populateEntries()
         } else {
@@ -405,7 +393,7 @@
   function populateEntries() {
     log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index),
-            name = fish["name_" + settings.language.id],
+            name = fish["name_" + settings.lang.id],
             icon = "https://xivapi.com" + fish.icon,
             tug = fish.tug,
             hook = fish.hookset;
@@ -458,7 +446,7 @@
           records = settings.characters[character.id].records;
 
     for (const item of log[zone][spot].fishes) {
-      const regex = new RegExp(`${item["name_" + settings.language.id]}`, "i");
+      const regex = new RegExp(`${item["name_" + settings.lang.id]}`, "i");
       if (regex.test(fishName)) {
         fishID = item.id;
         break
