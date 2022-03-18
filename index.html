@@ -46,17 +46,28 @@
       </div>
 
       <div id="settings">
-        <div class="flex">
+        <div class="settings flex">
           <div class="overlay flex">
             <div class="label">Settings</div>
             <button class="import" disabled>Import</button>
-            <button class="export">Export</button>
+            <button class="export" disabled>Export</button>
             <input type="file" accept=".json">
           </div>
           <div class="carbuncle-plushy flex">
             <div class="label">Progress</div>
             <button>Carb Plushy</button>
           </div>
+        </div>
+        <div class="languages flex">
+          <label>Language</label>
+          <span>J</span>
+          <input type="radio" name="lang" value="ja" data-name="Japanese" disabled>
+          <span>E</span>
+          <input type="radio" name="lang" value="en" data-name="English">
+          <span>D</span>
+          <input type="radio" name="lang" value="de" data-name="German" disabled>
+          <span>F</span>
+          <input type="radio" name="lang" value="fr" data-name="French" disabled>
         </div>
         <div class="preferences flex"></div>
       </div>
