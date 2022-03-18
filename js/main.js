@@ -13,7 +13,7 @@
   // Init settings
   const settings = {
     lang: { name: "English", id: "en" },
-    preferences: {
+    preferences: { // "key": [current, default, description]
       "Align to bottom": [false, "When set to true the overlay will only grow vertically from bottom to top."]
     },
     characters: {}
@@ -25,6 +25,9 @@
         timelineMark = document.getElementById("markline"),
         settingsMenu = document.getElementById("settings");
 
+  // Core event listeners
+  document.addEventListener("changedZone", (e) => { zone = e.detail.zone });
+  document.addEventListener("changedCharacter", (e) => { character = e.detail });
   document.addEventListener("initCharacter", () => {
     settings.characters[character.id] = {};
     settings.characters[character.id].name = character.name;
@@ -38,32 +41,61 @@
       settings.characters[character.id].world = world
     })
   });
-  document.addEventListener("changedZone", (e) => { zone = e.detail.zone });
+  document.addEventListener("applyPreferences", () => {
+    for (const pref in settings.preferences) {
+      switch(pref) {
+        case "Align to bottom":
+          html.classList.toggle("align-bottom", settings.preferences[pref][0]);
+          break;
+      }
+    }
+  });
 
   if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
     console.warn("ACT isn't running or missing OverlayPlugin API.");
-    character = {id: 0, name: "Testing"};
+    document.dispatchEvent(new CustomEvent("changedCharacter", {
+      detail: { name: "Testing", id: 0 }
+    }));
     document.dispatchEvent(new CustomEvent("initCharacter"));
   } else {
-    callOverlayHandler({ call: "loadData", key: overlayUuid})
-    .then(obj => Object.assign(settings, obj.data));
-    // ACT events
-    document.addEventListener("changedCharacter", (e) => { character = e.detail });
+    // ACT events listeners
     document.addEventListener("saveSettings", () => {
       if (overlayUuid === null) return;
-      callOverlayHandler({ call: "saveData", key: overlayUuid, data: settings })
+      callOverlayHandler({ call: "saveData", key: overlayUuid, data: sanitizeSettings() })
     });
-    document.addEventListener("exportSettings", () => {    
-      const string = JSON.stringify(settings);
-      document.dispatchEvent(new CustomEvent("toClipboard", { detail: { string: string } }))
+    document.addEventListener("parseSettings", (i) => {
+      const input = (i.detail) ? i.detail : i;
+      for (const key in input) {
+        if (key === "preferences") {
+          for (const pref in settings.preferences) {
+            if (!(pref in input.preferences)) continue;
+            settings.preferences[pref][0] = input.preferences[pref][0];
+            settingsMenu.querySelector(`.preferences > div[data-name="${pref}"] input`).checked = settings.preferences[pref][0];
+          };
+          continue
+        }
+        Object.assign(settings[key], input[key])
+      };
+
+      // Parse lang
+      settingsMenu.querySelector(`.languages input[data-name="${settings.lang.name}"]`).checked = true;
     });
     document.addEventListener("deleteSettings", () => {
       for (const key in settings) delete settings[key];
       document.dispatchEvent(new CustomEvent("saveSettings"));
       console.debug(settings)
     });
-    // Enable import of settings
-    settingsMenu.querySelector("div > .overlay button.import").removeAttribute("disabled")
+    
+    // Load settings
+    callOverlayHandler({ call: "loadData", key: overlayUuid})
+    .then(obj => {
+      document.dispatchEvent(new CustomEvent("parseSettings", { detail: obj.data } ));
+      document.dispatchEvent(new CustomEvent("applyPreferences"));
+    } );
+    
+    // Enable import/export of settings
+    settingsMenu.querySelector("div > .overlay button.import").removeAttribute("disabled");
+    settingsMenu.querySelector("div > .overlay button.export").removeAttribute("disabled")
   };
 
   console.debug(settings);
@@ -107,27 +139,53 @@
     })
   };
 
-  // Settings menu init
-  const hideSettings = document.getElementById("hide-settings");
-  hideSettings.onclick = () => { html.classList.toggle("show-settings") };
-  for (const i in settings.preferences) {
-    const container = document.createElement("div"),
-          label = document.createElement("label"),
-          desc = document.createElement("span");
-
-    container.setAttribute("data-name", i);
-    container.appendChild(label);
-    container.appendChild(desc);
-
-    desc.innerText = settings.preferences[i][1];
-    label.innerHTML = `<input type="checkbox" name="${i}">${i}`;
-
-    settingsMenu.querySelector(".preferences").appendChild(container);
-  }
-
   // Settings events
-  settingsMenu.querySelector("div > .overlay button.export").onclick = () => {
-    document.dispatchEvent(new CustomEvent("exportSettings"))
+  settingsMenu.querySelector("div > .overlay button.import").onclick = () => {
+    settingsMenu.querySelector("div > .overlay input").value = null;
+    settingsMenu.querySelector("div > .overlay input").click()
+  };
+  settingsMenu.querySelector("div > .overlay input").addEventListener("change", (e) => {
+    if (e.target.files.length < 1) return;
+
+    const file = e.target.files[0],
+          reader = new FileReader();
+
+    reader.onload = async (e) => {
+      if (!(isJSON(e.target.result))) {
+        document.dispatchEvent(new CustomEvent("sendMessage", {
+          detail: { msg: "Failed to import settings." }
+        }))
+        return
+      }
+      
+      const output = JSON.parse(e.target.result);
+      document.dispatchEvent(new CustomEvent("parseSettings", { detail: output }));
+      document.dispatchEvent(new CustomEvent("reloadEntries"));
+      document.dispatchEvent(new CustomEvent("saveSettings"));
+      document.dispatchEvent(new CustomEvent("sendMessage", {
+        detail: { msg: "Imported new settings." }
+      }))
+    };
+
+    reader.onerror = (e) => console.error(e.target.error.name);
+    reader.readAsText(file);
+
+    // Method: https://stackoverflow.com/a/31881889
+    function isJSON(string){
+      if (typeof string !== "string") return false;
+      try{
+        const json = JSON.parse(string);
+        return (typeof json === "object")
+      }
+      catch (error){
+        console.error(error);
+        return false;
+      }
+    }
+  });
+  settingsMenu.querySelector("div > .overlay button.export").onclick = async () => {
+    const string = JSON.stringify(sanitizeSettings());
+    document.dispatchEvent(new CustomEvent("toClipboard", { detail: { string: string } }))
   };
   settingsMenu.querySelector("div > .carbuncle-plushy button").onclick = () => {
     const output = [],
@@ -145,50 +203,52 @@
       detail: { string: "[" + output.toString() + "]" }
     }))
   };
-  settingsMenu.querySelector("div > .overlay button.import").onclick = () => {
-    settingsMenu.querySelector("div > .overlay input").value = null;
-    settingsMenu.querySelector("div > .overlay input").click()
-  };
-  settingsMenu.querySelector("div > .overlay input").addEventListener("change", (e) => {
-    if (e.target.files.length < 1) return;
+  // Settings functions
+  function sanitizeSettings() {
+    const output = {};
+    for (const s in settings) {
+      output[s] = Object.create(null);
+      if (s === "preferences") {
+        for (const k in settings[s]) {
+          if (settings[s][k][0] === false) continue;
+          output[s][k] = settings[s][k];
+          const array = output[s][k];
+          array.splice(1, (array.length - 1));
+        }
+        continue
+      };
 
-    const file = e.target.files[0],
-          reader = new FileReader();
+      Object.assign(output[s], settings[s])
+    }
+    return output;
+  }
 
-    reader.onload = (e) => {
-      if (!(isJSON(e.target.result))) {
-        document.dispatchEvent(new CustomEvent("sendMessage", {
-          detail: { msg: "Failed to import settings." }
-        }))
-        return
-      }
-      
-      Object.assign(settings, JSON.parse(e.target.result));
-      document.dispatchEvent(new CustomEvent("reloadEntries"));
+  // Settings menu init
+  const hideSettings = document.getElementById("hide-settings");
+  hideSettings.onclick = () => { html.classList.toggle("show-settings") };
+  settingsMenu.querySelectorAll(".languages input").forEach(l => {
+    l.onchange = (e) => {
+      if (!(e.target.checked)) return; // ???
+      settings.lang.name = e.target.getAttribute("data-name");
+      settings.lang.id = e.target.value;
       document.dispatchEvent(new CustomEvent("saveSettings"));
-      document.dispatchEvent(new CustomEvent("sendMessage", {
-        detail: { msg: "Imported new settings." }
-      }))
-    };
-
-    reader.onerror = (e) => console.error(e.target.error.name);
-    reader.readAsText(file);
-
-    // Method: https://stackoverflow.com/a/31881889
-    function isJSON(string){
-      if (typeof string !== "string"){
-          return false;
-      }
-      try{
-          const json = JSON.parse(string);
-          return (typeof json === "object");
-      }
-      catch (error){
-          return false;
-      }
+      console.log(settings);
     }
   });
-
+  for (const i in settings.preferences) {
+    const container = document.createElement("div");
+    container.innerHTML = `
+      <label><input type="checkbox" name="${i}">${i}</label>
+      <span>${settings.preferences[i][1]}</span>
+    `;
+    container.setAttribute("data-name", i);
+    container.querySelector("input").onchange = (e) => {
+      settings.preferences[e.target.name][0] = e.target.checked;
+      document.dispatchEvent(new CustomEvent("saveSettings"))
+    };
+    settingsMenu.querySelector(".preferences").appendChild(container)
+  };
+  
   // Overlay events
   document.addEventListener("startCasting", startCasting);
   document.addEventListener("stopCasting", () => {
@@ -273,7 +333,7 @@
     attributeOldValue: true
   });
 
-  // Actions
+  // Services
   document.addEventListener("toClipboard", (e) => {
     if (!e.detail || !e.detail.string || typeof e.detail.string !== "string") return;
 
