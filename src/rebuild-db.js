@@ -138,7 +138,7 @@ function sanitizeLog() {
   // Show output message
   if ("0" in fishingLog) {
     const leftover = Object.keys(fishingLog["0"]).length;
-    console.warn(`There are still ${leftover} unknown spots.`)
+    console.warn(`There are ${leftover} unknown spots.`)
   }
 }
 
