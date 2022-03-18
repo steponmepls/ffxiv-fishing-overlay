@@ -6,12 +6,15 @@
     return
   };
 
-  let lang = await callOverlayHandler({ call: "getLanguage" }).then(res => res.language);
+  let lang;
+  const overlayUuid = (window.OverlayPluginApi) ? window.OverlayPluginApi.overlayUuid : null;
+  await callOverlayHandler({ call: "loadData", key: overlayUuid})
+  .then(obj => lang = (obj.data && obj.data.lang) ? obj.data.lang.name : "English");
 
   // Report when you change character
   addOverlayListener("ChangePrimaryPlayer", (e) => {
     const event = new CustomEvent("changedCharacter", {
-      detail: { id: e.charID, name: e.charName }
+      detail: { name: e.charName, id: e.charID }
     });
     document.dispatchEvent(event)
   });
