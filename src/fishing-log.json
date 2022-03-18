@@ -1,32 +1,4 @@
 {
-    "0": {
-        "10000": {
-            "name_en": "The Doman Enclave",
-            "name_de": "Domanische Enklave",
-            "name_fr": "Quartier enclavé de Doma",
-            "name_ja": "ドマ町人地",
-            "fishes": [
-                {
-                    "id": 20123,
-                    "icon": "/i/029000/029240.png",
-                    "iconHD": "/i/029000/029240_hr1.png",
-                    "name_en": "Doman Trout",
-                    "name_de": "Doma-Forelle",
-                    "name_fr": "Truite de Doma",
-                    "name_ja": "ドマス"
-                },
-                {
-                    "id": 20119,
-                    "icon": "/i/029000/029224.png",
-                    "iconHD": "/i/029000/029224_hr1.png",
-                    "name_en": "Kotsu Zetsu",
-                    "name_de": "Kotsu Zetsu",
-                    "name_fr": "Kotsu zetsu",
-                    "name_ja": "コツゼツ"
-                }
-            ]
-        }
-    },
     "128": {
         "36": {
             "name_en": "Limsa Lominsa Upper Decks",
@@ -26158,6 +26130,34 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                }
+            ]
+        }
+    },
+    "759": {
+        "10000": {
+            "name_en": "The Doman Enclave",
+            "name_de": "Domanische Enklave",
+            "name_fr": "Quartier enclavé de Doma",
+            "name_ja": "ドマ町人地",
+            "fishes": [
+                {
+                    "id": 20123,
+                    "icon": "/i/029000/029240.png",
+                    "iconHD": "/i/029000/029240_hr1.png",
+                    "name_en": "Doman Trout",
+                    "name_de": "Doma-Forelle",
+                    "name_fr": "Truite de Doma",
+                    "name_ja": "ドマス"
+                },
+                {
+                    "id": 20119,
+                    "icon": "/i/029000/029224.png",
+                    "iconHD": "/i/029000/029224_hr1.png",
+                    "name_en": "Kotsu Zetsu",
+                    "name_de": "Kotsu Zetsu",
+                    "name_fr": "Kotsu zetsu",
+                    "name_ja": "コツゼツ"
                 }
             ]
         }
