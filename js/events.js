@@ -43,7 +43,12 @@
 
     // When to show the overlay
     if (regex[lang].start[0].test(log)) {
-      const event = new CustomEvent("startCasting", { detail: { line: log }});
+      const event = new CustomEvent("startCasting", { 
+        detail: { 
+          line: log,
+          mooch: typeof log.match(regex[lang].start[0])[1] !== "undefined"
+        }
+      });
       document.dispatchEvent(event)
     };
 
