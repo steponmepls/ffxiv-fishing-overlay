@@ -13,7 +13,7 @@
   // Init settings
   const settings = {
     lang: { name: "English", id: "en" },
-    preferences: { // "key": [current, default, description]
+    preferences: {
       "Align to bottom": [false, "When set to true the overlay will only grow vertically from bottom to top."]
     },
     characters: {}
@@ -41,15 +41,6 @@
       settings.characters[character.id].world = world
     })
   });
-  document.addEventListener("applyPreferences", () => {
-    for (const pref in settings.preferences) {
-      switch(pref) {
-        case "Align to bottom":
-          html.classList.toggle("align-bottom", settings.preferences[pref][0]);
-          break;
-      }
-    }
-  });
 
   if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
     console.warn("ACT isn't running or missing OverlayPlugin API.");
@@ -69,29 +60,26 @@
         if (key === "preferences") {
           for (const pref in settings.preferences) {
             if (!(pref in input.preferences)) continue;
-            settings.preferences[pref][0] = input.preferences[pref][0];
-            settingsMenu.querySelector(`.preferences > div[data-name="${pref}"] input`).checked = settings.preferences[pref][0];
+            settings.preferences[pref][0] = input.preferences[pref][0]
           };
           continue
         }
         Object.assign(settings[key], input[key])
-      };
-
-      // Parse lang
-      settingsMenu.querySelector(`.languages input[data-name="${settings.lang.name}"]`).checked = true;
+      }
     });
-    document.addEventListener("deleteSettings", () => {
-      for (const key in settings) delete settings[key];
+    document.addEventListener("deleteSettings", (e) => {
+      if (!e.detail || typeof e.detail.id !== "number") return;
+
+      delete settings.characters[e.detail.id];
       document.dispatchEvent(new CustomEvent("saveSettings"));
+      console.warn("Reload overlay to apply new settings.");
       console.debug(settings)
     });
     
     // Load settings
-    callOverlayHandler({ call: "loadData", key: overlayUuid})
-    .then(obj => {
-      document.dispatchEvent(new CustomEvent("parseSettings", { detail: obj.data } ));
-      document.dispatchEvent(new CustomEvent("applyPreferences"));
-    } );
+    document.dispatchEvent(new CustomEvent("parseSettings", { 
+      detail: await callOverlayHandler({ call: "loadData", key: overlayUuid}).then(obj => obj.data) }
+    ));
     
     // Enable import/export of settings
     settingsMenu.querySelector("div > .overlay button.import").removeAttribute("disabled");
@@ -144,7 +132,7 @@
     settingsMenu.querySelector("div > .overlay input").value = null;
     settingsMenu.querySelector("div > .overlay input").click()
   };
-  settingsMenu.querySelector("div > .overlay input").addEventListener("change", (e) => {
+  settingsMenu.querySelector("div > .overlay input").onchange = (e) => {
     if (e.target.files.length < 1) return;
 
     const file = e.target.files[0],
@@ -160,10 +148,9 @@
       
       const output = JSON.parse(e.target.result);
       document.dispatchEvent(new CustomEvent("parseSettings", { detail: output }));
-      document.dispatchEvent(new CustomEvent("reloadEntries"));
       document.dispatchEvent(new CustomEvent("saveSettings"));
       document.dispatchEvent(new CustomEvent("sendMessage", {
-        detail: { msg: "Imported new settings." }
+        detail: { msg: "Reload overlay to apply new settings" }
       }))
     };
 
@@ -182,12 +169,14 @@
         return false;
       }
     }
-  });
-  settingsMenu.querySelector("div > .overlay button.export").onclick = async () => {
+  };
+  settingsMenu.querySelector("div > .overlay button.export").onclick = () => {
     const string = JSON.stringify(sanitizeSettings());
     document.dispatchEvent(new CustomEvent("toClipboard", { detail: { string: string } }))
   };
   settingsMenu.querySelector("div > .carbuncle-plushy button").onclick = () => {
+    if (!(character.id in settings.characters)) return;
+
     const output = [],
           records = settings.characters[character.id].records;
           
@@ -222,32 +211,6 @@
     }
     return output;
   }
-
-  // Settings menu init
-  const hideSettings = document.getElementById("hide-settings");
-  hideSettings.onclick = () => { html.classList.toggle("show-settings") };
-  settingsMenu.querySelectorAll(".languages input").forEach(l => {
-    l.onchange = (e) => {
-      if (!(e.target.checked)) return; // ???
-      settings.lang.name = e.target.getAttribute("data-name");
-      settings.lang.id = e.target.value;
-      document.dispatchEvent(new CustomEvent("saveSettings"));
-      console.log(settings);
-    }
-  });
-  for (const i in settings.preferences) {
-    const container = document.createElement("div");
-    container.innerHTML = `
-      <label><input type="checkbox" name="${i}">${i}</label>
-      <span>${settings.preferences[i][1]}</span>
-    `;
-    container.setAttribute("data-name", i);
-    container.querySelector("input").onchange = (e) => {
-      settings.preferences[e.target.name][0] = e.target.checked;
-      document.dispatchEvent(new CustomEvent("saveSettings"))
-    };
-    settingsMenu.querySelector(".preferences").appendChild(container)
-  };
   
   // Overlay events
   document.addEventListener("startCasting", startCasting);
@@ -280,14 +243,48 @@
     }
   });
   document.addEventListener("showSettings", () => {
-    if (html.classList.contains("casting")) return;
     html.classList.toggle("show-settings")
   });
-  document.addEventListener("reloadEntries", () => {
-    if (!(html.classList.contains("fishing"))) return;
-    resetEntries();
-    populateEntries()
+  document.addEventListener("applySettings", () => {
+    settingsMenu.querySelector(`.languages input[data-name="${settings.lang.name}"]`).checked = true;
+
+    for (const pref in settings.preferences) {
+      switch(pref) {
+        case "Align to bottom":
+          html.classList.toggle("align-bottom", settings.preferences[pref][0]);
+          break;
+      };
+      settingsMenu.querySelector(`.preferences > div[data-name="${pref}"] input`).checked = settings.preferences[pref][0]
+    }
   });
+
+  // Settings menu init
+  const hideSettings = document.getElementById("hide-settings");
+  hideSettings.onclick = () => { html.classList.toggle("show-settings") };
+  settingsMenu.querySelectorAll(".languages input").forEach(l => {
+    l.onchange = (e) => {
+      if (!(e.target.checked)) return; // ???
+
+      settings.lang.name = e.target.getAttribute("data-name");
+      settings.lang.id = e.target.value;
+      document.dispatchEvent(new CustomEvent("saveSettings"))
+    }
+  });
+  for (const i in settings.preferences) {
+    const container = document.createElement("div");
+    container.innerHTML = `
+      <label><input type="checkbox" name="${i}" disabled>${i}</label>
+      <span>${settings.preferences[i][1]}</span>
+    `;
+    container.setAttribute("data-name", i);
+    container.querySelector("input").onchange = (e) => {
+      settings.preferences[e.target.name][0] = e.target.checked;
+      document.dispatchEvent(new CustomEvent("saveSettings"))
+    };
+    if (window.OverlayPluginApi) container.querySelector("input").removeAttribute("disabled");
+    settingsMenu.querySelector(".preferences").appendChild(container)
+  };
+  document.dispatchEvent(new CustomEvent("applySettings"));
 
   // Redraw timeline on long casts
   timelineMark.addEventListener("animationend", (e) => {
@@ -398,7 +395,7 @@
     html.classList.add("marker-animated");
 
     // If mooch stop here
-    if (regex[settings.lang.name].start[2].test(e.detail.line)) return;
+    if (e.detail.mooch) return;
   
     // Parse fishing spot
     if (regex[settings.lang.name].start[1].test(e.detail.line)) { // if undiscovered spot
