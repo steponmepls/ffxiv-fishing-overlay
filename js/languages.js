@@ -1,9 +1,8 @@
 const regex = {
   English: {
     start: [
-      /^You (?:re)?cast your line.+\.$/,
-      /^You cast your line.+undiscovered fishing hole\.$/i,
-      /^You recast your line with the fish still hooked\.$/
+      /^You (re)?cast your line/,
+      /^You cast your line.+undiscovered fishing hole\.$/i
     ],
     buff: [
       /^You gain the effect of .{2}(.+)\.$/,
