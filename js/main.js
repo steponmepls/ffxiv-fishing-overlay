@@ -47,7 +47,7 @@
     document.dispatchEvent(new CustomEvent("changedCharacter", {
       detail: { name: "Testing", id: 0 }
     }));
-    document.dispatchEvent(new CustomEvent("initCharacter"));
+    //document.dispatchEvent(new CustomEvent("initCharacter"));
   } else {
     // ACT events listeners
     document.addEventListener("saveSettings", () => {
@@ -69,6 +69,7 @@
     });
     document.addEventListener("deleteSettings", (e) => {
       if (!e.detail || typeof e.detail.id !== "number") return;
+      if (!(e.detail.id in settings.characters)) return;
 
       delete settings.characters[e.detail.id];
       document.dispatchEvent(new CustomEvent("saveSettings"));
@@ -288,10 +289,10 @@
 
   // Redraw timeline on long casts
   timelineMark.addEventListener("animationend", (e) => {
-    // Force-stop marker animation when elapsed time reaches 60s
+    // Force-stop marker animation when elapsed time reaches 45s
     if (e.elapsedTime >= 45) return
 
-    // Redraw records considering new 60s delay
+    // Redraw records considering new 45s delay
     e.target.setAttribute("data-dur", 45);
 
     // Restart animation
@@ -301,6 +302,8 @@
   });
   const durationChange = new MutationObserver((list) => {
     //if (list[0].oldValue == list[0].target.getAttribute("data-dur")) return;
+
+    if (!(character.id in settings.characters)) return;
 
     const records = settings.characters[character.id].records;
     if (!(zone in records) || !(spot in records[zone])) return;
@@ -363,10 +366,6 @@
 
   // Overlay functions
   function startCasting(e) {
-    // Init records for current character when needed
-    if (!(character.id in settings.characters))
-      document.dispatchEvent(new CustomEvent("initCharacter"));
-
     // Add class toggles
     html.classList.add("fishing", "casting");
 
@@ -439,6 +438,8 @@
           resetEntries();
           populateEntries()
         } else {
+          // Fallback check till I figure out what is happening
+          if (spotName.innerText == "") spotName.innerText = spots[id]["name_" + settings.lang.id];
           // Reset timeline expansion if no record > 30s after long cast
           if (timelineMark.getAttribute("data-dur") > 30 && getMax() <= 30)
             timelineMark.setAttribute("data-dur", 30)
@@ -463,6 +464,9 @@
         if (tug == index) item.setAttribute("data-tug", index);
       })
     });
+
+    if (!(character.id in settings.characters)) return;
+
     // Add record marks
     timelineMark.setAttribute("data-dur", getMax() > 30 ? 45 : 30)
   }
@@ -494,6 +498,10 @@
   }
   function updateLog(fish) {
     let fishID;
+
+    // Init records for current character when needed
+    if (!(character.id in settings.characters))
+      document.dispatchEvent(new CustomEvent("initCharacter"));
 
     const fishName = fish.detail.name,
           fishTime = parseFloat(castTimer.innerText),
