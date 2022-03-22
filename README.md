@@ -10,8 +10,7 @@ support for more than Engish if you are willing to feed me log lines in said lan
 Open an issue if you are interested I guess??
 
 The main difference with the overlay offered by GatherBuddy is that it lacks window timing support for timed fishes. 
-I am too stupid to figure out how the prediction system works. I always have Carbuncle Plushy tracker up so I didn't 
-really care.
+I am too stupid to figure out how the prediction system works. Use [Carbuncle Plushy](https://ff14fish.carbuncleplushy.com/) tracker instead.
 
 By sending `!fsettings` as message with the `/echo` command you can open the settings menu. Once there you'll be able to
 import/export your current overlay settings, export caught fishes in a format readable by Carbuncle Plushy tracker, 
@@ -29,6 +28,6 @@ It's also worth mentioning that the records for each fish are prone to errors. T
 using `Hook`, the bigger the shift in time between actual bite and registered bite will be. There is no way around it 
 because this overlay completely relies on chat logs and you'll only receive a chat log output if you use `Hook` or equivalent action.
 
-What I am trying to say is that **you shouldn't take the records registered by this plugin as absolute truth**. 
+What I am trying to say is that **you shouldn't take the records registered by this overlay  as absolute truth**. 
 The average between two registered values (minimum and maximum biting times) is, on the other hand, 
 a safe guess no matter how late the `Hook` event was registered.
