@@ -1,8 +1,8 @@
 # fishing-overlay
 
-![image](https://user-images.githubusercontent.com/63500907/159572604-731da8f2-4d65-4fe3-94c8-87045ef3fa77.png)
-
 More of a personal project than an actual overlay.
+
+![image](https://user-images.githubusercontent.com/63500907/159572604-731da8f2-4d65-4fe3-94c8-87045ef3fa77.png)
 
 For now it only supports English because I don't know either of the other languages supported in the game.
 I added potential support for french, german and japanese as well so there might be a chance for me to add 
@@ -16,6 +16,8 @@ By sending `!fsettings` as message with the `/echo` command you can open the set
 import/export your current overlay settings, export caught fishes in a format readable by Carbuncle Plushy tracker, 
 set your language of choice (only supports English for now) and then set QoL preferences such as aligning overlay either
 to top or to bottom.
+
+**Remember to reload the overlay to also apply the new changes!**
 
 ![image](https://user-images.githubusercontent.com/63500907/159576033-bb18d229-bde2-42da-87fd-421e282413d0.png)
 
