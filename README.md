@@ -17,6 +17,8 @@ import/export your current overlay settings, export caught fishes in a format re
 set your language of choice (only supports English for now) and then set QoL preferences such as aligning overlay either
 to top or to bottom.
 
+![image](https://user-images.githubusercontent.com/63500907/159576033-bb18d229-bde2-42da-87fd-421e282413d0.png)
+
 By hovering your cursor on a record you will be able to highlight it for a more clear view and by clicking on it you'll be able 
 to see an output message displaying the minimum and maximum values for that specific fish. By clicking on a fish icon you'll be able
 to export to your clipboard a copy-pastable link to Garland DB showing detailed info about the fish. This as a workaround for the
