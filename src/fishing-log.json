@@ -931,6 +931,24 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7678,
+                    "icon": "/i/029000/029069.png",
+                    "iconHD": "/i/029000/029069_hr1.png",
+                    "name_en": "Zalera",
+                    "name_de": "Zalhera",
+                    "name_fr": "Zaléra",
+                    "name_ja": "ザルエラ",
+                    "tug": 1,
+                    "bait": 2591,
+                    "spawn": 9,
+                    "hookset": 2,
+                    "duration": 5,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -1081,6 +1099,25 @@
                     "hookset": 1,
                     "snagging": false,
                     "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7686,
+                    "icon": "/i/029000/029065.png",
+                    "iconHD": "/i/029000/029065_hr1.png",
+                    "name_en": "Gigantshark",
+                    "name_de": "Gigahai",
+                    "name_fr": "Giga requin",
+                    "name_ja": "ギガシャーク",
+                    "tug": 1,
+                    "bait": 4874,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        1,
+                        2
+                    ],
                     "predators": [],
                     "weathersFrom": []
                 }
@@ -3023,6 +3060,24 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7909,
+                    "icon": "/i/029000/029080.png",
+                    "iconHD": "/i/029000/029080_hr1.png",
+                    "name_en": "The Greatest Bream in the World",
+                    "name_de": "Groß-Bianaq-Brasse",
+                    "name_fr": "Brème de Bianaq grandissime",
+                    "name_ja": "ビアナックブーン",
+                    "tug": 1,
+                    "bait": 2613,
+                    "spawn": 20,
+                    "hookset": 1,
+                    "duration": 3,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -3180,6 +3235,27 @@
                     ],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7915,
+                    "icon": "/i/029000/029083.png",
+                    "iconHD": "/i/029000/029083_hr1.png",
+                    "name_en": "Shark Tuna",
+                    "name_de": "Hai-Thunfisch",
+                    "name_fr": "Thon-requin",
+                    "name_ja": "シャークトゥーナ",
+                    "tug": 1,
+                    "bait": 4898,
+                    "spawn": 19,
+                    "hookset": 1,
+                    "duration": 2,
+                    "snagging": false,
+                    "weathers": [
+                        1,
+                        2
+                    ],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -3330,6 +3406,26 @@
                     "hookset": 1,
                     "snagging": false,
                     "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7924,
+                    "icon": "/i/029000/029087.png",
+                    "iconHD": "/i/029000/029087_hr1.png",
+                    "name_en": "Bombardfish",
+                    "name_de": "Knallomat-Fisch",
+                    "name_fr": "Poisson bombardo",
+                    "name_ja": "ボンバードフィッシュ",
+                    "tug": 1,
+                    "bait": 2598,
+                    "spawn": 9,
+                    "hookset": 1,
+                    "duration": 6,
+                    "snagging": false,
+                    "weathers": [
+                        1
+                    ],
                     "predators": [],
                     "weathersFrom": []
                 }
@@ -3774,6 +3870,24 @@
                     "hookset": 1,
                     "snagging": false,
                     "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7939,
+                    "icon": "/i/029000/029364.png",
+                    "iconHD": "/i/029000/029364_hr1.png",
+                    "name_en": "The Terpsichorean",
+                    "name_de": "Terpsichore",
+                    "name_fr": "Terpsichorien",
+                    "name_ja": "テルプシコレアン",
+                    "tug": 1,
+                    "bait": 2599,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        4
+                    ],
                     "predators": [],
                     "weathersFrom": []
                 }
@@ -4226,6 +4340,27 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 8753,
+                    "icon": "/i/029000/029095.png",
+                    "iconHD": "/i/029000/029095_hr1.png",
+                    "name_en": "The Old Man in the Sea",
+                    "name_de": "Graumarlin",
+                    "name_fr": "Vieil homme à la mer",
+                    "name_ja": "オールドマーリン",
+                    "tug": 1,
+                    "bait": 4888,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        1
+                    ],
+                    "predators": [],
+                    "weathersFrom": [
+                        7,
+                        8
+                    ]
                 }
             ]
         },
@@ -4382,6 +4517,30 @@
                     "snagging": false,
                     "weathers": [],
                     "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 8754,
+                    "icon": "/i/029000/029094.png",
+                    "iconHD": "/i/029000/029094_hr1.png",
+                    "name_en": "Nepto Dragon",
+                    "name_de": "Neptodrache",
+                    "name_fr": "Dragon de Nepto",
+                    "name_ja": "ネプトの竜",
+                    "tug": 1,
+                    "bait": 2606,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        7,
+                        8
+                    ],
+                    "predators": [
+                        {
+                            "id": 4913,
+                            "amount": 3
+                        }
+                    ],
                     "weathersFrom": []
                 }
             ]
@@ -4540,6 +4699,25 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 20143,
+                    "icon": "/i/029000/029147.png",
+                    "iconHD": "/i/029000/029147_hr1.png",
+                    "name_en": "Little Perykos",
+                    "name_de": "Kleiner Perykos",
+                    "name_fr": "Petit Perykos",
+                    "name_ja": "リトルペリュコス",
+                    "tug": 0,
+                    "bait": 4904,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        7,
+                        8
+                    ],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         }
@@ -4690,6 +4868,24 @@
                     "tug": 1,
                     "bait": 2606,
                     "hookset": 1,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7687,
+                    "icon": "/i/029000/029077.png",
+                    "iconHD": "/i/029000/029077_hr1.png",
+                    "name_en": "Armorer",
+                    "name_de": "Panzerschuppe",
+                    "name_fr": "Conquedure",
+                    "name_ja": "スケーリーフット",
+                    "tug": 1,
+                    "bait": 2606,
+                    "spawn": 19,
+                    "hookset": 2,
+                    "duration": 8,
                     "snagging": false,
                     "weathers": [],
                     "predators": [],
@@ -5124,6 +5320,28 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7941,
+                    "icon": "/i/029000/029084.png",
+                    "iconHD": "/i/029000/029084_hr1.png",
+                    "name_en": "Helmsman's Hand",
+                    "name_de": "Rudergänger",
+                    "name_fr": "Main du timonier",
+                    "name_ja": "ヘルムズマンズハンド",
+                    "tug": 1,
+                    "bait": 4872,
+                    "spawn": 9,
+                    "hookset": 1,
+                    "duration": 6,
+                    "snagging": false,
+                    "weathers": [
+                        3,
+                        4,
+                        5
+                    ],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -5286,6 +5504,31 @@
                     ],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 8756,
+                    "icon": "/i/029000/029090.png",
+                    "iconHD": "/i/029000/029090_hr1.png",
+                    "name_en": "Endoceras",
+                    "name_de": "Endoceras",
+                    "name_fr": "Endoceras",
+                    "name_ja": "エンドセラス",
+                    "tug": 1,
+                    "bait": 4898,
+                    "spawn": 20,
+                    "hookset": 1,
+                    "duration": 8,
+                    "snagging": false,
+                    "weathers": [
+                        3,
+                        4,
+                        5
+                    ],
+                    "predators": [],
+                    "weathersFrom": [
+                        1,
+                        2
+                    ]
                 }
             ]
         },
@@ -5577,6 +5820,28 @@
                     "hookset": 1,
                     "snagging": false,
                     "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7950,
+                    "icon": "/i/029000/029088.png",
+                    "iconHD": "/i/029000/029088_hr1.png",
+                    "name_en": "Frilled Shark",
+                    "name_de": "Kragenhai",
+                    "name_fr": "Requin frangé",
+                    "name_ja": "ラブカ",
+                    "tug": 1,
+                    "bait": 4919,
+                    "spawn": 17,
+                    "hookset": 1,
+                    "duration": 10,
+                    "snagging": false,
+                    "weathers": [
+                        3,
+                        4,
+                        5
+                    ],
                     "predators": [],
                     "weathersFrom": []
                 }
@@ -6005,6 +6270,27 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7905,
+                    "icon": "/i/029000/029358.png",
+                    "iconHD": "/i/029000/029358_hr1.png",
+                    "name_en": "Toramafish",
+                    "name_de": "Toramafisch",
+                    "name_fr": "Poisson torama",
+                    "name_ja": "トラマフィッシュ",
+                    "tug": 1,
+                    "bait": 4995,
+                    "spawn": 17,
+                    "hookset": 1,
+                    "duration": 3,
+                    "snagging": false,
+                    "weathers": [
+                        3,
+                        4
+                    ],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -6159,6 +6445,24 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7904,
+                    "icon": "/i/029000/029351.png",
+                    "iconHD": "/i/029000/029351_hr1.png",
+                    "name_en": "Joan of Trout",
+                    "name_de": "Johanna von Forelleans",
+                    "name_fr": "Jeanne de Truite",
+                    "name_ja": "ジャンヌ・トラウト",
+                    "tug": 1,
+                    "bait": 2614,
+                    "spawn": 4,
+                    "hookset": 1,
+                    "duration": 2,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -6309,6 +6613,24 @@
                     "tug": 0,
                     "bait": 4978,
                     "hookset": 1,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7927,
+                    "icon": "/i/029000/029362.png",
+                    "iconHD": "/i/029000/029362_hr1.png",
+                    "name_en": "King of the Spring",
+                    "name_de": "Frühlingskönig",
+                    "name_fr": "Reine des sources",
+                    "name_ja": "スプリングキング",
+                    "tug": 1,
+                    "bait": 2626,
+                    "spawn": 16,
+                    "hookset": 1,
+                    "duration": 3,
                     "snagging": false,
                     "weathers": [],
                     "predators": [],
@@ -7272,6 +7594,27 @@
                         2
                     ],
                     "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 8764,
+                    "icon": "/i/029000/029092.png",
+                    "iconHD": "/i/029000/029092_hr1.png",
+                    "name_en": "Pirate's Bane",
+                    "name_de": "Piratenfluch",
+                    "name_fr": "Naufrageur de pirates",
+                    "name_ja": "パイレーツハンター",
+                    "tug": 1,
+                    "bait": 4904,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [
+                        {
+                            "id": 4904,
+                            "amount": 6
+                        }
+                    ],
                     "weathersFrom": []
                 }
             ]
@@ -8539,6 +8882,24 @@
                     ],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7942,
+                    "icon": "/i/029000/029369.png",
+                    "iconHD": "/i/029000/029369_hr1.png",
+                    "name_en": "The Thousand-year Itch",
+                    "name_de": "Tausend-Jahre-Wels",
+                    "name_fr": "Irritation millénaire",
+                    "name_ja": "サウザンドイヤー・イーチ",
+                    "tug": 1,
+                    "bait": 2601,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        4
+                    ],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         }
@@ -9541,6 +9902,26 @@
                     "hookset": 1,
                     "snagging": false,
                     "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7943,
+                    "icon": "/i/029000/029345.png",
+                    "iconHD": "/i/029000/029345_hr1.png",
+                    "name_en": "Hannibal",
+                    "name_de": "Hannibal",
+                    "name_fr": "Hannibal",
+                    "name_ja": "ハンニバル",
+                    "tug": 1,
+                    "bait": 4995,
+                    "spawn": 22,
+                    "hookset": 1,
+                    "duration": 6,
+                    "snagging": false,
+                    "weathers": [
+                        4
+                    ],
                     "predators": [],
                     "weathersFrom": []
                 }
@@ -11369,6 +11750,27 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7913,
+                    "icon": "/i/029000/029352.png",
+                    "iconHD": "/i/029000/029352_hr1.png",
+                    "name_en": "Floating Boulder",
+                    "name_de": "Schwebender Felsen",
+                    "name_fr": "Roche flottante",
+                    "name_ja": "フローティングボルダー",
+                    "tug": 1,
+                    "bait": 2595,
+                    "spawn": 0,
+                    "hookset": 1,
+                    "duration": 8,
+                    "snagging": false,
+                    "weathers": [
+                        3,
+                        4
+                    ],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -11677,6 +12079,25 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 7922,
+                    "icon": "/i/029000/029357.png",
+                    "iconHD": "/i/029000/029357_hr1.png",
+                    "name_en": "The Gobfather",
+                    "name_de": "Goblin-Schlächter",
+                    "name_fr": "Gobeuse de Gobelins",
+                    "name_ja": "ゴブスレイヤー",
+                    "tug": 1,
+                    "bait": 4978,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        9,
+                        10
+                    ],
+                    "predators": [],
+                    "weathersFrom": []
                 }
             ]
         },
@@ -11956,6 +12377,31 @@
                         10
                     ],
                     "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 8775,
+                    "icon": "/i/029000/029384.png",
+                    "iconHD": "/i/029000/029384_hr1.png",
+                    "name_en": "Namitaro",
+                    "name_de": "Namitaro",
+                    "name_fr": "Namitaro",
+                    "name_ja": "ナミタロ",
+                    "tug": 1,
+                    "bait": 2624,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        9,
+                        10
+                    ],
+                    "predators": [
+                        {
+                            "id": 8774,
+                            "amount": 1
+                        }
+                    ],
+                    "minGathering": 0,
                     "weathersFrom": []
                 }
             ]
@@ -14008,6 +14454,27 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 8759,
+                    "icon": "/i/029000/029389.png",
+                    "iconHD": "/i/029000/029389_hr1.png",
+                    "name_en": "Void Bass",
+                    "name_de": "Nichtsbarsch",
+                    "name_fr": "Bar du néant",
+                    "name_ja": "ヴォイドバス",
+                    "tug": 1,
+                    "bait": 2603,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        17
+                    ],
+                    "predators": [],
+                    "weathersFrom": [
+                        1,
+                        2
+                    ]
                 }
             ]
         },
@@ -14638,6 +15105,27 @@
                     ],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 8763,
+                    "icon": "/i/029000/029381.png",
+                    "iconHD": "/i/029000/029381_hr1.png",
+                    "name_en": "Kuno the Killer",
+                    "name_de": "Killerkuno",
+                    "name_fr": "Kuno le tueur",
+                    "name_ja": "クノ・ザ・キラー",
+                    "tug": 1,
+                    "bait": 5002,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [
+                        {
+                            "id": 8762,
+                            "amount": 1
+                        }
+                    ],
+                    "weathersFrom": []
                 }
             ]
         }
@@ -14919,6 +15407,24 @@
                     "tug": 0,
                     "bait": 4978,
                     "hookset": 1,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [],
+                    "weathersFrom": []
+                },
+                {
+                    "id": 7927,
+                    "icon": "/i/029000/029362.png",
+                    "iconHD": "/i/029000/029362_hr1.png",
+                    "name_en": "King of the Spring",
+                    "name_de": "Frühlingskönig",
+                    "name_fr": "Reine des sources",
+                    "name_ja": "スプリングキング",
+                    "tug": 1,
+                    "bait": 2626,
+                    "spawn": 16,
+                    "hookset": 1,
+                    "duration": 3,
                     "snagging": false,
                     "weathers": [],
                     "predators": [],
@@ -16161,6 +16667,27 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 17578,
+                    "icon": "/i/029000/029816.png",
+                    "iconHD": "/i/029000/029816_hr1.png",
+                    "name_en": "Captain Nemo",
+                    "name_de": "Nemo",
+                    "name_fr": "Capitaine nemo",
+                    "name_ja": "ネモ",
+                    "tug": 1,
+                    "bait": 12711,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [
+                        16
+                    ],
+                    "predators": [],
+                    "minGathering": 750,
+                    "weathersFrom": [
+                        15
+                    ]
                 }
             ]
         },
@@ -18011,6 +18538,32 @@
                         3,
                         4
                     ]
+                },
+                {
+                    "id": 17590,
+                    "icon": "/i/029000/029435.png",
+                    "iconHD": "/i/029000/029435_hr1.png",
+                    "name_en": "Armor Fish",
+                    "name_de": "Panzerfisch",
+                    "name_fr": "Poisson cuirassé",
+                    "name_ja": "鎧魚",
+                    "tug": 1,
+                    "bait": 12757,
+                    "spawn": 1,
+                    "hookset": 2,
+                    "duration": 3,
+                    "snagging": false,
+                    "weathers": [
+                        1
+                    ],
+                    "predators": [
+                        {
+                            "id": 12757,
+                            "amount": 6
+                        }
+                    ],
+                    "minGathering": 800,
+                    "weathersFrom": []
                 }
             ]
         },
@@ -18173,6 +18726,28 @@
                     "weathers": [],
                     "predators": [],
                     "weathersFrom": []
+                },
+                {
+                    "id": 16754,
+                    "icon": "/i/029000/029330.png",
+                    "iconHD": "/i/029000/029330_hr1.png",
+                    "name_en": "Bobgoblin Bass",
+                    "name_de": "Bobgoblinbarsch",
+                    "name_fr": "Bar gobelin tout-puissant",
+                    "name_ja": "万能のゴブリバス",
+                    "tug": 1,
+                    "bait": 12780,
+                    "spawn": 2,
+                    "hookset": 1,
+                    "duration": 4,
+                    "snagging": false,
+                    "weathers": [
+                        8
+                    ],
+                    "predators": [],
+                    "weathersFrom": [
+                        7
+                    ]
                 }
             ]
         }
@@ -18895,6 +19470,32 @@
                     "weathersFrom": [
                         1
                     ]
+                },
+                {
+                    "id": 17593,
+                    "icon": "/i/029000/029733.png",
+                    "iconHD": "/i/029000/029733_hr1.png",
+                    "name_en": "Raimdellopterus",
+                    "name_de": "Raimdellopterus",
+                    "name_fr": "Raimdellopterus",
+                    "name_ja": "ランデロプテルス",
+                    "tug": 1,
+                    "bait": 12805,
+                    "spawn": 5,
+                    "hookset": 1,
+                    "duration": 3,
+                    "snagging": false,
+                    "weathers": [
+                        6
+                    ],
+                    "predators": [
+                        {
+                            "id": 12805,
+                            "amount": 5
+                        }
+                    ],
+                    "minGathering": 800,
+                    "weathersFrom": []
                 }
             ]
         }
@@ -25533,6 +26134,34 @@
             ]
         }
     },
+    "759": {
+        "10000": {
+            "name_en": "The Doman Enclave",
+            "name_de": "Domanische Enklave",
+            "name_fr": "Quartier enclavé de Doma",
+            "name_ja": "ドマ町人地",
+            "fishes": [
+                {
+                    "id": 20123,
+                    "icon": "/i/029000/029240.png",
+                    "iconHD": "/i/029000/029240_hr1.png",
+                    "name_en": "Doman Trout",
+                    "name_de": "Doma-Forelle",
+                    "name_fr": "Truite de Doma",
+                    "name_ja": "ドマス"
+                },
+                {
+                    "id": 20119,
+                    "icon": "/i/029000/029224.png",
+                    "iconHD": "/i/029000/029224_hr1.png",
+                    "name_en": "Kotsu Zetsu",
+                    "name_de": "Kotsu Zetsu",
+                    "name_fr": "Kotsu zetsu",
+                    "name_ja": "コツゼツ"
+                }
+            ]
+        }
+    },
     "813": {
         "202": {
             "name_en": "The Rift of Sighs",
@@ -29958,7 +30587,7 @@
                     "name_ja": "ガラディオンゴビー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29715,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -29971,7 +30600,7 @@
                     "name_ja": "ガラディオンアンチョビ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -29989,7 +30618,7 @@
                     "name_ja": "レオパードイール",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29715,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30007,7 +30636,7 @@
                     "name_ja": "ジャスパーヘッド",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30020,7 +30649,7 @@
                     "name_ja": "ターニッシュシャーク",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29715,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30056,7 +30685,7 @@
                     "name_ja": "シアンオクトパス",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30069,7 +30698,7 @@
                     "name_ja": "ヘヴンリーフィッシュ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29715,
+                    "bait": 29714,
                     "oceanFishingTime": 0,
                     "snagging": false,
                     "weathers": [],
@@ -30087,11 +30716,34 @@
                     "name_ja": "スペクトラルメガロドン",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29714,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
                     "predators": [],
+                    "oceanFishingTime": 0,
+                    "minGathering": 0
+                },
+                {
+                    "id": 29744,
+                    "icon": "/i/029000/029373.png",
+                    "iconHD": "/i/029000/029373_hr1.png",
+                    "name_en": "Drunkfish",
+                    "name_de": "Trunkenbold",
+                    "name_fr": "Psychrolutes aviné",
+                    "name_ja": "ドランカードフィッシュ",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 29715,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 28938,
+                            "amount": 3
+                        }
+                    ],
                     "oceanFishingTime": 0,
                     "minGathering": 0
                 }
@@ -30113,7 +30765,7 @@
                     "name_ja": "マーマンヘアー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 2603,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30126,7 +30778,7 @@
                     "name_ja": "キー・オブ・ヘヴン",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30139,7 +30791,7 @@
                     "name_ja": "ゴーストシャーク",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 2603,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30157,7 +30809,7 @@
                     "name_ja": "フィッシュモンガー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30175,7 +30827,7 @@
                     "name_ja": "リムレーンプリント",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30188,7 +30840,7 @@
                     "name_ja": "ネイルドオイスター",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 2
                 },
                 {
@@ -30201,7 +30853,7 @@
                     "name_ja": "クイックシルバーブレード",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 1
                 },
                 {
@@ -30214,7 +30866,7 @@
                     "name_ja": "ファンネルシャーク",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 1
                 },
                 {
@@ -30227,8 +30879,35 @@
                     "name_ja": "ニンブルダンサー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 2
+                },
+                {
+                    "id": 29788,
+                    "icon": "/i/028000/028009.png",
+                    "iconHD": "/i/028000/028009_hr1.png",
+                    "name_en": "Sothis",
+                    "name_de": "Sotis",
+                    "name_fr": "Sothis",
+                    "name_ja": "ソティス",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 2603,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 29752,
+                            "amount": 1
+                        },
+                        {
+                            "id": 29749,
+                            "amount": 2
+                        }
+                    ],
+                    "oceanFishingTime": 3,
+                    "minGathering": 0
                 }
             ]
         },
@@ -30248,7 +30927,7 @@
                     "name_ja": "グールバラクーダ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30266,7 +30945,7 @@
                     "name_ja": "ラノシアンジェリー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30279,7 +30958,7 @@
                     "name_ja": "サニーバタフライ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30292,7 +30971,7 @@
                     "name_ja": "マリンボム",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30305,7 +30984,7 @@
                     "name_ja": "シャギーシードラゴン",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29715,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30318,7 +30997,7 @@
                     "name_ja": "モモラ・モラ",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 2606,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30336,7 +31015,7 @@
                     "name_ja": "メルトールバタフライ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30371,7 +31050,7 @@
                     "name_fr": "Discus spectral",
                     "name_ja": "スペクトラルディスカス",
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29715,
                     "hookset": 2,
                     "snagging": false,
                     "weathers": [],
@@ -30379,6 +31058,29 @@
                     "minGathering": 0,
                     "weathersFrom": [],
                     "oceanFishingTime": 0
+                },
+                {
+                    "id": 29745,
+                    "icon": "/i/029000/029147.png",
+                    "iconHD": "/i/029000/029147_hr1.png",
+                    "name_en": "Little Leviathan",
+                    "name_de": "Kleiner Leviathan",
+                    "name_fr": "Mini-Léviathan",
+                    "name_ja": "リトルリヴァイアサン",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 29716,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 29727,
+                            "amount": 1
+                        }
+                    ],
+                    "oceanFishingTime": 0,
+                    "minGathering": 0
                 }
             ]
         },
@@ -30398,7 +31100,7 @@
                     "name_ja": "シーネトル",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30434,7 +31136,7 @@
                     "name_ja": "レックドクロス",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29717,
                     "oceanFishingTime": 0,
                     "weathers": [],
                     "weathersFrom": [],
@@ -30452,7 +31154,7 @@
                     "name_ja": "シャーラタンサバイバー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30465,7 +31167,7 @@
                     "name_ja": "ハイエーテルラウス",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29715,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30483,7 +31185,7 @@
                     "name_ja": "アーゼマの垂衣",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30519,7 +31221,7 @@
                     "name_ja": "ミスリルソブリン",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30544,6 +31246,29 @@
                     "predators": [],
                     "oceanFishingTime": 1,
                     "minGathering": 0
+                },
+                {
+                    "id": 29789,
+                    "icon": "/i/028000/028010.png",
+                    "iconHD": "/i/028000/028010_hr1.png",
+                    "name_en": "Coral Manta",
+                    "name_de": "Korallenmanta",
+                    "name_fr": "Raie corallienne",
+                    "name_ja": "コーラルマンタ",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 2613,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 29758,
+                            "amount": 2
+                        }
+                    ],
+                    "oceanFishingTime": 3,
+                    "minGathering": 0
                 }
             ]
         },
@@ -30563,7 +31288,7 @@
                     "name_ja": "ロータノワフー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29716,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30581,7 +31306,7 @@
                     "name_ja": "ロータノサーディン",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30594,7 +31319,7 @@
                     "name_ja": "ディープシー・プレイス",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29716,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30607,7 +31332,7 @@
                     "name_ja": "クリムゾンモンクフィッシュ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30620,7 +31345,7 @@
                     "name_ja": "クロムハンマーヘッド",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29715,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30633,7 +31358,7 @@
                     "name_ja": "オーガイール",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30651,7 +31376,7 @@
                     "name_ja": "ダークノーチラス",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0,
                     "weathers": [],
                     "weathersFrom": [],
@@ -30669,7 +31394,7 @@
                     "name_ja": "ランプフィッシュ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30682,8 +31407,31 @@
                     "name_ja": "スペクトラルバス",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0
+                },
+                {
+                    "id": 29746,
+                    "icon": "/i/029000/029077.png",
+                    "iconHD": "/i/029000/029077_hr1.png",
+                    "name_en": "Sabaton",
+                    "name_de": "Eisenfuß",
+                    "name_fr": "Sabaton des mers",
+                    "name_ja": "シーサバトン",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 29715,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 29731,
+                            "amount": 2
+                        }
+                    ],
+                    "oceanFishingTime": 0,
+                    "minGathering": 0
                 }
             ]
         },
@@ -30703,7 +31451,7 @@
                     "name_ja": "アロナクス",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 2591,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30716,7 +31464,7 @@
                     "name_ja": "フラッフィー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 2
                 },
                 {
@@ -30729,7 +31477,7 @@
                     "name_ja": "サイレンサー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 2591,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30742,7 +31490,7 @@
                     "name_ja": "ディープシーイール",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 2591,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30760,7 +31508,7 @@
                     "name_ja": "エクスキューショナー",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 2
                 },
                 {
@@ -30773,7 +31521,7 @@
                     "name_ja": "フローティングソーサー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30791,7 +31539,7 @@
                     "name_ja": "バラマンディ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 2591,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30804,7 +31552,7 @@
                     "name_ja": "プロディガルサン",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 2591,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30817,8 +31565,35 @@
                     "name_ja": "スネイルフィッシュ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
+                },
+                {
+                    "id": 29790,
+                    "icon": "/i/028000/028011.png",
+                    "iconHD": "/i/028000/028011_hr1.png",
+                    "name_en": "Stonescale",
+                    "name_de": "Felsenschuppe",
+                    "name_fr": "Pierrécailles",
+                    "name_ja": "ロックスケイル",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 2591,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 29768,
+                            "amount": 1
+                        },
+                        {
+                            "id": 29769,
+                            "amount": 1
+                        }
+                    ],
+                    "oceanFishingTime": 1,
+                    "minGathering": 0
                 }
             ]
         },
@@ -30838,7 +31613,7 @@
                     "name_ja": "ドリフトアイスフィッシュ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29714,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30856,7 +31631,7 @@
                     "name_ja": "メガスキッド",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30874,7 +31649,7 @@
                     "name_ja": "オシュオンズストーン",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30892,7 +31667,7 @@
                     "name_ja": "スロウンダガー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -30910,7 +31685,7 @@
                     "name_ja": "トライポッド",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30923,7 +31698,7 @@
                     "name_ja": "スパイダークラブ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30936,7 +31711,7 @@
                     "name_ja": "メルトールロブスター",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -30967,7 +31742,30 @@
                     "name_ja": "スペクトラルシーホース",
                     "hookset": 2,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29714,
+                    "oceanFishingTime": 0
+                },
+                {
+                    "id": 29747,
+                    "icon": "/i/029000/029157.png",
+                    "iconHD": "/i/029000/029157_hr1.png",
+                    "name_en": "Shooting Star",
+                    "name_de": "Meerschnuppe",
+                    "name_fr": "Étoile filante des mers",
+                    "name_ja": "海の流星",
+                    "tug": 1,
+                    "bait": 29714,
+                    "hookset": 2,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [
+                        {
+                            "id": 29743,
+                            "amount": 1
+                        }
+                    ],
+                    "minGathering": 0,
+                    "weathersFrom": [],
                     "oceanFishingTime": 0
                 }
             ]
@@ -30988,7 +31786,7 @@
                     "name_ja": "ハンマーロブスター",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 2619,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31006,7 +31804,7 @@
                     "name_ja": "コッコステウス",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 2619,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31019,7 +31817,7 @@
                     "name_ja": "ザ・チョッパー",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 3
                 },
                 {
@@ -31032,7 +31830,7 @@
                     "name_ja": "タイガーキャットコッド",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 2619,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31045,7 +31843,7 @@
                     "name_ja": "モッピィビアード",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31063,7 +31861,7 @@
                     "name_ja": "ワイルドアーチン",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 2619,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31076,7 +31874,7 @@
                     "name_ja": "ググリューサウルス",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 2619,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31089,7 +31887,7 @@
                     "name_ja": "コーラルシードラゴン",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31107,8 +31905,31 @@
                     "name_ja": "フォーレンワン",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 1
+                },
+                {
+                    "id": 29791,
+                    "icon": "/i/028000/028012.png",
+                    "iconHD": "/i/028000/028012_hr1.png",
+                    "name_en": "Elasmosaurus",
+                    "name_de": "Elasmosaurus",
+                    "name_fr": "Elasmosaurus",
+                    "name_ja": "エラスモサウルス",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 2619,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 29781,
+                            "amount": 3
+                        }
+                    ],
+                    "oceanFishingTime": 2,
+                    "minGathering": 0
                 }
             ]
         },
@@ -31128,7 +31949,7 @@
                     "name_ja": "トータスシェルクラブ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31146,7 +31967,7 @@
                     "name_ja": "エドヴィアの指輪",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31164,7 +31985,7 @@
                     "name_ja": "メタルボックス",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31177,7 +31998,7 @@
                     "name_ja": "グゥーブーレイ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31190,7 +32011,7 @@
                     "name_ja": "シーワモーラ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31203,7 +32024,7 @@
                     "name_ja": "キングコブラフィッシュ",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31216,7 +32037,7 @@
                     "name_ja": "ママヒマヒ",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31229,7 +32050,7 @@
                     "name_ja": "ラバンジンレモラ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31245,8 +32066,8 @@
                     "name_de": "Spektralschmetterling",
                     "name_fr": "Papillon spectral",
                     "name_ja": "スペクトラルバタフライ",
-                    "tug": 0,
-                    "bait": 29715,
+                    "tug": 1,
+                    "bait": 29714,
                     "hookset": 2,
                     "snagging": false,
                     "weathers": [],
@@ -31254,6 +32075,29 @@
                     "minGathering": 0,
                     "weathersFrom": [],
                     "oceanFishingTime": 0
+                },
+                {
+                    "id": 32064,
+                    "icon": "/i/028000/028021.png",
+                    "iconHD": "/i/028000/028021_hr1.png",
+                    "name_en": "Cieldalaes Geode",
+                    "name_de": "Himmlische Geode",
+                    "name_fr": "Géode-de-Cieldalaes",
+                    "name_ja": "シェルダレージオード",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 29715,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 32057,
+                            "amount": 3
+                        }
+                    ],
+                    "oceanFishingTime": 0,
+                    "minGathering": 0
                 }
             ]
         },
@@ -31273,7 +32117,7 @@
                     "name_ja": "タイタンシェルクラブ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 27590,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31286,7 +32130,7 @@
                     "name_ja": "ミスリルボックス",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 27590,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31299,7 +32143,7 @@
                     "name_ja": "霧髭の盃",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 27590,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31312,7 +32156,7 @@
                     "name_ja": "アノマロカリス・サロン",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29714,
+                    "bait": 29715,
                     "oceanFishingTime": 0,
                     "weathers": [],
                     "weathersFrom": [],
@@ -31330,7 +32174,7 @@
                     "name_ja": "フレイミングイール",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 27590,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31348,7 +32192,7 @@
                     "name_ja": "ジェットフライマンタ",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 27590,
+                    "bait": 29716,
                     "oceanFishingTime": 0,
                     "weathers": [],
                     "weathersFrom": [],
@@ -31366,7 +32210,7 @@
                     "name_ja": "デビルスティンガー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 27590,
+                    "bait": 29715,
                     "oceanFishingTime": 2
                 },
                 {
@@ -31379,7 +32223,7 @@
                     "name_ja": "カリクティス",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 2
                 },
                 {
@@ -31392,12 +32236,39 @@
                     "name_ja": "フローティング・モラ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
                     "predators": [],
                     "oceanFishingTime": 1,
+                    "minGathering": 0
+                },
+                {
+                    "id": 32074,
+                    "icon": "/i/028000/028030.png",
+                    "iconHD": "/i/028000/028030_hr1.png",
+                    "name_en": "Hafgufa",
+                    "name_de": "Hafgufa",
+                    "name_fr": "Hafgufa",
+                    "name_ja": "ハーヴグーヴァ",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 27590,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 32067,
+                            "amount": 1
+                        },
+                        {
+                            "id": 32070,
+                            "amount": 2
+                        }
+                    ],
+                    "oceanFishingTime": 3,
                     "minGathering": 0
                 }
             ]
@@ -31418,7 +32289,7 @@
                     "name_ja": "サリャクリバークラブ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31436,7 +32307,7 @@
                     "name_ja": "ラールガーの星屑",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31449,7 +32320,7 @@
                     "name_ja": "トゥルースキャッド",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29716,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31462,7 +32333,7 @@
                     "name_ja": "ブラッディハンプヘッド",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31480,7 +32351,7 @@
                     "name_ja": "ブラッディポリッシュ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31493,7 +32364,7 @@
                     "name_ja": "ブルーニードル",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31506,7 +32377,7 @@
                     "name_ja": "ブラッディトゥーナ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0,
                     "weathers": [],
                     "weathersFrom": [],
@@ -31524,7 +32395,7 @@
                     "name_ja": "サンクンマスク",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0,
                     "weathers": [],
                     "weathersFrom": [],
@@ -31542,7 +32413,26 @@
                     "name_ja": "スペクトラルイール",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29715,
+                    "oceanFishingTime": 0
+                },
+                {
+                    "id": 32084,
+                    "icon": "/i/029000/029746.png",
+                    "iconHD": "/i/029000/029746_hr1.png",
+                    "name_en": "Bareface",
+                    "name_de": "Bargesicht",
+                    "name_fr": "Face-d'ours",
+                    "name_ja": "ベアフェイス",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 29715,
+                    "predators": [
+                        {
+                            "id": 32082,
+                            "amount": 1
+                        }
+                    ],
                     "oceanFishingTime": 0
                 }
             ]
@@ -31563,7 +32453,7 @@
                     "name_ja": "オラクルクラブ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 2
                 },
                 {
@@ -31576,7 +32466,7 @@
                     "name_ja": "ドラヴァニアンブリーム",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31589,7 +32479,7 @@
                     "name_ja": "スコルドミンニー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 3
                 },
                 {
@@ -31602,7 +32492,7 @@
                     "name_ja": "セレーテッドクラム",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31620,7 +32510,7 @@
                     "name_ja": "ビティフィックビジョン",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31633,7 +32523,7 @@
                     "name_ja": "エクスターミネーター",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 2
                 },
                 {
@@ -31646,7 +32536,7 @@
                     "name_ja": "ゴーリィトゥーナ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31659,7 +32549,7 @@
                     "name_ja": "ティキネポミス",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31672,12 +32562,35 @@
                     "name_ja": "クォーツハンマーヘッド",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
                     "predators": [],
                     "oceanFishingTime": 0,
+                    "minGathering": 0
+                },
+                {
+                    "id": 32094,
+                    "icon": "/i/028000/028032.png",
+                    "iconHD": "/i/028000/028032_hr1.png",
+                    "name_en": "Seafaring Toad",
+                    "name_de": "Hochseetüchtiger Frosch",
+                    "name_fr": "Crapaud de mer",
+                    "name_ja": "オーシャントード",
+                    "hookset": 2,
+                    "tug": 1,
+                    "bait": 2587,
+                    "weathers": [],
+                    "weathersFrom": [],
+                    "snagging": false,
+                    "predators": [
+                        {
+                            "id": 32089,
+                            "amount": 3
+                        }
+                    ],
+                    "oceanFishingTime": 2,
                     "minGathering": 0
                 }
             ]
@@ -31698,7 +32611,7 @@
                     "name_ja": "パフィークロウ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31716,7 +32629,7 @@
                     "name_ja": "ロズリトケルプ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31729,7 +32642,7 @@
                     "name_ja": "ホオズキクラゲ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31742,7 +32655,7 @@
                     "name_ja": "ハニカムフィッシュ",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31755,7 +32668,7 @@
                     "name_ja": "海神の寝台",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31768,7 +32681,7 @@
                     "name_ja": "ランスケネット",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31781,7 +32694,7 @@
                     "name_ja": "サベネアンシャーク",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29714,
+                    "bait": 29717,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31794,7 +32707,7 @@
                     "name_ja": "ネフライトイール",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31812,7 +32725,26 @@
                     "name_ja": "スペクトラルザウルス",
                     "hookset": 1,
                     "tug": 1,
-                    "bait": 29717,
+                    "bait": 29716,
+                    "oceanFishingTime": 0
+                },
+                {
+                    "id": 32104,
+                    "icon": "/i/028000/028490.png",
+                    "iconHD": "/i/028000/028490_hr1.png",
+                    "name_en": "Ginkgo Fin",
+                    "name_de": "Ginkgoflosse",
+                    "name_fr": "Gingko marin",
+                    "name_ja": "ギンコフィッシュ",
+                    "hookset": 2,
+                    "tug": 1,
+                    "bait": 29714,
+                    "predators": [
+                        {
+                            "id": 32096,
+                            "amount": 3
+                        }
+                    ],
                     "oceanFishingTime": 0
                 }
             ]
@@ -31833,8 +32765,8 @@
                     "name_ja": "ガルームポット",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
-                    "oceanFishingTime": 3
+                    "bait": 29715,
+                    "oceanFishingTime": 2
                 },
                 {
                     "id": 32106,
@@ -31846,7 +32778,7 @@
                     "name_ja": "シーパンサー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29714,
+                    "bait": 29716,
                     "weathers": [],
                     "weathersFrom": [],
                     "snagging": false,
@@ -31864,7 +32796,7 @@
                     "name_ja": "ロズリトムール",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29716,
+                    "bait": 29717,
                     "oceanFishingTime": 0,
                     "weathers": []
                 },
@@ -31878,7 +32810,7 @@
                     "name_ja": "ジュヴナイル・リヴィ",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31891,8 +32823,8 @@
                     "name_ja": "パールボム",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
-                    "oceanFishingTime": 3
+                    "bait": 29715,
+                    "oceanFishingTime": 2
                 },
                 {
                     "id": 32110,
@@ -31922,7 +32854,7 @@
                     "name_ja": "パノプテス",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29716,
                     "oceanFishingTime": 2
                 },
                 {
@@ -31935,7 +32867,7 @@
                     "name_ja": "ゴールデンソール",
                     "hookset": 2,
                     "tug": 2,
-                    "bait": 29717,
+                    "bait": 29714,
                     "oceanFishingTime": 0
                 },
                 {
@@ -31948,8 +32880,616 @@
                     "name_ja": "ナイフジョー",
                     "hookset": 1,
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 29715,
                     "oceanFishingTime": 0
+                },
+                {
+                    "id": 32114,
+                    "icon": "/i/028000/028031.png",
+                    "iconHD": "/i/028000/028031_hr1.png",
+                    "name_en": "Placodus",
+                    "name_de": "Placodus",
+                    "name_fr": "Placodus",
+                    "name_ja": "プラコドゥス",
+                    "tug": 1,
+                    "bait": 32107,
+                    "hookset": 1,
+                    "snagging": false,
+                    "weathers": [],
+                    "predators": [
+                        {
+                            "id": 32110,
+                            "amount": 1
+                        }
+                    ],
+                    "minGathering": 0,
+                    "weathersFrom": [],
+                    "oceanFishingTime": 1
+                }
+            ]
+        }
+    },
+    "939": {
+        "147": {
+            "name_en": "Diadem Skysprings",
+            "name_de": "Diadem-Himmelsquellen",
+            "name_fr": "Sources du Diadème",
+            "name_ja": "ディアデム諸島の湧水地",
+            "fishes": [
+                {
+                    "id": 12728,
+                    "icon": "/i/029000/029399.png",
+                    "iconHD": "/i/029000/029399_hr1.png",
+                    "name_en": "Maiboi",
+                    "name_de": "Maiboi",
+                    "name_fr": "Maïboï",
+                    "name_ja": "マイボイ"
+                },
+                {
+                    "id": 12731,
+                    "icon": "/i/029000/029411.png",
+                    "iconHD": "/i/029000/029411_hr1.png",
+                    "name_en": "Cloudfish",
+                    "name_de": "Wolkenfisch",
+                    "name_fr": "Poisson-nuage",
+                    "name_ja": "クラウドフィッシュ"
+                }
+            ]
+        },
+        "150": {
+            "name_en": "Secluded Diadem Pond",
+            "name_de": "Abgeschiedener Diademteich",
+            "name_fr": "Banc du Diadème",
+            "name_ja": "ディアデム諸島の穴場",
+            "fishes": [
+                {
+                    "id": 12729,
+                    "icon": "/i/029000/029409.png",
+                    "iconHD": "/i/029000/029409_hr1.png",
+                    "name_en": "Three-lip Carp",
+                    "name_de": "Dreilippen-Karpfen",
+                    "name_fr": "Carpe à trois lèvres",
+                    "name_ja": "スリーリップス"
+                }
+            ]
+        },
+        "10017": {
+            "name_en": "Diadem Grotto",
+            "name_de": "Diadem-Grotte",
+            "name_fr": "Grotte du Diadème",
+            "name_ja": "ディアデム諸島の洞穴",
+            "fishes": [
+                {
+                    "id": 32890,
+                    "icon": "/i/029000/029715.png",
+                    "iconHD": "/i/029000/029715_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Starflower",
+                    "name_de": "Himmelsang-Sternenblume",
+                    "name_fr": "Fleur des étoiles de restauration (4e phase)",
+                    "name_ja": "第四次復興用のスターフラワー"
+                },
+                {
+                    "id": 32891,
+                    "icon": "/i/028000/028463.png",
+                    "iconHD": "/i/028000/028463_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Cyan Crab",
+                    "name_de": "Himmelsang-Rivierakrabbe",
+                    "name_fr": "Crabe céruléen de restauration (4e phase)",
+                    "name_ja": "第四次復興用のシアンクラブ"
+                },
+                {
+                    "id": 32892,
+                    "icon": "/i/029000/029129.png",
+                    "iconHD": "/i/029000/029129_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Fickle Krait",
+                    "name_de": "Himmelsang-Plattschwanz",
+                    "name_fr": "Bongare volage de restauration (4e phase)",
+                    "name_ja": "第四次復興用の不忠蛇"
+                },
+                {
+                    "id": 32893,
+                    "icon": "/i/029000/029758.png",
+                    "iconHD": "/i/029000/029758_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Proto-hropken",
+                    "name_de": "Himmelsang-Proto-Hropken",
+                    "name_fr": "Protohropken fonctionnel de restauration (4e phase)",
+                    "name_ja": "第四次復興用のオプロプケン"
+                }
+            ]
+        },
+        "10018": {
+            "name_en": "Southern Diadem Lake",
+            "name_de": "Südlicher Diademteich",
+            "name_fr": "Mares du quadrant sud-ouest",
+            "name_ja": "ディアデム諸島の南西池",
+            "fishes": [
+                {
+                    "id": 32882,
+                    "icon": "/i/029000/029310.png",
+                    "iconHD": "/i/029000/029310_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Zagas Khaal",
+                    "name_de": "Himmelsang-Zagas",
+                    "name_fr": "Zagas de restauration (4e phase)",
+                    "name_ja": "第四次復興用のザガス"
+                },
+                {
+                    "id": 32883,
+                    "icon": "/i/029000/029420.png",
+                    "iconHD": "/i/029000/029420_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Goldsmith Crab",
+                    "name_de": "Himmelsang-Goldschmiedkrabbe",
+                    "name_fr": "Crabe orfèvre de restauration (4e phase)",
+                    "name_ja": "第四次復興用のゴールドスミスクラブ"
+                },
+                {
+                    "id": 32884,
+                    "icon": "/i/029000/029467.png",
+                    "iconHD": "/i/029000/029467_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Common Bitterling",
+                    "name_de": "Himmelsang-Bitterling",
+                    "name_fr": "Bouvière ordinaire de restauration (4e phase)",
+                    "name_ja": "第四次復興用のカネヒラ"
+                },
+                {
+                    "id": 32885,
+                    "icon": "/i/029000/029501.png",
+                    "iconHD": "/i/029000/029501_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Skyloach",
+                    "name_de": "Himmelsang-Wels",
+                    "name_fr": "Loche céleste de restauration (4e phase)",
+                    "name_ja": "第四次復興用のスカイローチ"
+                }
+            ]
+        },
+        "10019": {
+            "name_en": "Northern Diadem Lake",
+            "name_de": "Nördlicher Diademteich",
+            "name_fr": "Étang du quadrant nord-ouest",
+            "name_ja": "ディアデム諸島の北西池",
+            "fishes": [
+                {
+                    "id": 32886,
+                    "icon": "/i/029000/029706.png",
+                    "iconHD": "/i/029000/029706_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Glacier Core",
+                    "name_de": "Himmelsang-Gletscherkern",
+                    "name_fr": "Noyau de glacier de restauration (4e phase)",
+                    "name_ja": "第四次復興用のグレイシャーコア"
+                },
+                {
+                    "id": 32887,
+                    "icon": "/i/029000/029410.png",
+                    "iconHD": "/i/029000/029410_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Kissing Fish",
+                    "name_de": "Himmelsang-Gurami",
+                    "name_fr": "Gourami embrasseur de restauration (4e phase)",
+                    "name_ja": "第四次復興用のキッシング・グラミー"
+                },
+                {
+                    "id": 32888,
+                    "icon": "/i/029000/029514.png",
+                    "iconHD": "/i/029000/029514_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Cavalry Catfish",
+                    "name_de": "Himmelsang-Kavalleriekatfisch",
+                    "name_fr": "Poisson-chat de cavalerie de restauration (4e phase)",
+                    "name_ja": "第四次復興用の斬馬魚"
+                },
+                {
+                    "id": 32889,
+                    "icon": "/i/029000/029704.png",
+                    "iconHD": "/i/029000/029704_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Manasail",
+                    "name_de": "Himmelsang-Manasegler",
+                    "name_fr": "Voile-de-mana de restauration (4e phase)",
+                    "name_ja": "第四次復興用のマナセイル"
+                }
+            ]
+        },
+        "10020": {
+            "name_en": "Blustery Cloudtop",
+            "name_de": "Tosende Wolken",
+            "name_fr": "Cimes venteuses",
+            "name_ja": "風吹き抜ける雲海",
+            "fishes": [
+                {
+                    "id": 32894,
+                    "icon": "/i/029000/029716.png",
+                    "iconHD": "/i/029000/029716_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Ghost Faerie",
+                    "name_de": "Himmelsang-Geisterfee",
+                    "name_fr": "Fée fantôme de restauration (4e phase)",
+                    "name_ja": "第四次復興用のクリア・ハルオネ"
+                },
+                {
+                    "id": 32895,
+                    "icon": "/i/029000/029915.png",
+                    "iconHD": "/i/029000/029915_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Ashfish",
+                    "name_de": "Himmelsang-Aschenfisch",
+                    "name_fr": "Poisson-cendre de restauration (4e phase)",
+                    "name_ja": "第四次復興用のアンデッドフィッシュ"
+                },
+                {
+                    "id": 32896,
+                    "icon": "/i/029000/029906.png",
+                    "iconHD": "/i/029000/029906_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Whitehorse",
+                    "name_de": "Himmelsang-Weißpferdchen",
+                    "name_fr": "Chevalier servant de restauration (4e phase)",
+                    "name_ja": "第四次復興用のホワイトホース"
+                },
+                {
+                    "id": 32900,
+                    "icon": "/i/029000/029447.png",
+                    "iconHD": "/i/029000/029447_hr1.png",
+                    "name_en": "Grade 4 Artisanal Skybuilders' Sweatfish",
+                    "name_de": "Himmelsang-Schweißfisch",
+                    "name_fr": "Poisson-suée sur commande de restauration (4e phase)",
+                    "name_ja": "第四次復興用の特注スウェットフィッシュ"
+                },
+                {
+                    "id": 32904,
+                    "icon": "/i/029000/029748.png",
+                    "iconHD": "/i/029000/029748_hr1.png",
+                    "name_en": "Grade 4 Artisanal Skybuilders' Marrella",
+                    "name_de": "Himmelsang-Marrella",
+                    "name_fr": "Marrella sur commande de restauration (4e phase)",
+                    "name_ja": "第四次復興用の特注マーレラ"
+                }
+            ]
+        },
+        "10021": {
+            "name_en": "Calm Cloudtop",
+            "name_de": "Sanfte Wolken",
+            "name_fr": "Cimes calmes",
+            "name_ja": "風穏やかな雲海",
+            "fishes": [
+                {
+                    "id": 32894,
+                    "icon": "/i/029000/029716.png",
+                    "iconHD": "/i/029000/029716_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Ghost Faerie",
+                    "name_de": "Himmelsang-Geisterfee",
+                    "name_fr": "Fée fantôme de restauration (4e phase)",
+                    "name_ja": "第四次復興用のクリア・ハルオネ"
+                },
+                {
+                    "id": 32895,
+                    "icon": "/i/029000/029915.png",
+                    "iconHD": "/i/029000/029915_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Ashfish",
+                    "name_de": "Himmelsang-Aschenfisch",
+                    "name_fr": "Poisson-cendre de restauration (4e phase)",
+                    "name_ja": "第四次復興用のアンデッドフィッシュ"
+                },
+                {
+                    "id": 32897,
+                    "icon": "/i/029000/029005.png",
+                    "iconHD": "/i/029000/029005_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Ocean Cloud",
+                    "name_de": "Himmelsang-Meerwolke",
+                    "name_fr": "Méduse médusante de restauration (4e phase)",
+                    "name_ja": "第四次復興用のオーシャンクラウド"
+                },
+                {
+                    "id": 32901,
+                    "icon": "/i/029000/029922.png",
+                    "iconHD": "/i/029000/029922_hr1.png",
+                    "name_en": "Grade 4 Artisanal Skybuilders' Sculptor",
+                    "name_de": "Himmelsang-Schnitzer",
+                    "name_fr": "Sculpteur sur commande de restauration (4e phase)",
+                    "name_ja": "第四次復興用の特注スカルプター"
+                },
+                {
+                    "id": 32905,
+                    "icon": "/i/029000/029950.png",
+                    "iconHD": "/i/029000/029950_hr1.png",
+                    "name_en": "Grade 4 Artisanal Skybuilders' Crimson Namitaro",
+                    "name_de": "Himmelsang-Rotnamitaro",
+                    "name_fr": "Namitaro rutilant sur commande de restauration (4e phase)",
+                    "name_ja": "第四次復興用の特注レッドナミタロ"
+                }
+            ]
+        },
+        "10022": {
+            "name_en": "Swirling Cloudtop",
+            "name_de": "Wirbelnde Wolken",
+            "name_fr": "Cimes tumultueuses",
+            "name_ja": "風渦巻く雲海",
+            "fishes": [
+                {
+                    "id": 32894,
+                    "icon": "/i/029000/029716.png",
+                    "iconHD": "/i/029000/029716_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Ghost Faerie",
+                    "name_de": "Himmelsang-Geisterfee",
+                    "name_fr": "Fée fantôme de restauration (4e phase)",
+                    "name_ja": "第四次復興用のクリア・ハルオネ"
+                },
+                {
+                    "id": 32895,
+                    "icon": "/i/029000/029915.png",
+                    "iconHD": "/i/029000/029915_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Ashfish",
+                    "name_de": "Himmelsang-Aschenfisch",
+                    "name_fr": "Poisson-cendre de restauration (4e phase)",
+                    "name_ja": "第四次復興用のアンデッドフィッシュ"
+                },
+                {
+                    "id": 32898,
+                    "icon": "/i/029000/029105.png",
+                    "iconHD": "/i/029000/029105_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Black Fanfish",
+                    "name_de": "Himmelsang-Fächerfisch",
+                    "name_fr": "Poisson-éventail noir de restauration (4e phase)",
+                    "name_ja": "第四次復興用のクロズキン"
+                },
+                {
+                    "id": 32902,
+                    "icon": "/i/029000/029054.png",
+                    "iconHD": "/i/029000/029054_hr1.png",
+                    "name_en": "Grade 4 Artisanal Skybuilders' Little Thalaos",
+                    "name_de": "Himmelsang-Thalaos",
+                    "name_fr": "Petit Thalaos sur commande de restauration (4e phase)",
+                    "name_ja": "第四次復興用の特注リトルサラオス"
+                },
+                {
+                    "id": 32906,
+                    "icon": "/i/029000/029747.png",
+                    "iconHD": "/i/029000/029747_hr1.png",
+                    "name_en": "Grade 4 Artisanal Skybuilders' Griffin",
+                    "name_de": "Himmelsang-Greif",
+                    "name_fr": "Griffon sur commande de restauration (4e phase)",
+                    "name_ja": "第四次復興用の特注グリフィン"
+                }
+            ]
+        },
+        "10023": {
+            "name_en": "Windswept Cloudtop",
+            "name_de": "Sturmumtostes Wolkenmeer",
+            "name_fr": "Cimes éventées",
+            "name_ja": "風吹き上がる雲海",
+            "fishes": [
+                {
+                    "id": 32894,
+                    "icon": "/i/029000/029716.png",
+                    "iconHD": "/i/029000/029716_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Ghost Faerie",
+                    "name_de": "Himmelsang-Geisterfee",
+                    "name_fr": "Fée fantôme de restauration (4e phase)",
+                    "name_ja": "第四次復興用のクリア・ハルオネ"
+                },
+                {
+                    "id": 32895,
+                    "icon": "/i/029000/029915.png",
+                    "iconHD": "/i/029000/029915_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Ashfish",
+                    "name_de": "Himmelsang-Aschenfisch",
+                    "name_fr": "Poisson-cendre de restauration (4e phase)",
+                    "name_ja": "第四次復興用のアンデッドフィッシュ"
+                },
+                {
+                    "id": 32899,
+                    "icon": "/i/029000/029021.png",
+                    "iconHD": "/i/029000/029021_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Sunfish",
+                    "name_de": "Himmelsang-Sonnenfisch",
+                    "name_fr": "Poisson-lune de restauration (4e phase)",
+                    "name_ja": "第四次復興用のモラモラ"
+                },
+                {
+                    "id": 32903,
+                    "icon": "/i/028000/028459.png",
+                    "iconHD": "/i/028000/028459_hr1.png",
+                    "name_en": "Grade 4 Artisanal Skybuilders' Lightning Chaser",
+                    "name_de": "Himmelsang-Blausturm",
+                    "name_fr": "Tempête-bleue sur commande de restauration (4e phase)",
+                    "name_ja": "第四次復興用の特注ブルーストーム"
+                },
+                {
+                    "id": 32907,
+                    "icon": "/i/029000/029749.png",
+                    "iconHD": "/i/029000/029749_hr1.png",
+                    "name_en": "Grade 4 Artisanal Skybuilders' Meganeura",
+                    "name_de": "Himmelsang-Meganeura",
+                    "name_fr": "Meganeura sur commande de restauration (4e phase)",
+                    "name_ja": "第四次復興用の特注メガネウラ"
+                }
+            ]
+        },
+        "10024": {
+            "name_en": "Windbreaking Cloudtop",
+            "name_de": "Windbrecher-Wolkengipfel",
+            "name_fr": "Mer de nuages calme",
+            "name_ja": "風吹き溜まる雲海",
+            "fishes": [
+                {
+                    "id": 32894,
+                    "icon": "/i/029000/029716.png",
+                    "iconHD": "/i/029000/029716_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Ghost Faerie",
+                    "name_de": "Himmelsang-Geisterfee",
+                    "name_fr": "Fée fantôme de restauration (4e phase)",
+                    "name_ja": "第四次復興用のクリア・ハルオネ"
+                },
+                {
+                    "id": 32895,
+                    "icon": "/i/029000/029915.png",
+                    "iconHD": "/i/029000/029915_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Ashfish",
+                    "name_de": "Himmelsang-Aschenfisch",
+                    "name_fr": "Poisson-cendre de restauration (4e phase)",
+                    "name_ja": "第四次復興用のアンデッドフィッシュ"
+                },
+                {
+                    "id": 30006,
+                    "icon": "/i/029000/029116.png",
+                    "iconHD": "/i/029000/029116_hr1.png",
+                    "name_en": "Grade 2 Artisanal Skybuilders' Rhomaleosaurus",
+                    "name_de": "Genist-Rhomaleosaurus",
+                    "name_fr": "Rhomaleosaurus sur commande de restauration (2e phase)",
+                    "name_ja": "第二次復興用の特注ロマレオサウルス"
+                },
+                {
+                    "id": 30007,
+                    "icon": "/i/029000/029708.png",
+                    "iconHD": "/i/029000/029708_hr1.png",
+                    "name_en": "Grade 2 Artisanal Skybuilders' Gobbie Mask",
+                    "name_de": "Genist-Goblinmaske",
+                    "name_fr": "Poulpe gobelin sur commande de restauration (2e phase)",
+                    "name_ja": "第二次復興用の特注ゴブリパス"
+                },
+                {
+                    "id": 30010,
+                    "icon": "/i/029000/029865.png",
+                    "iconHD": "/i/029000/029865_hr1.png",
+                    "name_en": "Grade 2 Artisanal Skybuilders' Cometfish",
+                    "name_de": "Genist-Kometenfisch",
+                    "name_fr": "Poisson-comète sur commande de restauration (2e phase)",
+                    "name_ja": "第二次復興用の特注コメットフィッシュ"
+                },
+                {
+                    "id": 30011,
+                    "icon": "/i/029000/029658.png",
+                    "iconHD": "/i/029000/029658_hr1.png",
+                    "name_en": "Grade 2 Artisanal Skybuilders' Anomalocaris",
+                    "name_de": "Genist-Anomalocaris",
+                    "name_fr": "Anomalocaris sur commande de restauration (2e phase)",
+                    "name_ja": "第二次復興用の特注アノマロカリス"
+                },
+                {
+                    "id": 31596,
+                    "icon": "/i/029000/029403.png",
+                    "iconHD": "/i/029000/029403_hr1.png",
+                    "name_en": "Grade 3 Artisanal Skybuilders' Oscar",
+                    "name_de": "Sonderbestellter Federfall-Buntbarsch",
+                    "name_fr": "Oscar sur commande de restauration (3e phase)",
+                    "name_ja": "第三次復興用の特注オスカー"
+                },
+                {
+                    "id": 31597,
+                    "icon": "/i/029000/029651.png",
+                    "iconHD": "/i/029000/029651_hr1.png",
+                    "name_en": "Grade 3 Artisanal Skybuilders' Blind Manta",
+                    "name_de": "Sonderbestellter Federfall-Blindmanta",
+                    "name_fr": "Manta volante sur commande de restauration (3e phase)",
+                    "name_ja": "第三次復興用の特注フライマンタ"
+                },
+                {
+                    "id": 31600,
+                    "icon": "/i/029000/029737.png",
+                    "iconHD": "/i/029000/029737_hr1.png",
+                    "name_en": "Grade 3 Artisanal Skybuilders' Archaeopteryx",
+                    "name_de": "Sonderbestellter Federfall-Archaeopteryx",
+                    "name_fr": "Archæoptéryx sur commande de restauration (3e phase)",
+                    "name_ja": "第三次復興用の特注アーケオプテリクス"
+                },
+                {
+                    "id": 31602,
+                    "icon": "/i/029000/029739.png",
+                    "iconHD": "/i/029000/029739_hr1.png",
+                    "name_en": "Grade 3 Artisanal Skybuilders' Cloudshark",
+                    "name_de": "Sonderbestellter Federfall-Wolkenhai",
+                    "name_fr": "Requin-nuage sur commande de restauration (3e phase)",
+                    "name_ja": "第三次復興用の特注クラウドシャーク"
+                }
+            ]
+        },
+        "10025": {
+            "name_en": "Buffeted Cloudtop",
+            "name_de": "Sturmwind-Wolkengipfel",
+            "name_fr": "Mer de nuages agitée",
+            "name_ja": "風吹き荒ぶ雲海",
+            "fishes": [
+                {
+                    "id": 32894,
+                    "icon": "/i/029000/029716.png",
+                    "iconHD": "/i/029000/029716_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Ghost Faerie",
+                    "name_de": "Himmelsang-Geisterfee",
+                    "name_fr": "Fée fantôme de restauration (4e phase)",
+                    "name_ja": "第四次復興用のクリア・ハルオネ"
+                },
+                {
+                    "id": 32895,
+                    "icon": "/i/029000/029915.png",
+                    "iconHD": "/i/029000/029915_hr1.png",
+                    "name_en": "Grade 4 Skybuilders' Ashfish",
+                    "name_de": "Himmelsang-Aschenfisch",
+                    "name_fr": "Poisson-cendre de restauration (4e phase)",
+                    "name_ja": "第四次復興用のアンデッドフィッシュ"
+                },
+                {
+                    "id": 30008,
+                    "icon": "/i/029000/029724.png",
+                    "iconHD": "/i/029000/029724_hr1.png",
+                    "name_en": "Grade 2 Artisanal Skybuilders' Pterodactyl",
+                    "name_de": "Genist-Pterodaktylus",
+                    "name_fr": "Ptérodactyle sur commande de restauration (2e phase)",
+                    "name_ja": "第二次復興用の特注プテロダクティルス"
+                },
+                {
+                    "id": 30009,
+                    "icon": "/i/029000/029653.png",
+                    "iconHD": "/i/029000/029653_hr1.png",
+                    "name_en": "Grade 2 Artisanal Skybuilders' Skyfish",
+                    "name_de": "Genist-Luftfisch",
+                    "name_fr": "Fulgure sur commande de restauration (2e phase)",
+                    "name_ja": "第二次復興用の特注スカイフィッシュ"
+                },
+                {
+                    "id": 30012,
+                    "icon": "/i/029000/029660.png",
+                    "iconHD": "/i/029000/029660_hr1.png",
+                    "name_en": "Grade 2 Artisanal Skybuilders' Rhamphorhynchus",
+                    "name_de": "Genist-Rhamphorhynchus",
+                    "name_fr": "Rhamphorhynchus sur commande de restauration (2e phase)",
+                    "name_ja": "第二次復興用の特注ラムフォリンクス"
+                },
+                {
+                    "id": 30013,
+                    "icon": "/i/029000/029074.png",
+                    "iconHD": "/i/029000/029074_hr1.png",
+                    "name_en": "Grade 2 Artisanal Skybuilders' Dragon's Soul",
+                    "name_de": "Genist-Drachenseele",
+                    "name_fr": "Âme-de-dragon sur commande de restauration (2e phase)",
+                    "name_ja": "第二次復興用の特注ドラゴンソウル"
+                },
+                {
+                    "id": 31598,
+                    "icon": "/i/029000/029904.png",
+                    "iconHD": "/i/029000/029904_hr1.png",
+                    "name_en": "Grade 3 Artisanal Skybuilders' Mosasaur",
+                    "name_de": "Sonderbestellter Federfall-Mosasaurus",
+                    "name_fr": "Mosasaure sur commande de restauration (3e phase)",
+                    "name_ja": "第三次復興用の特注モササウルス"
+                },
+                {
+                    "id": 31599,
+                    "icon": "/i/029000/029712.png",
+                    "iconHD": "/i/029000/029712_hr1.png",
+                    "name_en": "Grade 3 Artisanal Skybuilders' Storm Chaser",
+                    "name_de": "Sonderbestellter Federfall-Sturmjäger",
+                    "name_fr": "Grondin-orage sur commande de restauration (3e phase)",
+                    "name_ja": "第三次復興用の特注ストームライダー"
+                },
+                {
+                    "id": 31601,
+                    "icon": "/i/029000/029738.png",
+                    "iconHD": "/i/029000/029738_hr1.png",
+                    "name_en": "Grade 3 Artisanal Skybuilders' Wyvern",
+                    "name_de": "Sonderbestellter Federfall-Wyvern",
+                    "name_fr": "Wyverne sur commande de restauration (3e phase)",
+                    "name_ja": "第三次復興用の特注ワイバーン"
+                },
+                {
+                    "id": 31603,
+                    "icon": "/i/029000/029740.png",
+                    "iconHD": "/i/029000/029740_hr1.png",
+                    "name_en": "Grade 3 Artisanal Skybuilders' Helicoprion",
+                    "name_de": "Sonderbestellter Federfall-Helicoprion",
+                    "name_fr": "Hélicoprion sur commande de restauration (3e phase)",
+                    "name_ja": "第三次復興用の特注ヘリコプリオン"
                 }
             ]
         }

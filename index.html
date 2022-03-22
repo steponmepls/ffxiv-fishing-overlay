@@ -3,33 +3,77 @@
   <head>
     <meta charset="utf-8" />
     <title>Fishing Overlay</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
     <script type="text/javascript" src="https://ngld.github.io/OverlayPlugin/assets/shared/common.min.js"></script>
-    <script type="text/javascript" src="./js/languages.js"></script>
-    <script type="text/javascript" src="./js/events.js"></script>
-    <script type="text/javascript" src="./js/main.js"></script>
+    <script type="text/javascript" src="./js/languages.js" async></script>
+    <script type="text/javascript" src="./js/events.js" async></script>
+    <script type="text/javascript" src="./js/main.js" defer></script>
     <link rel="stylesheet" href="./style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet"> 
   </head>
   <body>
-    <div id="container">
-      <div id="header" class="flex">
-        <div id="spot"></div>
+    <div class="container">
+      <div class="header flex">
+        <div id="fishing-spot"></div>
         <div id="timer"></div>
+        <div id="hide-settings"></div>
       </div>
-      <div id="entries">
-        <div id="marker" class="flex">
-          <div class="offset"></div>
-          <div class="container">
-            <div class="markline"></div>
+
+      <div class="main">
+        <div class="timeline flex">
+          <div class="offset icon"></div>
+          <div>
+            <div id="markline" data-dur="30"></div>
           </div>
         </div>
+
+        <div class="entries">
+          <div id="item0" class="fish flex"></div>
+          <div id="item1" class="fish flex"></div>
+          <div id="item2" class="fish flex"></div>
+          <div id="item3" class="fish flex"></div>
+          <div id="item4" class="fish flex"></div>
+          <div id="item5" class="fish flex"></div>
+          <div id="item6" class="fish flex"></div>
+          <div id="item7" class="fish flex"></div>
+          <div id="item8" class="fish flex"></div>
+          <div id="item9" class="fish flex"></div>
+        </div>
       </div>
-      <div id="footer">
-        <div id="output-msg"></div>
-        <div id="import-settings" class="settings">Import<input type="file" accept=".json"></div>
-        <div id="export-settings" class="settings">Export</div>
+
+      <div id="settings">
+        <div class="settings flex">
+          <div class="overlay flex">
+            <div class="label">Settings</div>
+            <button class="import" disabled>Import</button>
+            <button class="export" disabled>Export</button>
+            <input type="file" accept=".json">
+          </div>
+          <div class="carbuncle-plushy flex">
+            <div class="label">Progress</div>
+            <button>Carb Plushy</button>
+          </div>
+        </div>
+        <div class="languages flex">
+          <label>Language</label>
+          <span>J</span>
+          <input type="radio" name="lang" value="ja" data-name="Japanese" disabled>
+          <span>E</span>
+          <input type="radio" name="lang" value="en" data-name="English">
+          <span>D</span>
+          <input type="radio" name="lang" value="de" data-name="German" disabled>
+          <span>F</span>
+          <input type="radio" name="lang" value="fr" data-name="French" disabled>
+        </div>
+        <div class="preferences flex"></div>
+      </div>
+
+      <div class="footer flex">
+        <div id="output-message" class="flex"></div>
       </div>
     </div>
   </body>

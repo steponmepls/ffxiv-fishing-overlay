@@ -1,101 +1,240 @@
 "use strict";
 
-let uuid, character, spot;
-const settings = {}, log = {};
+(async function () {
+  let character, zone, spot, msgTimeout, start = 0, wasChum = false;
+  const log = {}, interval = [];
 
-fetch("./dist/fishing-log-min.json")
-.then(res => { if (res.status >= 200 && res.status <= 299) { return res.json() } else { throw Error(res.statusText) }})
-.then(data => {
-  Object.assign(log, data);
-  if (character && Object.values(settings[character.id].records).length < 1) initRecord();
-} );
+  // Retrieve fishing log
+  Object.assign(log, await fetch("./dist/fishing-log-min.json").then(res => res.json()));
 
-// Fallback in case ACT isn't running
-lang = !lang ? "English" : lang;
-nameLang = !nameLang ? "en" : nameLang;
+  // Check if running in browser or in ACT
+  const overlayUuid = (window.OverlayPluginApi) ? window.OverlayPluginApi.overlayUuid : null;
 
-if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
-  character =  {id: 0, name: "Testing"};
-  if (!(character.id in settings)) initCharacter();
-  console.warn("ACT is unavailable or OverlayPlugin is broken.")
-} else {
-  uuid = window.OverlayPluginApi.overlayUuid;
-
-  // ACT events
-  document.addEventListener("changedCharacter", async (e) => {
-    if (e.detail === null) return
-    character = e.detail;
-    loadSettings()
-  })
-};
-
-window.addEventListener("DOMContentLoaded", async (e) => {
-  let interval, start = 0, wasChum = false, msgTimeout;
+  // Init settings
+  const settings = {
+    lang: { name: "English", id: "en" },
+    preferences: {
+      "Align to bottom": [false, "When set to true the overlay will only grow vertically from bottom to top."]
+    },
+    characters: {}
+  };
 
   const html = document.body.parentElement,
-        spotTitle = document.getElementById("spot"),
-        timer = document.getElementById("timer"),
-        spotFishes = document.getElementById("entries"),
-        marker = document.getElementById("marker").querySelector(".markline"),
-        msgOutput = document.getElementById("output-msg"),
-        escaped = /[-\/\\^$*+?.()|[\]{}]/g;
+        spotName = document.getElementById("fishing-spot"),
+        castTimer = document.getElementById("timer"),
+        timelineMark = document.getElementById("markline"),
+        settingsMenu = document.getElementById("settings");
 
-  // Init 1->10 fish nodes
+  // Core event listeners
+  document.addEventListener("changedZone", (e) => { zone = e.detail.zone });
+  document.addEventListener("changedCharacter", (e) => { character = e.detail });
+  document.addEventListener("initCharacter", () => {
+    settings.characters[character.id] = {};
+    settings.characters[character.id].name = character.name;
+    settings.characters[character.id].records = {};
+
+    if (!window.OverlayPluginApi) return;
+
+    callOverlayHandler({ call: 'getCombatants' })
+    .then(obj => {
+      const world = obj.combatants[0].WorldName;
+      settings.characters[character.id].world = world
+    })
+  });
+
+  if (!window.OverlayPluginApi || !window.OverlayPluginApi.ready) {
+    console.warn("ACT isn't running or missing OverlayPlugin API.");
+    document.dispatchEvent(new CustomEvent("changedCharacter", {
+      detail: { name: "Testing", id: 0 }
+    }));
+    //document.dispatchEvent(new CustomEvent("initCharacter"));
+  } else {
+    // ACT events listeners
+    document.addEventListener("saveSettings", () => {
+      if (overlayUuid === null) return;
+      callOverlayHandler({ call: "saveData", key: overlayUuid, data: sanitizeSettings() })
+    });
+    document.addEventListener("parseSettings", (i) => {
+      const input = (i.detail) ? i.detail : i;
+      for (const key in input) {
+        if (key === "preferences") {
+          for (const pref in settings.preferences) {
+            if (!(pref in input.preferences)) continue;
+            settings.preferences[pref][0] = input.preferences[pref][0]
+          };
+          continue
+        }
+        Object.assign(settings[key], input[key])
+      }
+    });
+    document.addEventListener("deleteSettings", (e) => {
+      if (!e.detail || typeof e.detail.id !== "number") return;
+      if (!(e.detail.id in settings.characters)) return;
+
+      delete settings.characters[e.detail.id];
+      document.dispatchEvent(new CustomEvent("saveSettings"));
+      console.warn("Reload overlay to apply new settings.");
+      console.debug(settings)
+    });
+    
+    // Load settings
+    document.dispatchEvent(new CustomEvent("parseSettings", { 
+      detail: await callOverlayHandler({ call: "loadData", key: overlayUuid}).then(obj => obj.data) }
+    ));
+    
+    // Enable import/export of settings
+    settingsMenu.querySelector("div > .overlay button.import").removeAttribute("disabled");
+    settingsMenu.querySelector("div > .overlay button.export").removeAttribute("disabled")
+  };
+
+  console.debug(settings);
+
+  // Init items content
   for (let i=0; i<10; i++) {
-    const fish = document.createElement("div");
-    fish.id = "item" + i;
-    fish.classList.add("fish", "flex");
-    fish.innerHTML = `<div class="icon"><img src=""></div>
+    const item = document.getElementById(`item${i}`);
+    item.innerHTML = `<div class="icon"><img src=""></div>
     <div class="label flex">
-      <div class="record"></div>
-      <div class="record-chum"></div>
-      <div class="name"></div>
-      <div class="window"></div>
+      <div class="name flex"></div>
+      <div class="info flex">
+        <i class="hook"></i>
+        <i class="tug"></i>
+      </div>
+      <div class="records">
+        <div class="record"></div>
+        <div class="record chum"></div>
+      </div>
     </div>`;
-    spotFishes.appendChild(fish);
-    fish.querySelector(".label .name").onclick = (e) => {
-      const id = parseInt(e.target.parentElement.parentElement.getAttribute("data-fishid"));
+
+    item.querySelector(".icon").onclick = (e) => {
+      const node = e.target.parentElement.parentElement;
+      const id = parseInt(node.getAttribute("data-fishid"));
       if (!id || typeof id !== "number") return;
 
-      copyToClipboard("https://www.garlandtools.org/db/#item/" + id);
-      sendMessage("Copied link to clipboard")
+      document.dispatchEvent(new CustomEvent("toClipboard", {
+        detail: {
+          string: "https://www.garlandtools.org/db/#item/" + id,
+          msg: "Copied link to clipboard"
+        }
+      }))
     };
+    item.querySelectorAll(".record").forEach(r => {
+      r.onclick = (e) => {
+        const min = e.target.getAttribute("data-min"),
+              max = e.target.getAttribute("data-max");
+        document.dispatchEvent(new CustomEvent("sendMessage", {
+          detail: { msg: `${min} ~ ${max}` }
+        }))
+      }
+    })
   };
 
-  spotTitle.onclick = (e) => {
-    const title = e.target.getAttribute("title"),
-          id = parseInt(title.split(" / ")[1]);
-    if (!id || typeof id !== "number") return;
-
-    copyToClipboard("https://www.garlandtools.org/db/#fishing/" + id);
-    sendMessage("Copied link to clipboard");
-    console.debug(title)
+  // Settings events
+  settingsMenu.querySelector("div > .overlay button.import").onclick = () => {
+    settingsMenu.querySelector("div > .overlay input").value = null;
+    settingsMenu.querySelector("div > .overlay input").click()
   };
+  settingsMenu.querySelector("div > .overlay input").onchange = (e) => {
+    if (e.target.files.length < 1) return;
 
-  // Import / Export settings
-  const importButton = document.getElementById("import-settings"),
-        importField = importButton.querySelector("input");
-  importButton.onclick = () => { importField.click() };
-  importField.addEventListener("change", importSettings);
-  const exportButton = document.getElementById("export-settings");
-  exportButton.addEventListener("click", exportSettings);
+    const file = e.target.files[0],
+          reader = new FileReader();
 
+    reader.onload = async (e) => {
+      if (!(isJSON(e.target.result))) {
+        document.dispatchEvent(new CustomEvent("sendMessage", {
+          detail: { msg: "Failed to import settings." }
+        }))
+        return
+      }
+      
+      const output = JSON.parse(e.target.result);
+      document.dispatchEvent(new CustomEvent("parseSettings", { detail: output }));
+      document.dispatchEvent(new CustomEvent("saveSettings"));
+      document.dispatchEvent(new CustomEvent("sendMessage", {
+        detail: { msg: "Reload overlay to apply new settings" }
+      }))
+    };
+
+    reader.onerror = (e) => console.error(e.target.error.name);
+    reader.readAsText(file);
+
+    // Method: https://stackoverflow.com/a/31881889
+    function isJSON(string){
+      if (typeof string !== "string") return false;
+      try{
+        const json = JSON.parse(string);
+        return (typeof json === "object")
+      }
+      catch (error){
+        console.error(error);
+        return false;
+      }
+    }
+  };
+  settingsMenu.querySelector("div > .overlay button.export").onclick = () => {
+    const string = JSON.stringify(sanitizeSettings());
+    document.dispatchEvent(new CustomEvent("toClipboard", { detail: { string: string } }))
+  };
+  settingsMenu.querySelector("div > .carbuncle-plushy button").onclick = () => {
+    if (!(character.id in settings.characters)) return;
+
+    const output = [],
+          records = settings.characters[character.id].records;
+          
+    for (const zone in records) {
+      for (const spot in records[zone]) {
+        for (const key in records[zone][spot]) {
+          output.push(key)
+        }
+      }
+    }
+
+    document.dispatchEvent(new CustomEvent("toClipboard", {
+      detail: { string: "[" + output.toString() + "]" }
+    }))
+  };
+  // Settings functions
+  function sanitizeSettings() {
+    const output = {};
+    for (const s in settings) {
+      output[s] = Object.create(null);
+      if (s === "preferences") {
+        for (const k in settings[s]) {
+          if (settings[s][k][0] === false) continue;
+          output[s][k] = settings[s][k];
+          const array = output[s][k];
+          array.splice(1, (array.length - 1));
+        }
+        continue
+      };
+
+      Object.assign(output[s], settings[s])
+    }
+    return output;
+  }
+  
   // Overlay events
   document.addEventListener("startCasting", startCasting);
-  document.addEventListener("fishCaught", updateLog);
   document.addEventListener("stopCasting", () => {
     html.classList.remove("casting");
     html.classList.add("marker-paused");
-    if (interval) window.clearInterval(interval)
+    window.clearInterval(interval.slice(-1));
   });
+  document.addEventListener("fishCaught", updateLog);
+  document.addEventListener("newSpot", (e) => { findSpot(e.detail.line) });
   document.addEventListener("stopFishing", () => {
-    html.classList.remove("fishing", "marker-active", "marker-paused");
-    timer.innerText = (0).toFixed(1);
+    html.classList.remove(
+      "fishing", 
+      "marker-animated", 
+      "marker-paused", 
+      "chum-records"
+    );
+    spotName.innerText = "";
+    castTimer.innerText = "";
     wasChum = false
   });
   document.addEventListener("statusChange", (e) => {
-    const regex = languages[lang];
-    if (regex.buff[2].test(e.detail.name)) {
+    if (regex[settings.lang.name].buff[2].test(e.detail.name)) {
       if (e.detail.status === true) {
         html.classList.add("chum-active", "chum-records");
         wasChum = true
@@ -104,77 +243,147 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       }
     }
   });
-  document.addEventListener("newSpot", (e) => { findSpot(e.detail.line) });
-  marker.addEventListener("animationend", (e) => {
-    // Force-stop marker animation when elapsed time reaches 60s
-    if (e.elapsedTime >= 60) return
+  document.addEventListener("showSettings", () => {
+    html.classList.toggle("show-settings")
+  });
+  document.addEventListener("applySettings", () => {
+    settingsMenu.querySelector(`.languages input[data-name="${settings.lang.name}"]`).checked = true;
 
-    // Redraw records considering new 60s delay
-    marker.setAttribute("data-dur", 60);
+    for (const pref in settings.preferences) {
+      switch(pref) {
+        case "Align to bottom":
+          html.classList.toggle("align-bottom", settings.preferences[pref][0]);
+          break;
+      };
+      settingsMenu.querySelector(`.preferences > div[data-name="${pref}"] input`).checked = settings.preferences[pref][0]
+    }
+  });
+
+  // Settings menu init
+  const hideSettings = document.getElementById("hide-settings");
+  hideSettings.onclick = () => { html.classList.toggle("show-settings") };
+  settingsMenu.querySelectorAll(".languages input").forEach(l => {
+    l.onchange = (e) => {
+      if (!(e.target.checked)) return; // ???
+
+      settings.lang.name = e.target.getAttribute("data-name");
+      settings.lang.id = e.target.value;
+      document.dispatchEvent(new CustomEvent("saveSettings"))
+    }
+  });
+  for (const i in settings.preferences) {
+    const container = document.createElement("div");
+    container.innerHTML = `
+      <label><input type="checkbox" name="${i}" disabled>${i}</label>
+      <span>${settings.preferences[i][1]}</span>
+    `;
+    container.setAttribute("data-name", i);
+    container.querySelector("input").onchange = (e) => {
+      settings.preferences[e.target.name][0] = e.target.checked;
+      document.dispatchEvent(new CustomEvent("saveSettings"))
+    };
+    if (window.OverlayPluginApi) container.querySelector("input").removeAttribute("disabled");
+    settingsMenu.querySelector(".preferences").appendChild(container)
+  };
+  document.dispatchEvent(new CustomEvent("applySettings"));
+
+  // Redraw timeline on long casts
+  timelineMark.addEventListener("animationend", (e) => {
+    // Force-stop marker animation when elapsed time reaches 45s
+    if (e.elapsedTime >= 45) return
+
+    // Redraw records considering new 45s delay
+    e.target.setAttribute("data-dur", 45);
 
     // Restart animation
-    marker.removeAttribute("animated");
     html.classList.remove("marker-animated");
-  	void html.offsetWidth;
-  	html.classList.add("long-cast", "marker-animated")
+    void html.offsetWidth;
+    html.classList.add("long-cast", "marker-animated")
   });
-  document.addEventListener("newMessage", (e) => {
-    const msg = e.detail.msg,
-          type = e.detail.type;
-
-    msgOutput.innerText = msg;
-    clearTimeout(msgTimeout); // Force reset in case of overlapping events
-    msgTimeout = setTimeout(() => { msgOutput.innerText = "" }, 3000)
-  });
-  // Redraw timeline whenever data-dur value changes
   const durationChange = new MutationObserver((list) => {
-    // Prevents from running if value hasn't changed
-    if (list[0].oldValue == list[0].target.getAttribute("data-dur")) return
+    //if (list[0].oldValue == list[0].target.getAttribute("data-dur")) return;
 
-    const spotRecord = settings[character.id].records[zone][spot];
+    if (!(character.id in settings.characters)) return;
+
+    const records = settings.characters[character.id].records;
+    if (!(zone in records) || !(spot in records[zone])) return;
+
+    const spotRecords = records[zone][spot];
+    if (Object.values(spotRecords).length < 1) return;
+
     log[zone][spot].fishes.forEach((fish, index) => {
+      if (!(fish.id in spotRecords)) return;
+
       const item = document.getElementById("item" + index);
-      if (fish.id in spotRecord) {
-        let fishRecord, fishMark;
-        if ("min" in spotRecord[fish.id].chum) {
-          fishRecord = spotRecord[fish.id].chum;
-          fishMark = item.querySelector(".label .record-chum");
-          redrawRecord(fishRecord, fishMark)
+      for (const node of item.querySelectorAll(".record")) {
+        let record;
+        if (node.classList.contains("chum")) {
+          if (!("chum" in spotRecords[fish.id])) continue;
+          record = spotRecords[fish.id].chum
+        } else {
+          if (!("min" in spotRecords[fish.id])) continue;
+          record = spotRecords[fish.id];
         }
-        if ("min" in spotRecord[fish.id]) {
-          fishRecord = spotRecord[fish.id];
-          fishMark = item.querySelector(".label .record");
-          redrawRecord(fishRecord, fishMark)
-        }
+        drawRecord(record, node)
       }
     })
   });
-  durationChange.observe(marker, {
+  durationChange.observe(timelineMark, {
     attributeFilter: ["data-dur"],
     attributeOldValue: true
   });
-  document.addEventListener("reloadEntries", () => {
-    resetEntries();
-    populateEntries()
+
+  // Services
+  document.addEventListener("toClipboard", (e) => {
+    if (!e.detail || !e.detail.string || typeof e.detail.string !== "string") return;
+
+    const field = document.createElement("input"),
+          message = (e.detail.msg && typeof e.detail.msg === "string") ? e.detail.msg : "Copied to clipboard";
+    
+    field.type = "text";
+    field.setAttribute("value", e.detail.string);
+    document.body.appendChild(field);
+    field.select();
+    // Deprected method but no way around it since clipboard API won't work in ACT
+    document.execCommand("copy");
+    document.body.removeChild(field);
+    document.dispatchEvent(new CustomEvent("sendMessage", {
+      detail: { msg: message }
+    }));
+  });
+  document.addEventListener("sendMessage", (e) => {
+    if (!e.detail || !e.detail.msg || typeof e.detail.msg !== "string") return;
+    const message = e.detail.msg,
+          container = document.getElementById("output-message");
+
+    container.innerText = ""; // Visual feedback for force-reset
+    setTimeout(() => { 
+      container.innerText = message;
+      clearTimeout(msgTimeout);
+      msgTimeout = setTimeout(() => { container.innerText = "" }, 3000)
+     }, 100);
   });
 
   // Overlay functions
   function startCasting(e) {
-    const regex = languages[lang];
-
     // Add class toggles
     html.classList.add("fishing", "casting");
 
-    // Reset timers before rerun
+    // Start timer
     start = Date.now();
-    timer.innerText = (0).toFixed(1);
-    interval = window.setInterval(() => {
-      const raw = (Date.now() - start) / 1000;
-      timer.innerText = raw.toFixed(1)
-    }, 100);
+    interval.forEach((i, index, array) => {
+      window.clearInterval(i);
+      array.splice(array.indexOf(i, 1))
+    });
+    interval.push(
+      window.setInterval(() => {
+        const raw = (Date.now() - start) / 1000;
+        castTimer.innerText = raw.toFixed(1)
+      }, 100)
+    );
 
     // Reset classes and variables
-    html.classList.remove("marker-animated", "marker-paused", "long-cast");
+    html.classList.remove("marker-animated", "marker-paused", "long-cast", "manual-settings");
     if (!html.classList.contains("chum-active") && html.classList.contains("chum-records")) {
       html.classList.remove("chum-active", "chum-records");
       wasChum = false
@@ -183,159 +392,86 @@ window.addEventListener("DOMContentLoaded", async (e) => {
     // Example: https://jsfiddle.net/dhngeaps/
     void html.offsetWidth;
     html.classList.add("marker-animated");
+
+    // If mooch stop here
+    if (e.detail.mooch) return;
   
-    // Get current spot and update list if needed
-    if (regex.start[1].test(e.detail.line)) { // if undiscovered spot
+    // Parse fishing spot
+    if (regex[settings.lang.name].start[1].test(e.detail.line)) { // if undiscovered spot
+      if (spot) resetEntries();
       spot = undefined;
-      spotTitle.innerText = "";
-      spotTitle.title = "";
-      resetEntries()
-    } else if (regex.start[2].test(e.detail.line)) {
-      return
-    } else {
+      spotName.innerText = "???"
+    } else { // if regular fishing spot
       findSpot(e.detail.line)
     }
   }
-
-  function updateLog(fish) {
-    let fishID;
-
-    const fishName = fish.detail.name,
-          fishTime = fish.detail.time,
-          // fishSize = fish.detail.size,
-          // sizeUnit = fish.detail.unit,
-          // totalFishes = fish.detail.amount,
-          spotID = fish.detail.spotId,
-          spotRecord = settings[character.id].records[zone][spotID];
-
-    const threshold = marker.getAttribute("data-dur");
-    if (fishTime > 30 && threshold < 60) marker.setAttribute("data-dur", 60);
-
-    for (const item of log[zone][spot].fishes) {
-      const regex = new RegExp(`${item["name_" + nameLang]}`, "i");
-      if (regex.test(fishName)) {
-        fishID = item.id;
-        break
-      };
-    }
-  
-    // Init if no entries yet
-    if (!(fishID in spotRecord)) {
-      spotRecord[fishID] = {}
-      spotRecord[fishID].chum = {}
-    }
-  
-    // Pick either chum or normal mark for a fish
-    let fishRecord, fishMark;
-    if (wasChum) {
-      fishRecord = spotRecord[fishID].chum;
-      fishMark = spotFishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record-chum`)
-    } else {
-      fishRecord = spotRecord[fishID];
-      fishMark = spotFishes.querySelector(`.fish[data-fishid="${fishID}"] .label .record`)
-    };
-
-    // Reset chum bool
-    wasChum = false
-  
-    if (!("min" in fishRecord)) {
-      fishRecord.min = fishTime;
-      fishRecord.max = fishTime;
-      if (character.id != 0) saveSettings(settings)
-      redrawRecord(fishRecord, fishMark)
-    } else if (fishTime < fishRecord.min) {
-      fishRecord.min = fishTime;
-      if (character.id != 0) saveSettings(settings)
-      redrawRecord(fishRecord, fishMark)
-    } else if (fishTime > fishRecord.max) {
-      fishRecord.max = fishTime;
-      if (character.id != 0) saveSettings(settings)
-      redrawRecord(fishRecord, fishMark)
-    }
-  }
-
-  function findSpot(line) {
-    const spots = log[zone];
-    for (const id in spots) {
-      const sanitized = spots[id]["name_" + nameLang].replace(escaped, '\\$&');
-      const rule = new RegExp(sanitized, "i");
-      if (rule.test(line)) {
-        if (id != spot) {
-          spot = parseInt(id);
-          spotTitle.innerText = spots[spot]["name_" + nameLang];
-          spotTitle.title = `${zone} / ${spot}`;
-          resetEntries();
-          populateEntries()
-        } else { // Reset
-          if (marker.getAttribute("data-dur") > 30 && getMax() <= 30)
-            marker.setAttribute("data-dur", 30)
-        };
-        break
-      }
-    }
-  }
-
   function resetEntries() {
-    marker.setAttribute("data-dur", 30);
     for (let i=0; i<10; i++) {
       const item = document.getElementById("item" + i);
       item.querySelector(".icon img").src = "";
       item.querySelector(".label .name").innerHTML = "";
       // item.querySelector(".label .window").innerHTML = "";
       item.removeAttribute("data-fishid");
-      for (const tug of ["medium", "heavy", "light"]) {
-        item.classList.remove(tug)
-      };
-      const records = item.querySelectorAll("div[class*='record']");
-      for (const record of records) {
+      item.removeAttribute("data-hook");
+      item.removeAttribute("data-tug");
+      for (const record of item.querySelectorAll(".record")) {
         record.removeAttribute("data-min");
         record.removeAttribute("data-max");
         record.removeAttribute("style")
       }
     }
   }
+  function findSpot(line) {
+    if (!line || typeof line !== "string") return;
 
-  function populateEntries() {  
-    const spotRecord = settings[character.id].records[zone][spot];
+    const spots = log[zone],
+          illegalChars = /[-\/\\^$*+?.()|[\]{}]/g;
 
-    // Find highest max record and redraw timeline when needed
-    const newDur = getMax() > 30 ? 60 : 30;
+    for (const id in spots) {
+      const sanitized = spots[id]["name_" + settings.lang.id].replace(illegalChars, '\\$&');
+      const rule = new RegExp(sanitized, "i");
 
+      if (rule.test(line)) {
+        if (id != spot) {
+          spot = parseInt(id);
+          spotName.innerText = spots[id]["name_" + settings.lang.id];
+          resetEntries();
+          populateEntries()
+        } else {
+          // Fallback check till I figure out what is happening
+          if (spotName.innerText == "") spotName.innerText = spots[id]["name_" + settings.lang.id];
+          // Reset timeline expansion if no record > 30s after long cast
+          if (timelineMark.getAttribute("data-dur") > 30 && getMax() <= 30)
+            timelineMark.setAttribute("data-dur", 30)
+        };
+        break
+      }
+    }
+  }
+  function populateEntries() {
     log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index),
-            name = fish["name_" + nameLang],
+            name = fish["name_" + settings.lang.id],
             icon = "https://xivapi.com" + fish.icon,
-            tug = fish.tug;
+            tug = fish.tug,
+            hook = fish.hookset;
       item.querySelector(".icon img").src = icon;
       item.querySelector(".label .name").innerText = name;
       // item.querySelector(".label .window").innerHTML = "";
       item.setAttribute("data-fishid", fish.id);
+      if (tug) item.setAttribute("data-hook", hook);
       ["medium", "heavy", "light"].forEach((t, index) => {
-        if (tug == index) {
-          item.classList.add(t);
-        }
-      });
-      // Add record marks
-      if (fish.id in spotRecord) {
-        let fishRecord, fishMark;
-        if ("min" in spotRecord[fish.id].chum) {
-          fishRecord = spotRecord[fish.id].chum;
-          fishMark = item.querySelector(".label .record-chum");
-          redrawRecord(fishRecord, fishMark, newDur)
-        }
-        if ("min" in spotRecord[fish.id]) {
-          fishRecord = spotRecord[fish.id];
-          fishMark = item.querySelector(".label .record");
-          redrawRecord(fishRecord, fishMark, newDur)
-        }
-      }
+        if (tug == index) item.setAttribute("data-tug", index);
+      })
     });
 
-    marker.setAttribute("data-dur", newDur)
-  }
+    if (!(character.id in settings.characters)) return;
 
-  function redrawRecord(record, node, dur) {
-    const threshold = (dur) ? dur : marker.getAttribute("data-dur");
+    // Add record marks
+    timelineMark.setAttribute("data-dur", getMax() > 30 ? 45 : 30)
+  }
+  function drawRecord(record, node) {
+    const threshold = timelineMark.getAttribute("data-dur");
 
     let minMark = getPerc(record.min)
     let maxMark = (getPerc(record.max)) - minMark;
@@ -360,105 +496,85 @@ window.addEventListener("DOMContentLoaded", async (e) => {
       return parseFloat(output.toFixed(1))
     }
   }
+  function updateLog(fish) {
+    let fishID;
 
+    // Init records for current character when needed
+    if (!(character.id in settings.characters))
+      document.dispatchEvent(new CustomEvent("initCharacter"));
+
+    const fishName = fish.detail.name,
+          fishTime = parseFloat(castTimer.innerText),
+          // fishSize = fish.detail.size,
+          // sizeUnit = fish.detail.unit,
+          // totalFishes = fish.detail.amount,
+          records = settings.characters[character.id].records;
+
+    for (const item of log[zone][spot].fishes) {
+      const regex = new RegExp(`${item["name_" + settings.lang.id]}`, "i");
+      if (regex.test(fishName)) {
+        fishID = item.id;
+        break
+      };
+    }
+  
+    // Init if no entries yet
+    if (!(zone in records)) records[zone] = {};
+    if (!(spot in records[zone])) records[zone][spot] = {};
+    const spotRecords = records[zone][spot];
+
+    if (!(fishID in spotRecords)) records[zone][spot][fishID] = {};
+  
+    // Pick either chum or normal mark for a fish
+    let fishRecord, fishMark;
+    const fishNode = document.querySelector(`.entries > .fish[data-fishid="${fishID}"]`);
+
+    if (wasChum) {
+      if (!("chum" in spotRecords[fishID])) spotRecords[fishID].chum = {};
+      fishRecord = spotRecords[fishID].chum;
+      fishMark = fishNode.querySelector(".records > .record.chum")
+    } else {
+      fishRecord = spotRecords[fishID];
+      fishMark = fishNode.querySelector(".records > .record")
+    };
+
+    // Reset chum bool
+    wasChum = false;
+
+    if (!("min" in fishRecord)) {
+      fishRecord.min = fishTime;
+      fishRecord.max = fishTime;
+      document.dispatchEvent(new CustomEvent("saveSettings"));
+      drawRecord(fishRecord, fishMark)
+    } else if (fishTime < parseFloat(fishRecord.min)) {
+      //console.debug(`${fishTime} < ${fishRecord.min}`);
+      fishRecord.min = fishTime;
+      document.dispatchEvent(new CustomEvent("saveSettings"));
+      drawRecord(fishRecord, fishMark)
+    } else if (fishTime > parseFloat(fishRecord.max)) {
+      //console.debug(`${fishTime} > ${fishRecord.min}`);
+      fishRecord.max = fishTime;
+      document.dispatchEvent(new CustomEvent("saveSettings"));
+      drawRecord(fishRecord, fishMark)
+    }
+  }
   function getMax() {
-    return Math.max(...Object.values(settings[character.id].records[zone][spot]).map(i => [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]).flat())
-  }
-});
-
-// Core functions
-async function initCharacter() {
-  settings[character.id] = {};
-  settings[character.id].name = character.name;
-  settings[character.id].records = {};
-  if (Object.values(log) > 0) initRecord()
-}
-
-function initRecord() {
-  for (const zone in log) {
-    settings[character.id].records[zone] = {};
-    for (const spot in log[zone]) {
-      settings[character.id].records[zone][spot] = {}
-    }
-  }
-}
-
-async function saveSettings(object) {
-  if (typeof object !== "object" || object === null) {
-    console.error("Couldn't save settings. Argument isn't an object.");
-    console.debug(object);
-    return
+    const records = settings.characters[character.id].records;
+    if (!(zone in records) || !(spot in records[zone])) return 0;
+    return Math.max(...Object.values(records[zone][spot]).map(i => 
+      [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]
+    ).flat())
   }
 
-  callOverlayHandler({ call: "saveData", key: uuid, data: object })
-}
-
-async function loadSettings() {
-  callOverlayHandler({ call: "loadData", key: uuid })
-  .then(obj => { if (obj && obj.data) {
-    Object.assign(settings, obj.data);
-    if (!(character.id in settings)) initCharacter()
-  }})
-}
-
-async function importSettings(e) {
-  let files = e.target.files;
-  if (files.length == 0) return;
-
-  const file = files[0];
-  let reader = new FileReader();
-
-  reader.onload = async (e) => {
-    const file = JSON.parse(e.target.result);
-    Object.assign(settings, file);
-    await saveSettings(file);
-    if (!(character.id in settings)) initCharacter();
-    document.dispatchEvent(new CustomEvent("reloadEntries"))
-  };
-
-  reader.onerror = (e) => console.error(e.target.error.name);
-
-  reader.readAsText(file);
-}
-
-async function exportSettings() {
-  if (!settings || Object.values(settings).legnth < 1) {
-    console.error("Failed to export settings");
-    console.debug(settings);
-    return
-  };
-  const data = JSON.stringify(settings);
-  copyToClipboard(data)
-}
-
-async function copyToClipboard(string) {
-  const field = document.createElement("input");
-  field.type = "text";
-  field.setAttribute("value", string);
-  document.body.appendChild(field);
-  field.select();
-  // Deprected method but no way around it since clipboard API won't work in ACT
-  document.execCommand("copy");
-  document.body.removeChild(field);
-  sendMessage("Copied to clipboard");
-}
-
-function sendMessage(message, priority) {
-  document.dispatchEvent(new CustomEvent("newMessage", {
-    detail: {
-      msg: message,
-      type: priority
-    }
-  }))
-};
+  // OverlayPlugin will now start sending events
+  startOverlayEvents()
+})()
 
 // DEBUG
 function debug(delay) {
-  zone = 135;
+  document.dispatchEvent(new CustomEvent("changedZone", { detail: { zone: 401 } }))
   document.dispatchEvent(new CustomEvent("startCasting", {
-    detail: {
-      line: "the salt strand"
-    }
+    detail: { line: "Mok Oogl Island" }
   }));
 
   if (!delay) return
@@ -467,18 +583,14 @@ function debug(delay) {
     document.dispatchEvent(new CustomEvent("stopCasting"));
   }, delay)
 }
-
 function debugCatch() {
   document.dispatchEvent(new CustomEvent("stopCasting"));
-  const elapsed = timer.innerText;
   document.dispatchEvent(new CustomEvent("fishCaught", {
     detail: {
-      name: "sea cucumber",
-      time: parseFloat(elapsed),
+      name: "sky faerie",
       size: 21,
       unit: "ilms",
-      amount: 1,
-      spotId: spot
+      amount: 1
     }
   }))
 }

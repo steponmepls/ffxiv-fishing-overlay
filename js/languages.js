@@ -1,9 +1,8 @@
-const languages = {
+const regex = {
   English: {
     start: [
-      /^You (?:re)?cast your line.+\.$/,
-      /^You cast your line.+undiscovered fishing hole\.$/i,
-      /^You recast your line with the fish still hooked\.$/
+      /^You (re)?cast your line/,
+      /^You cast your line.+undiscovered fishing hole\.$/i
     ],
     buff: [
       /^You gain the effect of .{2}(.+)\.$/,
@@ -18,9 +17,10 @@ const languages = {
       /^The fish gets away/,
       /^Nothing bites/,
       /^You reel in your line/,
+      /^You lose your bait/
     ],
     loot: [
-      /^You land (an?|\d) .(.+) measuring ([0-9.]+) (\w+)!$/
+      /^You land (an? |\d )?.(.+) measuring ([0-9.]+) (\w+)!$/
     ],
     exit: [
       /^You put away your/,
@@ -29,27 +29,27 @@ const languages = {
     ]
   },
   French: {
-    show: [],
-    stat: [],
+    start: [],
+    buff: [],
     spot: [],
-    stop: [],
+    pause: [],
     loot: [],
-    hide: []
+    exit: []
   },
   German: {
-    show: [],
-    stat: [],
+    start: [],
+    buff: [],
     spot: [],
-    stop: [],
+    pause: [],
     loot: [],
-    hide: []
+    exit: []
   },
   Japanese: {
-    show: [],
-    stat: [],
+    start: [],
+    buff: [],
     spot: [],
-    stop: [],
+    pause: [],
     loot: [],
-    hide: []
+    exit: []
   }
 }
