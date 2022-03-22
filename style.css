@@ -82,6 +82,10 @@ html.align-bottom .container {
 #fishing-spot:empty::before,
 html.show-settings #fishing-spot::before {
   content: 'Fishing Overlay';
+  font-size: 10pt;
+}
+html.show-settings #fishing-spot{
+  font-size: 0;
 }
 #timer {
   font-family: monospace;
