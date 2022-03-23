@@ -383,7 +383,11 @@
     );
 
     // Reset classes and variables
-    html.classList.remove("marker-animated", "marker-paused", "long-cast", "manual-settings");
+    html.classList.remove(
+      "marker-animated", 
+      "marker-paused", 
+      "long-cast", 
+      "manual-settings");
     if (!html.classList.contains("chum-active") && html.classList.contains("chum-records")) {
       html.classList.remove("chum-active", "chum-records");
       wasChum = false
@@ -398,8 +402,10 @@
   
     // Parse fishing spot
     if (regex[settings.lang.name].start[1].test(e.detail.line)) {
-      if (spot) resetEntries();
+      resetEntries();
+      timelineMark.setAttribute("data-dur", 30);
       spot = undefined;
+
       let uSpot;
       switch (settings.lang.name) {
         case "English":
@@ -417,7 +423,9 @@
       }
       spotName.innerText = uSpot
     } else { // if regular fishing spot
-      findSpot(e.detail.line)
+      findSpot(e.detail.line);
+      // Add record marks
+      timelineMark.setAttribute("data-dur", getMax() > 30 ? 45 : 30)
     }
   }
   function resetEntries() {
@@ -426,21 +434,14 @@
       item.querySelector(".icon img").src = "";
       item.querySelector(".label .name").innerHTML = "";
       // item.querySelector(".label .window").innerHTML = "";
-      item.removeAttribute("data-fishid");
-      item.removeAttribute("data-hook");
-      item.removeAttribute("data-tug");
+      ["data-fishid", "data-hook", "data-tug"].forEach( c => item.removeAttribute(c) );
       for (const record of item.querySelectorAll(".record")) {
-        record.removeAttribute("data-min");
-        record.removeAttribute("data-max");
-        record.removeAttribute("style")
+        ["data-min", "data-max", "style"].forEach( c => record.removeAttribute(c) )
       }
     }
   }
   function findSpot(line) {
-    if (!line || typeof line !== "string") return;
-
-    const spots = log[zone],
-          illegalChars = /[-\/\\^$*+?.()|[\]{}]/g;
+    const spots = log[zone], illegalChars = /[-\/\\^$*+?.()|[\]{}]/g;
 
     for (const id in spots) {
       const sanitized = spots[id]["name_" + settings.lang.id].replace(illegalChars, '\\$&');
@@ -449,15 +450,12 @@
       if (rule.test(line)) {
         if (id != spot) {
           spot = parseInt(id);
-          spotName.innerText = spots[id]["name_" + settings.lang.id];
+          spotName.innerText = spots[spot]["name_" + settings.lang.id];
           resetEntries();
           populateEntries()
         } else {
           // Fallback check till I figure out what is happening
-          if (spotName.innerText == "") spotName.innerText = spots[id]["name_" + settings.lang.id];
-          // Reset timeline expansion if no record > 30s after long cast
-          if (timelineMark.getAttribute("data-dur") > 30 && getMax() <= 30)
-            timelineMark.setAttribute("data-dur", 30)
+          if (spotName.innerText == "") spotName.innerText = spots[id]["name_" + settings.lang.id]
         };
         break
       }
@@ -478,12 +476,7 @@
       ["medium", "heavy", "light"].forEach((t, index) => {
         if (tug == index) item.setAttribute("data-tug", index);
       })
-    });
-
-    if (!(character.id in settings.characters)) return;
-
-    // Add record marks
-    timelineMark.setAttribute("data-dur", getMax() > 30 ? 45 : 30)
+    })
   }
   function drawRecord(record, node) {
     const threshold = timelineMark.getAttribute("data-dur");
@@ -574,6 +567,7 @@
     }
   }
   function getMax() {
+    if (!(character.id in settings.characters)) return 0;
     const records = settings.characters[character.id].records;
     if (!(zone in records) || !(spot in records[zone])) return 0;
     return Math.max(...Object.values(records[zone][spot]).map(i => 
@@ -586,10 +580,10 @@
 })()
 
 // DEBUG
-function debug(delay) {
+function debug(delay, newSpot) {
   document.dispatchEvent(new CustomEvent("changedZone", { detail: { zone: 401 } }))
   document.dispatchEvent(new CustomEvent("startCasting", {
-    detail: { line: "Mok Oogl Island" }
+    detail: { line: (newSpot) ? "You cast your line undiscovered fishing hole." : "Mok Oogl Island" }
   }));
 
   if (!delay) return
@@ -598,8 +592,11 @@ function debug(delay) {
     document.dispatchEvent(new CustomEvent("stopCasting"));
   }, delay)
 }
-function debugCatch() {
+function debugCatch(newSpot) {
   document.dispatchEvent(new CustomEvent("stopCasting"));
+  if (newSpot) document.dispatchEvent(new CustomEvent("newSpot", {
+    detail: { line: "Mok Oogl Island" }
+  }));
   document.dispatchEvent(new CustomEvent("fishCaught", {
     detail: {
       name: "sky faerie",
