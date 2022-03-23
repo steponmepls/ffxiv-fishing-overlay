@@ -294,43 +294,12 @@
 
     // Redraw records considering new 45s delay
     e.target.setAttribute("data-dur", 45);
+    redrawRecords(true);
 
     // Restart animation
     html.classList.remove("marker-animated");
     void html.offsetWidth;
     html.classList.add("long-cast", "marker-animated")
-  });
-  const durationChange = new MutationObserver((list) => {
-    //if (list[0].oldValue == list[0].target.getAttribute("data-dur")) return;
-
-    if (!(character.id in settings.characters)) return;
-
-    const records = settings.characters[character.id].records;
-    if (!(zone in records) || !(spot in records[zone])) return;
-
-    const spotRecords = records[zone][spot];
-    if (Object.values(spotRecords).length < 1) return;
-
-    log[zone][spot].fishes.forEach((fish, index) => {
-      if (!(fish.id in spotRecords)) return;
-
-      const item = document.getElementById("item" + index);
-      for (const node of item.querySelectorAll(".record")) {
-        let record;
-        if (node.classList.contains("chum")) {
-          if (!("chum" in spotRecords[fish.id])) continue;
-          record = spotRecords[fish.id].chum
-        } else {
-          if (!("min" in spotRecords[fish.id])) continue;
-          record = spotRecords[fish.id];
-        }
-        drawRecord(record, node)
-      }
-    })
-  });
-  durationChange.observe(timelineMark, {
-    attributeFilter: ["data-dur"],
-    attributeOldValue: true
   });
 
   // Services
@@ -366,15 +335,33 @@
 
   // Overlay functions
   function startCasting(e) {
-    // Add class toggles
-    html.classList.add("fishing", "casting");
-
-    // Start timer
     start = Date.now();
+    findSpot(e.detail.line, e.detail.mooch);
+
+    // Reset
+    html.classList.remove("marker-animated", "marker-paused", "long-cast", "manual-settings");
+    if (!html.classList.contains("chum-active") && html.classList.contains("chum-records")) {
+      html.classList.remove("chum-active", "chum-records");
+      wasChum = false
+    };
+
+    // Configure animation
+    html.classList.add("fishing", "casting");
+    if (html.classList.contains("chum-active")) {
+      timelineMark.setAttribute("data-dur", 30)
+    } else {
+      timelineMark.setAttribute("data-dur", getMax() > 30 ? 45 : 30)
+    };
+
+    redrawRecords();
+
+    // Clean up eventual timer leftovers
     interval.forEach((i, index, array) => {
       window.clearInterval(i);
       array.splice(array.indexOf(i, 1))
     });
+
+    // Start timer
     interval.push(
       window.setInterval(() => {
         const raw = (Date.now() - start) / 1000;
@@ -382,28 +369,24 @@
       }, 100)
     );
 
-    // Reset classes and variables
-    html.classList.remove(
-      "marker-animated", 
-      "marker-paused", 
-      "long-cast", 
-      "manual-settings");
-    if (!html.classList.contains("chum-active") && html.classList.contains("chum-records")) {
-      html.classList.remove("chum-active", "chum-records");
-      wasChum = false
-    };
-    // This forces reset for keyframe animation when using "use strict"
-    // Example: https://jsfiddle.net/dhngeaps/
+    // Start animation
     void html.offsetWidth;
     html.classList.add("marker-animated");
 
-    // If mooch stop here
-    if (e.detail.mooch) return;
-  
-    // Parse fishing spot
-    if (regex[settings.lang.name].start[1].test(e.detail.line)) {
-      resetEntries();
-      timelineMark.setAttribute("data-dur", 30);
+    function getMax() {
+      if (!(character.id in settings.characters)) return 0;
+      const records = settings.characters[character.id].records;
+      if (!(zone in records) || !(spot in records[zone])) return 0;
+      return Math.max(...Object.values(records[zone][spot]).map(i => 
+        [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]
+      ).flat())
+    }
+  }
+  function findSpot(line, isMooch) {
+    if (isMooch) return;
+
+    // Undiscovered Fishing Hole
+    if (regex[settings.lang.name].start[1].test(line)) {
       spot = undefined;
 
       let uSpot;
@@ -420,27 +403,15 @@
         case "Japanese":
           uSpot = "未知の釣り場";
           break;
-      }
-      spotName.innerText = uSpot
-    } else { // if regular fishing spot
-      findSpot(e.detail.line);
-      // Add record marks
-      timelineMark.setAttribute("data-dur", getMax() > 30 ? 45 : 30)
-    }
-  }
-  function resetEntries() {
-    for (let i=0; i<10; i++) {
-      const item = document.getElementById("item" + i);
-      item.querySelector(".icon img").src = "";
-      item.querySelector(".label .name").innerHTML = "";
-      // item.querySelector(".label .window").innerHTML = "";
-      ["data-fishid", "data-hook", "data-tug"].forEach( c => item.removeAttribute(c) );
-      for (const record of item.querySelectorAll(".record")) {
-        ["data-min", "data-max", "style"].forEach( c => record.removeAttribute(c) )
-      }
-    }
-  }
-  function findSpot(line) {
+      };
+      spotName.innerText = uSpot;
+
+      resetEntries();
+      timelineMark.setAttribute("data-dur", 30);
+
+      return
+    };
+
     const spots = log[zone], illegalChars = /[-\/\\^$*+?.()|[\]{}]/g;
 
     for (const id in spots) {
@@ -461,6 +432,18 @@
       }
     }
   }
+  function resetEntries() {
+    for (let i=0; i<10; i++) {
+      const item = document.getElementById("item" + i);
+      item.querySelector(".icon img").src = "";
+      item.querySelector(".label .name").innerHTML = "";
+      // item.querySelector(".label .window").innerHTML = "";
+      ["data-fishid", "data-hook", "data-tug"].forEach( c => item.removeAttribute(c) );
+      for (const record of item.querySelectorAll(".record")) {
+        ["data-min", "data-max", "style"].forEach( c => record.removeAttribute(c) )
+      }
+    }
+  }
   function populateEntries() {
     log[zone][spot].fishes.forEach((fish, index) => {
       const item = document.getElementById("item" + index),
@@ -478,8 +461,31 @@
       })
     })
   }
-  function drawRecord(record, node) {
-    const threshold = timelineMark.getAttribute("data-dur");
+  function redrawRecords(longCast) {
+    if (!(character.id in settings.characters)) return;
+
+    const records = settings.characters[character.id].records;
+    log[zone][spot].fishes.forEach((fish, index) => {
+      if (!(fish.id in records[zone][spot])) return;
+
+      const item = document.getElementById("item" + index);
+      for (const node of item.querySelectorAll(".record")) {
+        let record, isChum;
+        if (node.classList.contains("chum")) {
+          if (longCast || !("chum" in records[zone][spot][fish.id])) continue;
+          record = records[zone][spot][fish.id].chum;
+          isChum = true
+        } else {
+          if (!("min" in records[zone][spot][fish.id])) continue;
+          record = records[zone][spot][fish.id];
+          isChum = false
+        }
+        drawRecord(record, node, isChum)
+      }
+    })
+  }
+  function drawRecord(record, node, chum) {
+    const threshold = (chum) ? 30 : timelineMark.getAttribute("data-dur");
 
     let minMark = getPerc(record.min)
     let maxMark = (getPerc(record.max)) - minMark;
@@ -546,33 +552,25 @@
       fishMark = fishNode.querySelector(".records > .record")
     };
 
-    // Reset chum bool
-    wasChum = false;
-
     if (!("min" in fishRecord)) {
       fishRecord.min = fishTime;
       fishRecord.max = fishTime;
       document.dispatchEvent(new CustomEvent("saveSettings"));
-      drawRecord(fishRecord, fishMark)
+      drawRecord(fishRecord, fishMark, wasChum)
     } else if (fishTime < parseFloat(fishRecord.min)) {
       //console.debug(`${fishTime} < ${fishRecord.min}`);
       fishRecord.min = fishTime;
       document.dispatchEvent(new CustomEvent("saveSettings"));
-      drawRecord(fishRecord, fishMark)
+      drawRecord(fishRecord, fishMark, wasChum)
     } else if (fishTime > parseFloat(fishRecord.max)) {
       //console.debug(`${fishTime} > ${fishRecord.min}`);
       fishRecord.max = fishTime;
       document.dispatchEvent(new CustomEvent("saveSettings"));
-      drawRecord(fishRecord, fishMark)
-    }
-  }
-  function getMax() {
-    if (!(character.id in settings.characters)) return 0;
-    const records = settings.characters[character.id].records;
-    if (!(zone in records) || !(spot in records[zone])) return 0;
-    return Math.max(...Object.values(records[zone][spot]).map(i => 
-      [ [i.max].filter(r => r !== undefined), Object.values(i).map(chum => chum.max).filter(r => r !== undefined) ]
-    ).flat())
+      drawRecord(fishRecord, fishMark, wasChum)
+    };
+
+    // Reset chum bool
+    wasChum = false
   }
 
   // OverlayPlugin will now start sending events
