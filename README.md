@@ -16,7 +16,7 @@ import/export your current overlay settings, export caught fishes in a format re
 set your language of choice (only supports English for now) and then set QoL preferences such as aligning overlay either
 to top or to bottom.
 
-**Remember to reload the overlay to also apply the new changes!**
+**Remember to reload the overlay so that the new changes can take effect!**
 
 ![image](https://user-images.githubusercontent.com/63500907/159576033-bb18d229-bde2-42da-87fd-421e282413d0.png)
 
