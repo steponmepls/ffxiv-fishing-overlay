@@ -5,8 +5,7 @@ More of a personal project than an actual overlay.
 ![image](https://user-images.githubusercontent.com/63500907/159572604-731da8f2-4d65-4fe3-94c8-87045ef3fa77.png)
 
 For now it only supports English because I don't know either of the other languages supported in the game.
-I added potential support for french, german and japanese as well so there might be a chance for me to add 
-support for more than Engish if you are willing to feed me log lines in said languages.
+I can add support for french, german and japanese as well but you need to feed me log lines in said languages.
 Open an issue if you are interested I guess??
 
 The main difference with the overlay offered by GatherBuddy is that it lacks window timing support for timed fishes. 
