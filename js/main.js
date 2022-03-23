@@ -397,10 +397,25 @@
     if (e.detail.mooch) return;
   
     // Parse fishing spot
-    if (regex[settings.lang.name].start[1].test(e.detail.line)) { // if undiscovered spot
+    if (regex[settings.lang.name].start[1].test(e.detail.line)) {
       if (spot) resetEntries();
       spot = undefined;
-      spotName.innerText = "???"
+      let uSpot;
+      switch (settings.lang.name) {
+        case "English":
+          uSpot = "Undiscovered Fishing Hole";
+          break;
+        case "German":
+          uSpot = "Unerforschter Angelplatz";
+          break;
+        case "French":
+          uSpot = "Zone de pêche inconnue";
+          break;
+        case "Japanese":
+          uSpot = "未知の釣り場";
+          break;
+      }
+      spotName.innerText = uSpot
     } else { // if regular fishing spot
       findSpot(e.detail.line)
     }
