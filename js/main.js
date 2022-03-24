@@ -465,6 +465,9 @@
     if (!(character.id in settings.characters)) return;
 
     const records = settings.characters[character.id].records;
+    if (!(zone in records) || !(spot in records[zone])) return;
+
+    
     log[zone][spot].fishes.forEach((fish, index) => {
       if (!(fish.id in records[zone][spot])) return;
 
