@@ -514,6 +514,8 @@
     }
   }
   function updateLog(fish) {
+    if (!(html.classList.contains("fishing"))) return;
+
     let fishID;
 
     // Init records for current character when needed
