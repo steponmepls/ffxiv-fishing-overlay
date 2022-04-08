@@ -385,30 +385,12 @@
   function findSpot(line, isMooch) {
     if (isMooch) return;
 
+    // Reset to prevent mismatch with possible new spots not in the database
+    spot = undefined;
+
     // Undiscovered Fishing Hole
     if (regex[settings.lang.name].start[1].test(line)) {
-      spot = undefined;
-
-      let uSpot;
-      switch (settings.lang.name) {
-        case "English":
-          uSpot = "Undiscovered Fishing Hole";
-          break;
-        case "German":
-          uSpot = "Unerforschter Angelplatz";
-          break;
-        case "French":
-          uSpot = "Zone de pêche inconnue";
-          break;
-        case "Japanese":
-          uSpot = "未知の釣り場";
-          break;
-      };
-      spotName.innerText = uSpot;
-
-      resetEntries();
-      timelineMark.setAttribute("data-dur", 30);
-
+      setUndiscovered();
       return
     };
 
@@ -430,6 +412,33 @@
         };
         break
       }
+    };
+
+    // Parse spot as undiscovered if not in the database
+    if (spot == "undefined") setUndiscovered();
+
+    function setUndiscovered() {
+      spot = undefined;
+
+      let uSpot;
+      switch (settings.lang.name) {
+        case "English":
+          uSpot = "Undiscovered Fishing Hole";
+          break;
+        case "German":
+          uSpot = "Unerforschter Angelplatz";
+          break;
+        case "French":
+          uSpot = "Zone de pêche inconnue";
+          break;
+        case "Japanese":
+          uSpot = "未知の釣り場";
+          break;
+      };
+      spotName.innerText = uSpot;
+
+      resetEntries();
+      timelineMark.setAttribute("data-dur", 30);
     }
   }
   function resetEntries() {
@@ -515,6 +524,7 @@
   }
   function updateLog(fish) {
     if (!(html.classList.contains("fishing"))) return;
+    if (spot == "undefined" || spot == null) return;
 
     let fishID;
 
@@ -536,6 +546,9 @@
         break
       };
     }
+
+    // In case of new fishes/spots not in the database
+    if (fishID == "undefined" || fishID == null) return;
   
     // Init if no entries yet
     if (!(zone in records)) records[zone] = {};
