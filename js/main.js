@@ -218,7 +218,7 @@
   document.addEventListener("stopCasting", () => {
     html.classList.remove("casting");
     html.classList.add("marker-paused");
-    window.clearInterval(interval.slice(-1));
+    window.clearInterval(interval.splice(-1));
   });
   document.addEventListener("fishCaught", updateLog);
   document.addEventListener("newSpot", (e) => { findSpot(e.detail.line) });
@@ -357,8 +357,7 @@
 
     // Clean up eventual timer leftovers
     interval.forEach((i, index, array) => {
-      window.clearInterval(i);
-      array.splice(array.indexOf(i, 1))
+      window.clearInterval(array.splice(array[index], 1));
     });
 
     // Start timer
