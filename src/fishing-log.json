@@ -33575,6 +33575,15 @@
                     "snagging": false,
                     "predators": [],
                     "minGathering": 0
+                },
+                {
+                    "id": 36680,
+                    "icon": "/i/028000/028532.png",
+                    "iconHD": "/i/028000/028532_hr1.png",
+                    "name_en": "Jumbo Snook",
+                    "name_de": "Jumbo-Snook",
+                    "name_fr": "Snook colossal",
+                    "name_ja": "ジャンボスヌーク"
                 }
             ]
         },
@@ -34077,6 +34086,15 @@
                     "hookset": 1,
                     "tug": 0,
                     "bait": 36589
+                },
+                {
+                    "id": 36682,
+                    "icon": "/i/028000/028534.png",
+                    "iconHD": "/i/028000/028534_hr1.png",
+                    "name_en": "Hippo Frog",
+                    "name_de": "Hippofrosch",
+                    "name_fr": "Crapaud-hippo",
+                    "name_ja": "ヒッポフロッグ"
                 }
             ]
         },
@@ -34393,6 +34411,15 @@
                     "snagging": false,
                     "predators": [],
                     "minGathering": 0
+                },
+                {
+                    "id": 36686,
+                    "icon": "/i/029000/029027.png",
+                    "iconHD": "/i/029000/029027_hr1.png",
+                    "name_en": "Thavnairian Calamari",
+                    "name_de": "Thavnairischer Tintenfisch",
+                    "name_fr": "Calmar thavnairois",
+                    "name_ja": "サベネアンカラマリ"
                 }
             ]
         }
@@ -34463,6 +34490,15 @@
                     "hookset": 1,
                     "tug": 0,
                     "bait": 36589
+                },
+                {
+                    "id": 36683,
+                    "icon": "/i/028000/028535.png",
+                    "iconHD": "/i/028000/028535_hr1.png",
+                    "name_en": "Rimepike",
+                    "name_de": "Raureif",
+                    "name_fr": "Orphie d'Éblana",
+                    "name_ja": "フリジッドガー"
                 }
             ]
         },
@@ -34824,6 +34860,15 @@
                     "hookset": 1,
                     "tug": 0,
                     "bait": 36595
+                },
+                {
+                    "id": 36684,
+                    "icon": "/i/029000/029776.png",
+                    "iconHD": "/i/029000/029776_hr1.png",
+                    "name_en": "Foun Ahlm",
+                    "name_de": "Foun Ahlm",
+                    "name_fr": "Foun Ahlm ",
+                    "name_ja": "フォン・アールム"
                 }
             ]
         },
@@ -35084,6 +35129,15 @@
                     "hookset": 1,
                     "tug": 0,
                     "bait": 36597
+                },
+                {
+                    "id": 36685,
+                    "icon": "/i/028000/028966.png",
+                    "iconHD": "/i/028000/028966_hr1.png",
+                    "name_en": "Forbiddingway",
+                    "name_de": "Forbiddingway",
+                    "name_fr": "Forbiddingway",
+                    "name_ja": "フォービディングウェイ"
                 }
             ]
         },
@@ -35550,6 +35604,15 @@
                     "snagging": false,
                     "predators": [],
                     "minGathering": 0
+                },
+                {
+                    "id": 36679,
+                    "icon": "/i/028000/028087.png",
+                    "iconHD": "/i/028000/028087_hr1.png",
+                    "name_en": "Aetherolectric Guitarfish",
+                    "name_de": "Magitek-E-Gitarrenrochen",
+                    "name_fr": "Poisson-guitare électrique",
+                    "name_ja": "エレキギターフィッシュ"
                 }
             ]
         },
@@ -35730,6 +35793,15 @@
                     "hookset": 1,
                     "tug": 0,
                     "bait": 36588
+                },
+                {
+                    "id": 36681,
+                    "icon": "/i/028000/028533.png",
+                    "iconHD": "/i/028000/028533_hr1.png",
+                    "name_en": "Earful",
+                    "name_de": "Ohrenvoll",
+                    "name_fr": "Crapet pleine-anse",
+                    "name_ja": "イアフルサンフィッシュ"
                 }
             ]
         }
