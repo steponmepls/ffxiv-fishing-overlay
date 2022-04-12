@@ -59,8 +59,9 @@ function fetchSpot(s) {
           fishes = [];
     for (let i=0; i<10; i++) {
       const key = "Item" + i;
-      if (spot[key] !== null) {
-        const item = spot[key],
+      if (spot[key] === null) continue;
+
+      const item = spot[key],
               fishID = item.ID,
               fishIcon = item.Icon,
               fishIconHD = item.IconHD,
@@ -69,16 +70,17 @@ function fetchSpot(s) {
               fishNameFR = item.Name_fr,
               fishNameJA = item.Name_ja;
 
-        fishes.push({
-          id: fishID,
-          icon: fishIcon,
-          iconHD: fishIconHD,
-          name_en: fishNameEN,
-          name_de: fishNameDE,
-          name_fr: fishNameFR,
-          name_ja: fishNameJA
-        })
-      }
+      if (fishNameEN === "") continue;
+
+      fishes.push({
+        id: fishID,
+        icon: fishIcon,
+        iconHD: fishIconHD,
+        name_en: fishNameEN,
+        name_de: fishNameDE,
+        name_fr: fishNameFR,
+        name_ja: fishNameJA
+      });
     }
     fishingLog[zoneID][spotID].name_en = spotNameEN;
     fishingLog[zoneID][spotID].name_de = spotNameDE;
