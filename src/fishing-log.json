@@ -33538,9 +33538,9 @@
                     "name_de": "Tessera",
                     "name_fr": "Tucunaré mosaïque",
                     "name_ja": "キクラ・テッセラ",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36588
+                    "bait": 36591,
+                    "hookset": 1
                 },
                 {
                     "id": 35604,
@@ -33567,14 +33567,14 @@
                     "name_de": "Fetter Snook",
                     "name_fr": "Snook gras",
                     "name_ja": "ファットスヌーク",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36588,
-                    "weathers": [],
-                    "weathersFrom": [],
+                    "bait": 36591,
+                    "hookset": 1,
                     "snagging": false,
+                    "weathers": [],
                     "predators": [],
-                    "minGathering": 0
+                    "minGathering": 0,
+                    "weathersFrom": []
                 },
                 {
                     "id": 36680,
@@ -33583,7 +33583,15 @@
                     "name_en": "Jumbo Snook",
                     "name_de": "Jumbo-Snook",
                     "name_fr": "Snook colossal",
-                    "name_ja": "ジャンボスヌーク"
+                    "name_ja": "ジャンボスヌーク",
+                    "tug": 1,
+                    "bait": 36591,
+                    "spawn": 16,
+                    "duration": 8,
+                    "weathers": [
+                        3
+                    ],
+                    "minGathering": 2400
                 }
             ]
         },
@@ -33601,9 +33609,9 @@
                     "name_de": "Junger Schmetterling",
                     "name_fr": "Cyprin-papillon",
                     "name_ja": "ジュニアバタフライ",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36588
+                    "bait": 36589,
+                    "hookset": 2
                 },
                 {
                     "id": 36403,
@@ -33625,9 +33633,9 @@
                     "name_de": "Xenocypris",
                     "name_fr": "Xenocypris",
                     "name_ja": "クセノキプリス",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36588
+                    "bait": 36590,
+                    "hookset": 1
                 },
                 {
                     "id": 36404,
@@ -33637,9 +33645,9 @@
                     "name_de": "Mesonauta",
                     "name_fr": "Mesonauta",
                     "name_ja": "メソナウタ",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36588
+                    "bait": 36591,
+                    "hookset": 1
                 },
                 {
                     "id": 36405,
@@ -33649,9 +33657,9 @@
                     "name_de": "Grünkiemen-Lachs",
                     "name_fr": "Saumon branchies-de-mousse",
                     "name_ja": "グリーンサーモン",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36588
+                    "bait": 36591,
+                    "hookset": 1
                 }
             ]
         },
@@ -33681,9 +33689,9 @@
                     "name_de": "Raiamas",
                     "name_fr": "Raiamas",
                     "name_ja": "ライアマス",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36588
+                    "bait": 36589,
+                    "hookset": 1
                 },
                 {
                     "id": 36398,
@@ -33737,9 +33745,9 @@
                     "name_de": "Großarmgarnele",
                     "name_fr": "Crevette de verre",
                     "name_ja": "マクロブラキウム・ラー",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36588
+                    "bait": 36591,
+                    "hookset": 2
                 },
                 {
                     "id": 36398,
@@ -33761,9 +33769,9 @@
                     "name_de": "Blasrohr",
                     "name_fr": "Sarbacane",
                     "name_ja": "ブロウガンナー",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36588
+                    "bait": 36591,
+                    "hookset": 2
                 },
                 {
                     "id": 36411,
@@ -33773,9 +33781,9 @@
                     "name_de": "Dunkelstahl-Messerfisch",
                     "name_fr": "Poisson-couteau à lame noire",
                     "name_ja": "ダークナイフフィッシュ",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36588
+                    "bait": 36591,
+                    "hookset": 1
                 }
             ]
         },
@@ -33805,9 +33813,9 @@
                     "name_de": "Astacus Aetherius",
                     "name_fr": "Astacus etherius",
                     "name_ja": "アスタクス・エーテリウス",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36589
+                    "bait": 36591,
+                    "hookset": 1
                 },
                 {
                     "id": 36398,
@@ -33817,9 +33825,9 @@
                     "name_de": "Xenocypris",
                     "name_fr": "Xenocypris",
                     "name_ja": "クセノキプリス",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36588
+                    "bait": 36590,
+                    "hookset": 1
                 },
                 {
                     "id": 36414,
@@ -33898,9 +33906,9 @@
                     "name_de": "Pantherzackenbarsch",
                     "name_fr": "Mérou panthère",
                     "name_ja": "パンサーグルーパー",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36592
+                    "bait": 36593,
+                    "hookset": 1
                 }
             ]
         },
@@ -33942,9 +33950,9 @@
                     "name_de": "Gespinst der Frischvermählten",
                     "name_fr": "Soie-des-mariés",
                     "name_ja": "婚宴の絹",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36592
+                    "bait": 36593,
+                    "hookset": 1
                 },
                 {
                     "id": 36426,
@@ -33954,9 +33962,9 @@
                     "name_de": "Schattensardine",
                     "name_fr": "Sardine noirdard",
                     "name_ja": "シャドウサーディン",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36592
+                    "bait": 36593,
+                    "hookset": 1
                 },
                 {
                     "id": 36427,
@@ -33966,9 +33974,9 @@
                     "name_de": "Paksafisch",
                     "name_fr": "Poisson de Paksa",
                     "name_ja": "パクシャフィッシュ",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36592
+                    "bait": 36426,
+                    "hookset": 1
                 }
             ]
         },
@@ -34027,9 +34035,9 @@
                     "name_de": "Gold-Barramundi",
                     "name_fr": "Barramundi doré",
                     "name_ja": "ゴールデンバラマンディ",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36592
+                    "bait": 36593,
+                    "hookset": 1
                 }
             ]
         },
@@ -34071,9 +34079,9 @@
                     "name_de": "Blauer Sonnenbarsch",
                     "name_fr": "Crapet arlequin",
                     "name_ja": "ブルーギル",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36589
+                    "bait": 36590,
+                    "hookset": 1
                 },
                 {
                     "id": 36435,
@@ -34094,7 +34102,16 @@
                     "name_en": "Hippo Frog",
                     "name_de": "Hippofrosch",
                     "name_fr": "Crapaud-hippo",
-                    "name_ja": "ヒッポフロッグ"
+                    "name_ja": "ヒッポフロッグ",
+                    "tug": 1,
+                    "bait": 36591,
+                    "weathers": [
+                        8
+                    ],
+                    "weathersFrom": [
+                        2
+                    ],
+                    "minGathering": 2400
                 }
             ]
         },
@@ -34173,9 +34190,9 @@
                     "name_de": "Grüner Schwertträger",
                     "name_fr": "Porte-épée",
                     "name_ja": "グリーンソードテール",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36589
+                    "bait": 36588,
+                    "hookset": 2
                 },
                 {
                     "id": 36438,
@@ -34185,9 +34202,9 @@
                     "name_de": "Ksirapayin",
                     "name_fr": "Ksirapayin",
                     "name_ja": "乳飲魚",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36589
+                    "bait": 36591,
+                    "hookset": 1
                 },
                 {
                     "id": 36441,
@@ -34197,9 +34214,9 @@
                     "name_de": "Schmiedeflamme",
                     "name_fr": "Houppe du creuset",
                     "name_ja": "鉱炉の飛魚",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36589
+                    "bait": 36591,
+                    "hookset": 1
                 },
                 {
                     "id": 36442,
@@ -34209,9 +34226,9 @@
                     "name_de": "Bicuda",
                     "name_fr": "Bicuda",
                     "name_ja": "ビックーダ",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36589
+                    "bait": 36591,
+                    "hookset": 1
                 }
             ]
         },
@@ -34229,9 +34246,9 @@
                     "name_de": "Grüner Schwertträger",
                     "name_fr": "Porte-épée",
                     "name_ja": "グリーンソードテール",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36590
+                    "bait": 36588,
+                    "hookset": 2
                 },
                 {
                     "id": 36443,
@@ -34241,9 +34258,9 @@
                     "name_de": "Radzbalik",
                     "name_fr": "Radzbalik",
                     "name_ja": "ラズバリク",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36590
+                    "bait": 36591,
+                    "hookset": 1
                 },
                 {
                     "id": 36444,
@@ -34253,9 +34270,9 @@
                     "name_de": "Halbmond-Kampffisch",
                     "name_fr": "Betta demi-lune",
                     "name_ja": "ハーフムーンベタ",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36590
+                    "bait": 36591,
+                    "hookset": 2
                 },
                 {
                     "id": 36446,
@@ -34265,9 +34282,9 @@
                     "name_de": "Bananen-Aal",
                     "name_fr": "Murène banane",
                     "name_ja": "バナナイール",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36590
+                    "bait": 36591,
+                    "hookset": 1
                 }
             ]
         },
@@ -34309,9 +34326,9 @@
                     "name_de": "Winziger Hamsa",
                     "name_fr": "Mini hamsa",
                     "name_ja": "タイニーハンサ",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 29717
+                    "bait": 36591,
+                    "hookset": 2
                 },
                 {
                     "id": 36448,
@@ -34321,9 +34338,9 @@
                     "name_de": "Blumenhorn",
                     "name_fr": "Poisson corne de fleurs",
                     "name_ja": "フラワーホーン",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36590
+                    "bait": 29717,
+                    "hookset": 1
                 },
                 {
                     "id": 36449,
@@ -34419,7 +34436,10 @@
                     "name_en": "Thavnairian Calamari",
                     "name_de": "Thavnairischer Tintenfisch",
                     "name_fr": "Calmar thavnairois",
-                    "name_ja": "サベネアンカラマリ"
+                    "name_ja": "サベネアンカラマリ",
+                    "hookset": 1,
+                    "tug": 0,
+                    "bait": 36593
                 }
             ]
         }
@@ -34451,9 +34471,9 @@
                     "name_de": "Mini-Animus",
                     "name_fr": "Animulus",
                     "name_ja": "タイニーアニムス",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36589
+                    "bait": 36588,
+                    "hookset": 2
                 },
                 {
                     "id": 36456,
@@ -34463,9 +34483,9 @@
                     "name_de": "Eblan-Forelle",
                     "name_fr": "Truite d'Éblana",
                     "name_ja": "エブラーナトラウト",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36589
+                    "bait": 36588,
+                    "hookset": 1
                 },
                 {
                     "id": 36458,
@@ -34475,9 +34495,9 @@
                     "name_de": "Erdseimkern",
                     "name_fr": "Cœur-d'azur",
                     "name_ja": "セルリアンコア",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36589
+                    "bait": 36591,
+                    "hookset": 1
                 },
                 {
                     "id": 36459,
@@ -34487,9 +34507,9 @@
                     "name_de": "Eisiger Hornhecht",
                     "name_fr": "Orphie glacée",
                     "name_ja": "アイシィガー",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36589
+                    "bait": 36458,
+                    "hookset": 1
                 },
                 {
                     "id": 36683,
@@ -34498,7 +34518,14 @@
                     "name_en": "Rimepike",
                     "name_de": "Raureif",
                     "name_fr": "Orphie d'Éblana",
-                    "name_ja": "フリジッドガー"
+                    "name_ja": "フリジッドガー",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 36458,
+                    "weathers": [
+                        15
+                    ],
+                    "minGathering": 2400
                 }
             ]
         },
@@ -34553,9 +34580,9 @@
                     "name_de": "Imperialer Harnischwels",
                     "name_fr": "Pléco impérial",
                     "name_ja": "インペリアルプレコ",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 29717
+                    "bait": 36591,
+                    "hookset": 1
                 },
                 {
                     "id": 36462,
@@ -34566,7 +34593,8 @@
                     "name_fr": "Poisson-chat à queue bleue",
                     "name_ja": "ブルーテイル",
                     "tug": 0,
-                    "bait": 36590
+                    "bait": 36591,
+                    "hookset": 1
                 }
             ]
         }
@@ -34622,9 +34650,9 @@
                     "name_de": "Replica Pirarucu",
                     "name_fr": "Pirarucu réplique",
                     "name_ja": "レプリカピラルク",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36590
+                    "bait": 36591,
+                    "hookset": 1
                 }
             ]
         },
@@ -34765,9 +34793,9 @@
                     "name_de": "Superstring",
                     "name_fr": "Supercordes",
                     "name_ja": "スーパーストリングス",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36595
+                    "bait": 36594,
+                    "hookset": 2
                 },
                 {
                     "id": 36489,
@@ -34868,7 +34896,19 @@
                     "name_en": "Foun Ahlm",
                     "name_de": "Foun Ahlm",
                     "name_fr": "Foun Ahlm ",
-                    "name_ja": "フォン・アールム"
+                    "name_ja": "フォン・アールム",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 36595,
+                    "spawn": 8,
+                    "duration": 8,
+                    "weathers": [
+                        49
+                    ],
+                    "weathersFrom": [
+                        2
+                    ],
+                    "minGathering": 2400
                 }
             ]
         },
@@ -34886,9 +34926,9 @@
                     "name_de": "Superstring",
                     "name_fr": "Supercordes",
                     "name_ja": "スーパーストリングス",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36595
+                    "bait": 36594,
+                    "hookset": 2
                 },
                 {
                     "id": 36495,
@@ -34898,9 +34938,9 @@
                     "name_de": "Drachenputzer",
                     "name_fr": "Poisson-écailles",
                     "name_ja": "ドラゴンスケール",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36594
+                    "bait": 29717,
+                    "hookset": 2
                 },
                 {
                     "id": 36488,
@@ -34922,9 +34962,9 @@
                     "name_de": "Ypupîara",
                     "name_fr": "Ypupîara",
                     "name_ja": "イプピアーラ",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 29717
+                    "bait": 36595,
+                    "hookset": 1
                 },
                 {
                     "id": 36497,
@@ -34934,9 +34974,9 @@
                     "name_de": "Eehs Forhnesh",
                     "name_fr": "Eehs Forhneshes",
                     "name_ja": "エー・フォーネシ",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36594
+                    "bait": 36595,
+                    "hookset": 1
                 }
             ]
         },
@@ -34954,9 +34994,9 @@
                     "name_de": "Protokörper",
                     "name_fr": "Protochair",
                     "name_ja": "プロトボディ",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36589
+                    "bait": 36588,
+                    "hookset": 2
                 },
                 {
                     "id": 36499,
@@ -34978,9 +35018,9 @@
                     "name_de": "Kometenschweif",
                     "name_fr": "Queue-de-comète",
                     "name_ja": "天狗星の欠片",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36590
+                    "bait": 36591,
+                    "hookset": 2
                 },
                 {
                     "id": 36502,
@@ -34990,9 +35030,9 @@
                     "name_de": "Aoide",
                     "name_fr": "Aédé",
                     "name_ja": "アオイデ",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36590
+                    "bait": 36591,
+                    "hookset": 1
                 }
             ]
         },
@@ -35034,9 +35074,9 @@
                     "name_de": "Sternenwanderer",
                     "name_fr": "Étoile-vagabonde",
                     "name_ja": "ワンダリングスター",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36590
+                    "bait": 36591,
+                    "hookset": 1
                 }
             ]
         },
@@ -35090,9 +35130,9 @@
                     "name_de": "Vierundzwanzigbeiniges Hochkulturwesen",
                     "name_fr": "Tetraicosa",
                     "name_ja": "二十四脚文明人",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36596
+                    "bait": 36597,
+                    "hookset": 1
                 },
                 {
                     "id": 36511,
@@ -35137,7 +35177,19 @@
                     "name_en": "Forbiddingway",
                     "name_de": "Forbiddingway",
                     "name_fr": "Forbiddingway",
-                    "name_ja": "フォービディングウェイ"
+                    "name_ja": "フォービディングウェイ",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 36597,
+                    "spawn": 8,
+                    "duration": 8,
+                    "weathers": [
+                        149
+                    ],
+                    "weathersFrom": [
+                        2
+                    ],
+                    "minGathering": 2400
                 }
             ]
         },
@@ -35204,7 +35256,7 @@
                     "name_fr": "Échinos",
                     "name_ja": "エキノス",
                     "tug": 0,
-                    "bait": 29717,
+                    "bait": 36597,
                     "hookset": 1
                 },
                 {
@@ -35259,9 +35311,9 @@
                     "name_de": "Unidentifizierte fliegende Biomasse II",
                     "name_fr": "Organisme volant non identifié II",
                     "name_ja": "未確認飛行生物II",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36597
+                    "bait": 29717,
+                    "hookset": 2
                 },
                 {
                     "id": 36508,
@@ -35355,9 +35407,9 @@
                     "name_de": "Albinoschmerle",
                     "name_fr": "Loche albinos",
                     "name_ja": "アルビノローチ",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 29717
+                    "bait": 36591,
+                    "hookset": 2
                 },
                 {
                     "id": 36477,
@@ -35367,9 +35419,9 @@
                     "name_de": "Iribainion",
                     "name_fr": "Poisson arc-en-ciel",
                     "name_ja": "イーリバイニオン",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36588
+                    "bait": 36589,
+                    "hookset": 1
                 },
                 {
                     "id": 36479,
@@ -35379,9 +35431,9 @@
                     "name_de": "Goldener Glanzfisch",
                     "name_fr": "Méné jaune",
                     "name_ja": "ゴールデンシャイナー",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36590
+                    "bait": 36478,
+                    "hookset": 1
                 },
                 {
                     "id": 36480,
@@ -35442,9 +35494,9 @@
                     "name_de": "Iribainion",
                     "name_fr": "Poisson arc-en-ciel",
                     "name_ja": "イーリバイニオン",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36589
+                    "bait": 36588,
+                    "hookset": 1
                 },
                 {
                     "id": 36485,
@@ -35455,7 +35507,7 @@
                     "name_fr": "Colossoma",
                     "name_ja": "コロソマ",
                     "tug": 0,
-                    "bait": 36590,
+                    "bait": 36591,
                     "hookset": 1
                 }
             ]
@@ -35486,9 +35538,9 @@
                     "name_de": "Antheia",
                     "name_fr": "Anthéa",
                     "name_ja": "アンテイア",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36590
+                    "bait": 36591,
+                    "hookset": 2
                 },
                 {
                     "id": 36477,
@@ -35546,7 +35598,7 @@
                     "name_fr": "Hareng nordique",
                     "name_ja": "ノーザンヘリング",
                     "tug": 2,
-                    "bait": 36593,
+                    "bait": 36592,
                     "hookset": 2,
                     "snagging": false,
                     "weathers": [],
@@ -35580,7 +35632,7 @@
                     "name_fr": "Demoiselle de cobalt",
                     "name_ja": "コバルトクロミス",
                     "tug": 0,
-                    "bait": 36593,
+                    "bait": 36592,
                     "hookset": 1,
                     "snagging": false,
                     "weathers": [],
@@ -35612,7 +35664,13 @@
                     "name_en": "Aetherolectric Guitarfish",
                     "name_de": "Magitek-E-Gitarrenrochen",
                     "name_fr": "Poisson-guitare électrique",
-                    "name_ja": "エレキギターフィッシュ"
+                    "name_ja": "エレキギターフィッシュ",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 36593,
+                    "spawn": 16,
+                    "duration": 8,
+                    "minGathering": 2400
                 }
             ]
         },
@@ -35630,14 +35688,14 @@
                     "name_de": "Astacus",
                     "name_fr": "Astacus",
                     "name_ja": "アスタクス",
-                    "hookset": 2,
                     "tug": 2,
                     "bait": 36588,
-                    "weathers": [],
-                    "weathersFrom": [],
+                    "hookset": 2,
                     "snagging": false,
+                    "weathers": [],
                     "predators": [],
-                    "minGathering": 0
+                    "minGathering": 0,
+                    "weathersFrom": []
                 },
                 {
                     "id": 36392,
@@ -35648,7 +35706,7 @@
                     "name_fr": "Tucunaré taché",
                     "name_ja": "キクラ・ピニマ",
                     "tug": 0,
-                    "bait": 36588,
+                    "bait": 36591,
                     "hookset": 1,
                     "snagging": false,
                     "weathers": [],
@@ -35681,9 +35739,9 @@
                     "name_de": "Schwertrücken-Snook",
                     "name_fr": "Snook-épée",
                     "name_ja": "ソードスパインスヌーク",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36588
+                    "bait": 36591,
+                    "hookset": 1
                 }
             ]
         },
@@ -35710,9 +35768,9 @@
                     "name_de": "Grübler",
                     "name_fr": "Poisson-penseur",
                     "name_ja": "千慮魚",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36588
+                    "bait": 36590,
+                    "hookset": 2
                 },
                 {
                     "id": 36396,
@@ -35722,14 +35780,14 @@
                     "name_de": "Meeres-Dahlie",
                     "name_fr": "Dahlia de mer",
                     "name_ja": "シーダーリア",
-                    "hookset": 2,
                     "tug": 2,
-                    "bait": 36588,
-                    "weathers": [],
-                    "weathersFrom": [],
+                    "bait": 36591,
+                    "hookset": 2,
                     "snagging": false,
+                    "weathers": [],
                     "predators": [],
-                    "minGathering": 0
+                    "minGathering": 0,
+                    "weathersFrom": []
                 }
             ]
         }
@@ -35766,9 +35824,9 @@
                     "name_de": "Seema Dhuta",
                     "name_fr": "Seemaduta",
                     "name_ja": "シーマドゥータ",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36588
+                    "bait": 36590,
+                    "hookset": 1
                 },
                 {
                     "id": 36418,
@@ -35778,9 +35836,9 @@
                     "name_de": "Langohren-Sonnenbarsch",
                     "name_fr": "Crapet à longues oreilles",
                     "name_ja": "ロングイヤーサンフィッシュ",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36588
+                    "bait": 36589,
+                    "hookset": 1
                 },
                 {
                     "id": 36419,
@@ -35790,9 +35848,9 @@
                     "name_de": "Silberner Characin",
                     "name_fr": "Brycon argenté",
                     "name_ja": "シルバードラド",
-                    "hookset": 1,
                     "tug": 0,
-                    "bait": 36588
+                    "bait": 36591,
+                    "hookset": 1
                 },
                 {
                     "id": 36681,
@@ -35801,7 +35859,13 @@
                     "name_en": "Earful",
                     "name_de": "Ohrenvoll",
                     "name_fr": "Crapet pleine-anse",
-                    "name_ja": "イアフルサンフィッシュ"
+                    "name_ja": "イアフルサンフィッシュ",
+                    "hookset": 1,
+                    "tug": 1,
+                    "bait": 36591,
+                    "spawn": 0,
+                    "duration": 8,
+                    "minGathering": 2400
                 }
             ]
         }
