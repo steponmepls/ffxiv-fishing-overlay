@@ -33586,8 +33586,8 @@
                     "name_ja": "ジャンボスヌーク",
                     "tug": 1,
                     "bait": 36591,
-                    "spawn": 16,
-                    "duration": 8,
+                    "spawn": 18,
+                    "duration": 6,
                     "weathers": [
                         3
                     ],
@@ -34105,13 +34105,12 @@
                     "name_ja": "ヒッポフロッグ",
                     "tug": 1,
                     "bait": 36591,
+                    "hookset": 1,
                     "weathers": [
                         8
                     ],
-                    "weathersFrom": [
-                        2
-                    ],
-                    "minGathering": 2400
+                    "minGathering": 2400,
+                    "weathersFrom": []
                 }
             ]
         },
@@ -34897,18 +34896,16 @@
                     "name_de": "Foun Ahlm",
                     "name_fr": "Foun Ahlm ",
                     "name_ja": "フォン・アールム",
-                    "hookset": 1,
                     "tug": 1,
                     "bait": 36595,
-                    "spawn": 8,
-                    "duration": 8,
+                    "spawn": 10,
+                    "hookset": 1,
+                    "duration": 4,
                     "weathers": [
                         49
                     ],
-                    "weathersFrom": [
-                        2
-                    ],
-                    "minGathering": 2400
+                    "minGathering": 2400,
+                    "weathersFrom": []
                 }
             ]
         },
@@ -35178,18 +35175,16 @@
                     "name_de": "Forbiddingway",
                     "name_fr": "Forbiddingway",
                     "name_ja": "フォービディングウェイ",
-                    "hookset": 1,
                     "tug": 1,
                     "bait": 36597,
                     "spawn": 8,
-                    "duration": 8,
+                    "hookset": 1,
+                    "duration": 4,
                     "weathers": [
                         149
                     ],
-                    "weathersFrom": [
-                        2
-                    ],
-                    "minGathering": 2400
+                    "minGathering": 2400,
+                    "weathersFrom": []
                 }
             ]
         },
@@ -35665,11 +35660,11 @@
                     "name_de": "Magitek-E-Gitarrenrochen",
                     "name_fr": "Poisson-guitare électrique",
                     "name_ja": "エレキギターフィッシュ",
-                    "hookset": 1,
                     "tug": 1,
                     "bait": 36593,
-                    "spawn": 16,
-                    "duration": 8,
+                    "spawn": 20,
+                    "hookset": 1,
+                    "duration": 4,
                     "minGathering": 2400
                 }
             ]
@@ -35860,11 +35855,11 @@
                     "name_de": "Ohrenvoll",
                     "name_fr": "Crapet pleine-anse",
                     "name_ja": "イアフルサンフィッシュ",
-                    "hookset": 1,
                     "tug": 1,
                     "bait": 36591,
-                    "spawn": 0,
-                    "duration": 8,
+                    "spawn": 4,
+                    "hookset": 1,
+                    "duration": 4,
                     "minGathering": 2400
                 }
             ]
