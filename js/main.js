@@ -2,7 +2,7 @@
 
 (async function () {
   let character, zone, spot, msgTimeout, start = 0, wasChum = false;
-  const log = {}, interval = [];
+  const log = {}, intervals = [];
 
   // Retrieve fishing log
   Object.assign(log, await fetch("./dist/fishing-log-min.json").then(res => res.json()));
@@ -218,7 +218,7 @@
   document.addEventListener("stopCasting", () => {
     html.classList.remove("casting");
     html.classList.add("marker-paused");
-    window.clearInterval(interval.splice(-1));
+    window.clearInterval(intervals.splice(-1));
   });
   document.addEventListener("fishCaught", updateLog);
   document.addEventListener("newSpot", (e) => { findSpot(e.detail.line) });
@@ -356,17 +356,16 @@
     redrawRecords();
 
     // Clean up eventual timer leftovers
-    interval.forEach((i, index, array) => {
+    intervals.forEach((i, index, array) => {
       window.clearInterval(array.splice(array[index], 1));
     });
 
     // Start timer
-    interval.push(
-      window.setInterval(() => {
-        const raw = (Date.now() - start) / 1000;
-        castTimer.innerText = raw.toFixed(1)
-      }, 100)
-    );
+    const interval = window.setInterval(() => {
+      const raw = (Date.now() - start) / 1000;
+      castTimer.innerText = raw.toFixed(1)
+    }, 100);
+    intervals.push(interval);
 
     // Start animation
     void html.offsetWidth;
