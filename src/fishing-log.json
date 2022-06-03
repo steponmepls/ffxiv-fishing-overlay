@@ -29958,7 +29958,7 @@
                     "name_fr": "Palourde dentée",
                     "name_ja": "人食貝",
                     "tug": 2,
-                    "bait": 27588,
+                    "bait": 27590,
                     "hookset": 2,
                     "snagging": true,
                     "weathers": [],
@@ -33160,7 +33160,10 @@
                     "name_en": "Grade 4 Skybuilders' Ashfish",
                     "name_de": "Himmelsang-Aschenfisch",
                     "name_fr": "Poisson-cendre de restauration (4e phase)",
-                    "name_ja": "第四次復興用のアンデッドフィッシュ"
+                    "name_ja": "第四次復興用のアンデッドフィッシュ",
+                    "hookset": 1,
+                    "tug": 0,
+                    "bait": 32894
                 },
                 {
                     "id": 32897,
@@ -33231,7 +33234,11 @@
                     "name_en": "Grade 4 Artisanal Skybuilders' Little Thalaos",
                     "name_de": "Himmelsang-Thalaos",
                     "name_fr": "Petit Thalaos sur commande de restauration (4e phase)",
-                    "name_ja": "第四次復興用の特注リトルサラオス"
+                    "name_ja": "第四次復興用の特注リトルサラオス",
+                    "tug": 0,
+                    "bait": 32894,
+                    "hookset": 1,
+                    "minGathering": 1610
                 },
                 {
                     "id": 32906,
@@ -33587,7 +33594,7 @@
                     "tug": 1,
                     "bait": 36591,
                     "spawn": 18,
-                    "duration": 6,
+                    "duration": 4,
                     "weathers": [
                         3
                     ],
@@ -35366,11 +35373,11 @@
                     "name_de": "Phallaina",
                     "name_fr": "Phallaina",
                     "name_ja": "パライナ",
-                    "hookset": 1,
                     "tug": 1,
                     "bait": 36518,
-                    "spawn": 22,
-                    "duration": 6
+                    "spawn": 0,
+                    "hookset": 1,
+                    "duration": 4
                 }
             ]
         }
