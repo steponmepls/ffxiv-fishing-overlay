@@ -18889,6 +18889,15 @@
                     "weathersFrom": [
                         6
                     ]
+                },
+                {
+                    "id": 36662,
+                    "icon": "/i/029000/029718.png",
+                    "iconHD": "/i/029000/029718_hr1.png",
+                    "name_en": "Holier-than Mogpom",
+                    "name_de": "Benedeiter Bommel",
+                    "name_fr": "Pompon auréolé",
+                    "name_ja": "ハロポンポン"
                 }
             ]
         },
@@ -33984,6 +33993,15 @@
                     "tug": 0,
                     "bait": 36426,
                     "hookset": 1
+                },
+                {
+                    "id": 36663,
+                    "icon": "/i/029000/029062.png",
+                    "iconHD": "/i/029000/029062_hr1.png",
+                    "name_en": "Chalky Coral",
+                    "name_de": "Kreidekoralle",
+                    "name_fr": "Corail cendré",
+                    "name_ja": "灰白珊瑚"
                 }
             ]
         },
@@ -34235,6 +34253,15 @@
                     "tug": 0,
                     "bait": 36591,
                     "hookset": 1
+                },
+                {
+                    "id": 36660,
+                    "icon": "/i/029000/029233.png",
+                    "iconHD": "/i/029000/029233_hr1.png",
+                    "name_en": "Seedtoad",
+                    "name_de": "Samenkröte",
+                    "name_fr": "Crapaud-pousse",
+                    "name_ja": "シードトード"
                 }
             ]
         },
